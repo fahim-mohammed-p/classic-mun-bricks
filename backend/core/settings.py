@@ -67,13 +67,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database Setup (PostgreSQL Ready with SQLite Fallback)
-DATABASE_URL = os.getenv('DATABASE_URL')
+# Database Setup (PostgreSQL with Render DATABASE_URL support and SQLite Fallback)
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
 if DATABASE_URL:
     import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
+        'default': dj_database_url.parse(
+            DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
         )
