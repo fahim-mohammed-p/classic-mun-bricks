@@ -44,8 +44,8 @@
   position: relative;
   background-color: var(--cmb-charcoal);
   color: var(--cmb-white);
-  padding-top: 6.5rem; /* Ensures text is never hidden behind sticky navbar */
-  padding-bottom: 3.5rem;
+  padding-top: 5.5rem; /* Cleanly clears sticky navbar with heading moved up naturally */
+  padding-bottom: 3rem;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -244,8 +244,8 @@
    -------------------------------------------------------- */
 @media (max-width: 991.98px) {
   .about-hero {
-    padding-top: 4.5rem; /* Adjusted for mobile header */
-    padding-bottom: 2rem;
+    padding-top: 3.75rem; /* Cleanly clears mobile navbar */
+    padding-bottom: 1.75rem;
   }
 
   .about-hero-title {

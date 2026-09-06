@@ -63,21 +63,12 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* MOBILE COMPACT TOP HEADER */}
+      {/* MOBILE COMPACT TOP BRAND HEADER */}
       <header className="mobile-header d-lg-none sticky-top bg-charcoal text-white border-bottom border-secondary border-opacity-25 px-3 py-2">
-        <div className="d-flex align-items-center justify-content-between gap-2">
-          <Link className="navbar-brand text-white text-decoration-none overflow-hidden" to="/" aria-label="Classic Mun Bricks Home">
+        <div className="d-flex align-items-center justify-content-start">
+          <Link className="navbar-brand text-white text-decoration-none d-inline-flex align-items-center m-0 p-0" to="/" aria-label="Classic Mun Bricks Home">
             <BrandLogo variant="mobileHeader" />
           </Link>
-          {CONTACT_CONFIG.companyPhone ? (
-            <a href={`tel:${CONTACT_CONFIG.companyPhoneRaw}`} className="btn btn-sm btn-cmb-primary py-1 px-2 text-nowrap flex-shrink-0" style={{ fontSize: '0.75rem' }}>
-              <i className="bi bi-telephone-fill me-1"></i> Call Us
-            </a>
-          ) : (
-            <Link to="/contact" className="btn btn-sm btn-cmb-primary py-1 px-2 text-nowrap flex-shrink-0" style={{ fontSize: '0.75rem' }}>
-              <i className="bi bi-envelope-fill me-1"></i> Contact
-            </Link>
-          )}
         </div>
       </header>
 

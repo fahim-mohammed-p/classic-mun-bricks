@@ -114,9 +114,6 @@ const AboutUs = () => {
         <div className="about-hero-overlay"></div>
         <div className="container position-relative z-1">
           <div className="mx-auto" style={{ maxWidth: '640px' }}>
-            <div className="about-eyebrow mb-2">
-              <i className="bi bi-building-fill me-1"></i> ABOUT CLASSIC MUN BRICKS
-            </div>
             <h1 className="about-hero-title mb-2">
               {profile.years_experience} Years of Experience.<br className="d-none d-sm-inline" />
               <span className="text-terracotta"> Built Through Real Projects.</span>

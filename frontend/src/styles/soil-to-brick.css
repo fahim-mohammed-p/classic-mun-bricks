@@ -1,0 +1,159 @@
+/* Classic Mun Bricks - Full-Section Soil to Brick Environmental Animation Styles */
+
+/* =========================================================================
+   MANUFACTURING EXCELLENCE SECTION & BACKGROUND PARTICLE CANVAS
+   ========================================================================= */
+.manufacturing-section {
+  position: relative;
+  background-color: var(--cmb-sand-light, #F9F7F4);
+  overflow: hidden;
+  padding: 5.5rem 0 6.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .manufacturing-section {
+    padding: 3.5rem 0 4rem;
+  }
+}
+
+/* Full-Section Particle Canvas Layer */
+.manufacturing-soil-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Foreground Content Wrapper */
+.manufacturing-content-layer {
+  position: relative;
+  z-index: 2;
+}
+
+/* Feature Cards slight translucent backing for 100% text legibility */
+.manufacturing-feature-card {
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(184, 74, 40, 0.1);
+  border-radius: var(--cmb-radius, 8px);
+  box-shadow: 0 4px 16px rgba(26, 29, 32, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.manufacturing-feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184, 74, 40, 0.08);
+}
+
+/* =========================================================================
+   DESKTOP STICKY STAGE & FINAL BRICK PRESENTATION
+   ========================================================================= */
+.manufacturing-sticky-column {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 120px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 991.98px) {
+  .manufacturing-sticky-column {
+    position: static !important;
+    top: auto !important;
+    margin: 1.5rem auto 2rem;
+  }
+}
+
+/* Brick Stage Viewport (Clean, natural, no card border or widget framing) */
+.manufacturing-brick-stage {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+}
+
+@media (max-width: 575.98px) {
+  .manufacturing-brick-stage {
+    min-height: 250px;
+    max-width: 280px;
+  }
+}
+
+/* Final Real Client Brick Presentation */
+.manufacturing-brick-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform;
+}
+
+/* Authentic Client Brick Image - Constant preserved size */
+.manufacturing-brick-img {
+  display: block;
+  width: auto;
+  height: 250px;
+  max-width: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(143, 51, 24, 0.26)) drop-shadow(0 4px 12px rgba(26, 29, 32, 0.14));
+  transition: opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 575.98px) {
+  .manufacturing-brick-img {
+    height: 195px;
+  }
+}
+
+/* Natural Ground Ambient Contact Shadow */
+.manufacturing-brick-shadow {
+  position: absolute;
+  bottom: -14px;
+  width: 165px;
+  height: 22px;
+  background: radial-gradient(ellipse at center, rgba(143, 51, 24, 0.34) 0%, rgba(26, 29, 32, 0.16) 45%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+@media (max-width: 575.98px) {
+  .manufacturing-brick-shadow {
+    width: 130px;
+    bottom: -10px;
+  }
+}
+
+/* =========================================================================
+   REDUCED MOTION OVERRIDE
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .manufacturing-soil-canvas {
+    display: none !important;
+  }
+
+  .manufacturing-brick-img {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .manufacturing-brick-shadow {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

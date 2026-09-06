@@ -31,7 +31,7 @@ const ProcessSection = ({
   } = process;
 
   const isCurrentActive = activeStep === stepNumber;
-  const isPayoff = stepNumber === 6;
+  const isPayoff = layout === 'cinematic';
 
   // IntersectionObserver to detect when section enters viewport
   useEffect(() => {

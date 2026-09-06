@@ -14,9 +14,10 @@ const BrandLogo = ({ variant = 'navbar', className = '', showText = true }) => {
       gap: '0.65rem',
     },
     mobileHeader: {
-      imgHeight: '34px',
-      fontSize: '0.95rem',
+      imgHeight: '32px',
+      fontSize: 'clamp(0.82rem, 3.6vw, 0.95rem)',
       gap: '0.5rem',
+      letterSpacing: '0.35px',
     },
     footer: {
       imgHeight: '46px',
@@ -50,7 +51,7 @@ const BrandLogo = ({ variant = 'navbar', className = '', showText = true }) => {
           style={{
             fontFamily: 'var(--cmb-font-heading)',
             fontSize: style.fontSize,
-            letterSpacing: '0.5px',
+            letterSpacing: style.letterSpacing || '0.5px',
             color: 'inherit',
           }}
         >
