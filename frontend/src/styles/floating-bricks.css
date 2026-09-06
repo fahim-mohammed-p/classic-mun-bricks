@@ -1,0 +1,204 @@
+/* ==========================================================================
+   CLASSIC MUN BRICKS - FLOATING BRICK ANIMATION SYSTEM
+   Pure GPU-accelerated CSS animations using real transparent product assets
+   ========================================================================== */
+
+.floating-bricks-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.floating-brick {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   HOME HERO VARIANT - DESKTOP (CALM INTERLOCKING DRIFT)
+   -------------------------------------------------------------------------- */
+.floating-bricks-home .brick-home-left {
+  left: 3%;
+  top: 48%;
+  width: 115px;
+  opacity: 0.45;
+  transform: translate3d(0, 0, 0) rotate(-3deg);
+  animation: floatHomeLeft 16s ease-in-out infinite alternate;
+}
+
+.floating-bricks-home .brick-home-right {
+  right: 5%;
+  top: 16%;
+  width: 125px;
+  opacity: 0.50;
+  transform: translate3d(0, 0, 0) rotate(4deg);
+  animation: floatHomeRight 19s ease-in-out infinite alternate -4s;
+}
+
+.floating-bricks-home .brick-home-depth {
+  right: 36%;
+  top: 66%;
+  width: 65px;
+  opacity: 0.22;
+  transform: translate3d(0, 0, 0) rotate(8deg);
+  animation: floatHomeDepth 22s ease-in-out infinite alternate -8s;
+}
+
+@keyframes floatHomeLeft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-3deg);
+  }
+  50% {
+    transform: translate3d(28px, -18px, 0) rotate(-1deg);
+  }
+  100% {
+    transform: translate3d(45px, -32px, 0) rotate(2deg);
+  }
+}
+
+@keyframes floatHomeRight {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(4deg);
+  }
+  50% {
+    transform: translate3d(-30px, 22px, 0) rotate(1deg);
+  }
+  100% {
+    transform: translate3d(-52px, 38px, 0) rotate(-2deg);
+  }
+}
+
+@keyframes floatHomeDepth {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(8deg);
+  }
+  100% {
+    transform: translate3d(22px, -24px, 0) rotate(-4deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   VISIT US OUTRO VARIANT - DESKTOP (SUBTLE BRANDED ACCENT)
+   -------------------------------------------------------------------------- */
+.floating-bricks-visit .brick-visit-left {
+  left: 6%;
+  top: 24%;
+  width: 95px;
+  opacity: 0.35;
+  transform: translate3d(0, 0, 0) rotate(-2deg);
+  animation: floatVisitLeft 18s ease-in-out infinite alternate;
+}
+
+.floating-bricks-visit .brick-visit-right {
+  right: 7%;
+  top: 42%;
+  width: 90px;
+  opacity: 0.30;
+  transform: translate3d(0, 0, 0) rotate(3deg);
+  animation: floatVisitRight 21s ease-in-out infinite alternate -6s;
+}
+
+@keyframes floatVisitLeft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+  100% {
+    transform: translate3d(20px, -25px, 0) rotate(2deg);
+  }
+}
+
+@keyframes floatVisitRight {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(3deg);
+  }
+  100% {
+    transform: translate3d(-24px, 20px, 0) rotate(-1deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE RESPONSIVE ADAPTATIONS (MAX-WIDTH: 991.98px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .floating-bricks-home .brick-home-left {
+    left: 2%;
+    top: 55%;
+    width: 75px;
+    opacity: 0.28;
+    animation-duration: 14s;
+  }
+
+  .floating-bricks-home .brick-home-right {
+    right: 3%;
+    top: 10%;
+    width: 80px;
+    opacity: 0.30;
+    animation-duration: 16s;
+  }
+
+  .floating-bricks-home .brick-home-depth {
+    display: none; /* Keep mobile lightweight */
+  }
+
+  .floating-bricks-visit .brick-visit-left {
+    left: 2%;
+    top: 15%;
+    width: 65px;
+    opacity: 0.22;
+  }
+
+  .floating-bricks-visit .brick-visit-right {
+    right: 3%;
+    top: 50%;
+    width: 60px;
+    opacity: 0.20;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-bricks-home .brick-home-left {
+    left: 1%;
+    top: 60%;
+    width: 58px;
+    opacity: 0.22;
+  }
+
+  .floating-bricks-home .brick-home-right {
+    right: 2%;
+    top: 6%;
+    width: 62px;
+    opacity: 0.25;
+  }
+
+  .floating-bricks-visit .brick-visit-left {
+    display: none; /* Single subtle brick on small mobile */
+  }
+
+  .floating-bricks-visit .brick-visit-right {
+    right: 3%;
+    top: 20%;
+    width: 52px;
+    opacity: 0.18;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .floating-brick {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

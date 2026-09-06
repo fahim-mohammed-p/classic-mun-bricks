@@ -1,0 +1,760 @@
+/* ==========================================================================
+   VISIT US (VIRTUAL FACTORY TOUR) DESIGN SYSTEM
+   Scoped styles for Classic Mun Bricks Virtual Tour experience
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. HERO SECTION
+   -------------------------------------------------------------------------- */
+.tour-hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cmb-charcoal);
+  color: var(--cmb-white);
+  overflow: hidden;
+  padding: 6rem 0 4rem;
+}
+
+.tour-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.35;
+  filter: saturate(0.85) contrast(1.1);
+  transform: scale(1.02);
+  transition: transform 10s ease-out;
+}
+
+.tour-hero:hover .tour-hero-bg {
+  transform: scale(1.05);
+}
+
+.tour-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 30%, rgba(184, 74, 40, 0.12) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(26, 29, 32, 0.75) 0%, rgba(26, 29, 32, 0.88) 60%, rgba(26, 29, 32, 0.98) 100%);
+  pointer-events: none;
+}
+
+.tour-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: rgba(184, 74, 40, 0.18);
+  border: 1px solid rgba(184, 74, 40, 0.4);
+  color: #F08E6C;
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+}
+
+.tour-hero-title {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(2.3rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: var(--cmb-white);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.tour-hero-lead {
+  font-size: clamp(1.05rem, 2vw, 1.225rem);
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.scroll-indicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: var(--cmb-transition);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+}
+
+.scroll-indicator:hover,
+.scroll-indicator:focus {
+  color: var(--cmb-white);
+  outline: none;
+}
+
+.scroll-indicator-mouse {
+  width: 24px;
+  height: 38px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.scroll-indicator-wheel {
+  width: 4px;
+  height: 8px;
+  background-color: var(--cmb-terracotta);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  animation: scrollWheel 2s infinite ease-in-out;
+}
+
+@keyframes scrollWheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. TOUR INTRO SECTION
+   -------------------------------------------------------------------------- */
+.tour-intro-section {
+  background-color: var(--cmb-sand-light);
+  border-bottom: 1px solid var(--cmb-sand-dark);
+  padding: 4.5rem 0;
+  position: relative;
+}
+
+.tour-intro-badge {
+  color: var(--cmb-terracotta);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.tour-intro-heading {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--cmb-charcoal);
+  margin-bottom: 1rem;
+}
+
+.tour-intro-text {
+  font-size: 1.1rem;
+  color: var(--cmb-slate);
+  line-height: 1.75;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. STICKY DESKTOP TOUR NAVIGATION
+   -------------------------------------------------------------------------- */
+.sticky-tour-nav {
+  position: sticky;
+  top: 100px;
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius-lg);
+  padding: 1.25rem 1rem;
+  box-shadow: var(--cmb-shadow-sm);
+}
+
+.sticky-nav-header {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--cmb-slate);
+  opacity: 0.7;
+  padding: 0 0.75rem 0.75rem;
+  border-bottom: 1px solid var(--cmb-sand-dark);
+  margin-bottom: 0.5rem;
+}
+
+.sticky-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--cmb-radius);
+  color: var(--cmb-slate);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--cmb-transition);
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sticky-nav-item:hover {
+  background-color: var(--cmb-sand-muted);
+  color: var(--cmb-charcoal);
+}
+
+.sticky-nav-item.active {
+  background-color: rgba(184, 74, 40, 0.08);
+  color: var(--cmb-terracotta-dark);
+  font-weight: 700;
+}
+
+.sticky-nav-item.active .sticky-nav-num {
+  background-color: var(--cmb-terracotta);
+  color: var(--cmb-white);
+}
+
+.sticky-nav-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--cmb-sand-dark);
+  color: var(--cmb-slate);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: var(--cmb-transition);
+}
+
+/* --------------------------------------------------------------------------
+   4. PROCESS TIMELINE & JOURNEY CONTAINER
+   -------------------------------------------------------------------------- */
+.tour-journey-wrapper {
+  position: relative;
+  padding: 4rem 0 6rem;
+  background-color: var(--cmb-sand-light);
+}
+
+/* Connected Vertical Timeline Line */
+.timeline-track-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: var(--cmb-sand-dark);
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.timeline-track-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--cmb-terracotta) 0%, var(--cmb-terracotta-light) 100%);
+  transition: height 0.2s ease-out;
+}
+
+/* Process Section Container */
+.process-section {
+  position: relative;
+  padding: 4.5rem 0;
+  z-index: 2;
+  scroll-margin-top: 90px;
+}
+
+.process-section:last-of-type {
+  padding-bottom: 2rem;
+}
+
+/* Process Node Badge */
+.process-node-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.process-node-number {
+  font-family: var(--cmb-font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--cmb-terracotta);
+  background-color: rgba(184, 74, 40, 0.1);
+  border: 1.5px solid rgba(184, 74, 40, 0.35);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(184, 74, 40, 0.12);
+  transition: var(--cmb-transition);
+}
+
+.process-section.is-active .process-node-number {
+  background-color: var(--cmb-terracotta);
+  color: var(--cmb-white);
+  border-color: var(--cmb-terracotta);
+  box-shadow: 0 0 0 6px rgba(184, 74, 40, 0.15), 0 6px 16px rgba(184, 74, 40, 0.3);
+  transform: scale(1.05);
+}
+
+.process-stage-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--cmb-slate);
+  opacity: 0.8;
+  background-color: var(--cmb-sand-muted);
+  border: 1px solid var(--cmb-sand-dark);
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+}
+
+.process-heading {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+  font-weight: 700;
+  color: var(--cmb-charcoal);
+  margin-bottom: 1.1rem;
+  line-height: 1.25;
+}
+
+.process-description {
+  font-size: 1.05rem;
+  color: var(--cmb-slate);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.process-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.process-tag-item {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cmb-terracotta-dark);
+  background-color: rgba(184, 74, 40, 0.08);
+  border: 1px solid rgba(184, 74, 40, 0.2);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--cmb-radius);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. PROCESS MEDIA CONTAINER & VIDEO CROSSFADE
+   -------------------------------------------------------------------------- */
+.process-media-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--cmb-radius-lg);
+  overflow: hidden;
+  background-color: var(--cmb-slate);
+  border: 1px solid rgba(26, 29, 32, 0.12);
+  box-shadow: var(--cmb-shadow-md);
+  transition: var(--cmb-transition);
+  cursor: pointer;
+  user-select: none;
+}
+
+.process-media-wrapper:hover,
+.process-media-wrapper:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--cmb-shadow-lg);
+  border-color: rgba(184, 74, 40, 0.35);
+}
+
+/* Poster Image */
+.process-poster-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease-out;
+  z-index: 2;
+}
+
+/* Video Element */
+.process-video-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  background-color: var(--cmb-slate);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When video is active/playing */
+.process-media-wrapper.is-playing .process-poster-img {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.process-media-wrapper.is-playing .process-video-element {
+  z-index: 3;
+}
+
+/* Overlay & Badges */
+.process-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26, 29, 32, 0.15) 0%, rgba(26, 29, 32, 0.45) 100%);
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.process-media-wrapper.is-playing .process-media-overlay {
+  opacity: 0.15;
+}
+
+/* Watch Process Action Badge */
+.watch-process-badge {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 5;
+  background-color: rgba(26, 29, 32, 0.88);
+  backdrop-filter: blur(8px);
+  color: var(--cmb-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--cmb-transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.watch-process-badge i {
+  color: #F08E6C;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.process-media-wrapper:hover .watch-process-badge {
+  background-color: var(--cmb-terracotta);
+  border-color: var(--cmb-terracotta);
+  color: var(--cmb-white);
+}
+
+.process-media-wrapper:hover .watch-process-badge i {
+  color: var(--cmb-white);
+  transform: scale(1.15);
+}
+
+.process-media-wrapper.is-playing .watch-process-badge {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Minimal Controls Bar for Intentional Playback */
+.media-controls-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(26, 29, 32, 0.85) 100%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.process-media-wrapper.is-playing:hover .media-controls-bar,
+.process-media-wrapper.is-playing:focus-within .media-controls-bar {
+  opacity: 1;
+}
+
+.control-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--cmb-white);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--cmb-transition);
+  font-size: 0.9rem;
+}
+
+.control-btn:hover,
+.control-btn:focus {
+  background-color: var(--cmb-terracotta);
+  border-color: var(--cmb-terracotta);
+  outline: none;
+}
+
+.playing-pulse-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.playing-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #2ECC71;
+  border-radius: 50%;
+  animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. PAYOFF SECTION (PROCESS 06 - SHAPED INTO FORM)
+   -------------------------------------------------------------------------- */
+.process-section.payoff-section {
+  background: linear-gradient(180deg, transparent 0%, rgba(184, 74, 40, 0.04) 50%, transparent 100%);
+  border-radius: var(--cmb-radius-lg);
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.process-section.payoff-section .process-media-wrapper {
+  border: 2px solid rgba(184, 74, 40, 0.4);
+  box-shadow: 0 12px 36px rgba(184, 74, 40, 0.15);
+}
+
+.payoff-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--cmb-terracotta);
+  color: var(--cmb-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
+  margin-bottom: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. TOUR OUTRO / TRANSITION & PROJECTS CTA
+   -------------------------------------------------------------------------- */
+.tour-outro-section {
+  background-color: var(--cmb-charcoal);
+  color: var(--cmb-white);
+  padding: 6rem 0 6.5rem;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tour-outro-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(184, 74, 40, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tour-outro-transition-text {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.tour-outro-heading {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--cmb-white);
+  margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+   -------------------------------------------------------------------------- */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-media-scale {
+  opacity: 0;
+  transform: scale(0.98) translateY(12px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.animate-media-scale.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   9. MOBILE & RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  /* Hide desktop sticky navigation */
+  .sticky-tour-nav {
+    display: none;
+  }
+
+  /* Move timeline rail to left edge on mobile/tablet */
+  .timeline-track-rail {
+    left: 20px;
+    transform: none;
+  }
+
+  .process-section {
+    padding: 3rem 0;
+  }
+
+  .process-section.payoff-section {
+    padding: 3.5rem 0;
+  }
+
+  /* Stack layout: Number -> Title -> Short Description -> Media */
+  .process-content-col {
+    order: 1 !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .process-media-col {
+    order: 2 !important;
+  }
+
+  .tour-hero {
+    min-height: 75vh;
+    padding: 5rem 0 3.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .timeline-track-rail {
+    display: none; /* Keep clean single column on narrow mobile screens */
+  }
+
+  .process-node-number {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .process-section {
+    padding: 2.25rem 0;
+  }
+
+  .tour-hero-lead {
+    font-size: 1rem;
+  }
+
+  .watch-process-badge {
+    bottom: 0.85rem;
+    left: 0.85rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.85rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. PREFERS-REDUCED-MOTION SUPPORT
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .tour-hero-bg {
+    transition: none !important;
+  }
+
+  .scroll-indicator-wheel {
+    animation: none !important;
+  }
+
+  .animate-on-scroll,
+  .animate-media-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

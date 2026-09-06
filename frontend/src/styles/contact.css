@@ -1,0 +1,298 @@
+/* Classic Mun Bricks - Contact Page Design System & Styles */
+
+.contact-page {
+  color: var(--cmb-slate);
+  background-color: var(--cmb-sand-light);
+  overflow: visible;
+}
+
+
+/* --------------------------------------------------------
+   01 — CONTACT HERO
+   -------------------------------------------------------- */
+.contact-hero {
+  position: relative;
+  background-color: var(--cmb-charcoal);
+  color: var(--cmb-white);
+  padding: 3.5rem 0 3rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(184, 74, 40, 0.15) 0%, transparent 60%),
+              linear-gradient(180deg, rgba(26, 29, 32, 0.7) 0%, rgba(26, 29, 32, 0.98) 100%);
+  pointer-events: none;
+}
+
+.contact-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(184, 74, 40, 0.15);
+  border: 1px solid rgba(184, 74, 40, 0.35);
+  color: #E28766;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+}
+
+.contact-hero-title {
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--cmb-white);
+}
+
+/* --------------------------------------------------------
+   02 — MAIN CONTACT & ENQUIRY SECTION
+   -------------------------------------------------------- */
+.contact-main-section {
+  padding: 4rem 0;
+  background-color: var(--cmb-sand-light);
+}
+
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--cmb-white);
+  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  padding: 0.9rem 1.15rem;
+  text-decoration: none;
+  color: var(--cmb-slate);
+  transition: var(--cmb-transition);
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(184, 74, 40, 0.4);
+  box-shadow: var(--cmb-shadow-md);
+  color: var(--cmb-slate);
+}
+
+.quick-action-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--cmb-radius);
+  background-color: rgba(184, 74, 40, 0.1);
+  color: var(--cmb-terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.quick-action-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+  color: var(--cmb-charcoal);
+}
+
+.quick-action-sub {
+  font-size: 0.8rem;
+  color: #6C757D;
+}
+
+.contact-info-card {
+  background-color: var(--cmb-white);
+  border-radius: var(--cmb-radius-lg);
+  border: 1px solid var(--cmb-sand-dark);
+  padding: 1.75rem;
+  /* NO fixed height to prevent stretching bugs */
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--cmb-sand-muted);
+}
+
+.contact-info-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.contact-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--cmb-radius);
+  background-color: rgba(184, 74, 40, 0.1);
+  color: var(--cmb-terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.form-card {
+  background-color: var(--cmb-white);
+  border-radius: var(--cmb-radius-lg);
+  border: 1px solid var(--cmb-sand-dark);
+  padding: 2.25rem;
+  box-shadow: var(--cmb-shadow-md);
+}
+
+.form-label-custom {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cmb-charcoal);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.925rem;
+  font-family: var(--cmb-font-body);
+  color: var(--cmb-charcoal);
+  background-color: #FAFAFA;
+  border: 1.5px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  transition: var(--cmb-transition);
+  outline: none;
+}
+
+.form-control-custom:focus {
+  background-color: var(--cmb-white);
+  border-color: var(--cmb-terracotta);
+  box-shadow: 0 0 0 3px rgba(184, 74, 40, 0.12);
+}
+
+.form-control-custom.is-invalid {
+  border-color: #DC3545;
+  background-color: #FFF8F8;
+}
+
+.form-control-custom.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+}
+
+.invalid-feedback-custom {
+  font-size: 0.8rem;
+  color: #DC3545;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}
+
+/* Custom Select Arrow */
+select.form-control-custom {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%202C3137' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px 12px;
+  padding-right: 2.5rem;
+}
+
+/* Form Alert Boxes */
+.alert-custom-error {
+
+  background-color: #FFEBEE;
+  border: 1px solid #FFCDD2;
+  color: #C62828;
+  border-radius: var(--cmb-radius);
+  padding: 1rem 1.15rem;
+}
+
+/* --------------------------------------------------------
+   03 — LOCATION / MAP SECTION
+   -------------------------------------------------------- */
+.location-section {
+  padding: 4rem 0;
+  background-color: var(--cmb-sand-muted);
+  border-top: 1px solid var(--cmb-sand-dark);
+}
+
+.location-card {
+  background-color: var(--cmb-white);
+  border-radius: var(--cmb-radius-lg);
+  border: 1px solid var(--cmb-sand-dark);
+  padding: 2.25rem;
+}
+
+.compact-placeholder-box {
+  padding: 2.5rem 1.5rem;
+  background-color: var(--cmb-sand-light);
+  border-radius: var(--cmb-radius-lg);
+  border: 1px dashed var(--cmb-sand-dark);
+}
+
+/* --------------------------------------------------------
+   04 — FINAL VIRTUAL TOUR CTA
+   -------------------------------------------------------- */
+.contact-final-cta {
+  padding: 4.5rem 0;
+  background: linear-gradient(135deg, #1A1D20 0%, #2A2E33 100%);
+  color: var(--cmb-white);
+}
+
+/* --------------------------------------------------------
+   RESPONSIVE DESIGN ADAPTATIONS (MOBILE SPECIFIC)
+   -------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .contact-hero {
+    padding: 2.5rem 0 2rem;
+  }
+
+  .contact-hero-title {
+    font-size: 1.85rem;
+  }
+
+  .contact-main-section,
+  .location-section,
+  .contact-final-cta {
+    padding: 2.75rem 0;
+  }
+
+  .form-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .form-control-custom {
+    padding: 0.85rem 1rem;
+    font-size: 1rem; /* Prevents auto-zoom on iOS Safari */
+    min-height: 48px;
+  }
+}
+
+/* Extra small screens (320px - 430px) */
+@media (max-width: 430px) {
+  .contact-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .btn-cmb-primary,
+  .btn-cmb-secondary,
+  .btn-cmb-outline-dark {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
