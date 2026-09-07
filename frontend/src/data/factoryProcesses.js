@@ -72,7 +72,7 @@ export const FACTORY_PROCESSES = [
     stageLabel: 'Stage 05 • Moisture & Plasticity',
     title: 'Mixing & Conditioning',
     shortDescription:
-      'The prepared clay blend is thoroughly mixed and conditioned with controlled water addition. Heavy-duty mixing paddles blend the minerals to achieve the exact plasticity and internal cohesion required for flawless extrusion.',
+      'The prepared clay blend is thoroughly mixed and conditioned with controlled water addition. Heavy-duty mixing paddles blend the minerals to achieve the exact plasticity and internal cohesion required for flawless hydraulic pressing.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
     video: vid05,
     altText: 'Conditioning mixer blending clay with controlled moisture',

@@ -88,26 +88,48 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
+      const payload = {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim() || '',
+        location: formData.location.trim() || '',
+        enquiry_type: formData.enquiry_type,
+        message: formData.message.trim(),
+      };
+
       const response = await fetch(API_ENDPOINTS.CONTACT_ENQUIRIES, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          phone: formData.phone.trim(),
-          email: formData.email.trim() || undefined,
-          location: formData.location.trim() || undefined,
-          enquiry_type: formData.enquiry_type,
-          message: formData.message.trim(),
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get('content-type') || '';
+      let data = null;
 
-      if (response.status === 201 && data.success) {
+      if (contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch (jsonErr) {
+          data = null;
+        }
+      } else {
+        const text = await response.text().catch(() => '');
+        console.error('CONTACT API NON-JSON RESPONSE:', {
+          status: response.status,
+          contentType,
+          text: text.slice(0, 1000),
+        });
+      }
+
+      console.log('CONTACT STATUS:', response.status);
+      console.log('CONTENT TYPE:', contentType);
+      console.log('SAFE RESPONSE BODY:', data ? '[JSON Received]' : 'Non-JSON/Empty');
+
+      if (response.status === 201 && data && data.success) {
         setSubmitStatus('success');
-        const successMsg = 'Thank you for reaching out! Our team will contact you shortly.';
+        const successMsg = data.message || 'Thank you for reaching out! Our team will contact you shortly.';
         setServerMessage(successMsg);
         toast.success(successMsg);
         
@@ -122,11 +144,21 @@ const Contact = () => {
         setErrors({});
       } else if (response.status === 400) {
         setSubmitStatus('error');
-        if (data.name) setErrors((prev) => ({ ...prev, name: data.name[0] }));
-        if (data.phone) setErrors((prev) => ({ ...prev, phone: data.phone[0] }));
-        if (data.email) setErrors((prev) => ({ ...prev, email: data.email[0] }));
-        if (data.message) setErrors((prev) => ({ ...prev, message: data.message[0] }));
-        toast.error('Please correct the highlighted errors in the form.');
+        const fieldErrors = {};
+        if (data && typeof data === 'object') {
+          if (data.name) fieldErrors.name = Array.isArray(data.name) ? data.name[0] : data.name;
+          if (data.phone) fieldErrors.phone = Array.isArray(data.phone) ? data.phone[0] : data.phone;
+          if (data.email) fieldErrors.email = Array.isArray(data.email) ? data.email[0] : data.email;
+          if (data.location) fieldErrors.location = Array.isArray(data.location) ? data.location[0] : data.location;
+          if (data.enquiry_type) fieldErrors.enquiry_type = Array.isArray(data.enquiry_type) ? data.enquiry_type[0] : data.enquiry_type;
+          if (data.message) fieldErrors.message = Array.isArray(data.message) ? data.message[0] : data.message;
+        }
+        setErrors(fieldErrors);
+        const userMsg = (data && data.detail)
+          ? data.detail
+          : (Object.keys(fieldErrors).length > 0 ? 'Please correct the highlighted errors in the form.' : 'Something went wrong. Please try again or contact us directly.');
+        setServerMessage(userMsg);
+        toast.error(userMsg);
       } else if (response.status === 429) {
         setSubmitStatus('error');
         const rateMsg = 'Too many enquiries submitted recently. Please wait a few minutes before trying again.';
@@ -332,18 +364,6 @@ const Contact = () => {
                 <p className="text-muted small mb-4">
                   Please complete the form below to submit your requirement to our team. Fields marked (<span className="text-danger">*</span>) are required.
                 </p>
-
-                {/* Submission Error Alert */}
-                {submitStatus === 'error' && serverMessage && (
-                  <div className="alert-custom-error mb-4 d-flex align-items-start gap-3">
-                    <i className="bi bi-exclamation-triangle-fill fs-4 flex-shrink-0"></i>
-                    <div>
-                      <h6 className="fw-bold mb-1">Submission Issue</h6>
-                      <div className="small">{serverMessage}</div>
-                    </div>
-                  </div>
-                )}
-
 
                 <form onSubmit={handleSubmit} noValidate>
                   {/* Full Name & Phone Row */}

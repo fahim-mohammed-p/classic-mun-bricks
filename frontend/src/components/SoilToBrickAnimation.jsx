@@ -3,14 +3,14 @@ import '../styles/soil-to-brick.css';
 
 /**
  * Natural soil and clay color palette sampled directly from authentic
- * Classic Mun Bricks raw clay and computerized kiln fired tones.
+ * Classic Mun Bricks raw clay and terracotta tones.
  */
 const CLAY_PALETTE = [
   '#8F3318', // Deep terracotta
   '#B84A28', // Signature Classic Mun terracotta
   '#A23E1F', // Clay red-brown
   '#7A2812', // Rich mineral soil
-  '#C85B33', // Fired brick dust
+  '#C85B33', // Terracotta clay dust
   '#5C200E', // Dark organic clay loam
   '#D46D44', // Surface clay powder
   '#9B3B1B', // Dense compacted soil
@@ -270,8 +270,8 @@ const SoilToBrickAnimation = ({
       // 0%–15%: soil appears across the white section with ambient drift
       // 15%–35%: soil moves downward and inward
       // 35%–55%: particles gather strongly
-      // 50%–72%: rough clay mass forms
-      // 70%–88%: thermal curing & firing transition (smooth heating & crossfade)
+      // 50%–72%: material preparation & rough clay mass forms
+      // 70%–88%: hydraulic pressing & shaping phase (smooth compaction)
       // 84%–90%: dual finished bricks reveal, clay mass and particles dissolve seamlessly
       // 90%+: finished brick pair fully visible and stable (section hold state)
       // =====================================================================
@@ -284,7 +284,7 @@ const SoilToBrickAnimation = ({
       const easedGather = smoothstep(0.12, 0.35, p);
       const easedConverge = smoothstep(0.32, 0.55, p);
       const easedCompress = smoothstep(0.50, 0.74, p);
-      const easedThermal = smoothstep(0.66, 0.86, p);
+      const easedShaping = smoothstep(0.66, 0.86, p);
       const particleAlphaMultiplier = 1 - smoothstep(0.74, 0.89, p);
 
       // Target brick geometry
@@ -308,14 +308,14 @@ const SoilToBrickAnimation = ({
           const curW = bw * (1.12 - easedCompress * 0.12);
           const curH = bh * (1.12 - easedCompress * 0.12);
 
-          // Thermal curing color shift: warms from raw mineral clay into fired terracotta
-          const r1 = Math.round(150 + easedThermal * 40); // 150 -> 190
-          const g1 = Math.round(55 + easedThermal * 25);  // 55 -> 80
-          const b1 = Math.round(20 + easedThermal * 18);  // 20 -> 38
+          // Hydraulic pressing color shift: stabilizes from raw mineral clay into terracotta brick
+          const r1 = Math.round(150 + easedShaping * 40); // 150 -> 190
+          const g1 = Math.round(55 + easedShaping * 25);  // 55 -> 80
+          const b1 = Math.round(20 + easedShaping * 18);  // 20 -> 38
 
-          const r2 = Math.round(120 + easedThermal * 30);
-          const g2 = Math.round(38 + easedThermal * 18);
-          const b2 = Math.round(15 + easedThermal * 12);
+          const r2 = Math.round(120 + easedShaping * 30);
+          const g2 = Math.round(38 + easedShaping * 18);
+          const b2 = Math.round(15 + easedShaping * 12);
 
           const grad = ctx.createLinearGradient(-curW / 2, -curH / 2, curW / 2, curH / 2);
           grad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, ${massAlpha * 0.88})`);

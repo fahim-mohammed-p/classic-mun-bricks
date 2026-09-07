@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class ContactEnquiryThrottle(AnonRateThrottle):
     scope = 'contact_enquiry'
-    rate = '10/hour'
+    rate = '30/hour'
 
 
 class ContactEnquiryCreateView(generics.CreateAPIView):

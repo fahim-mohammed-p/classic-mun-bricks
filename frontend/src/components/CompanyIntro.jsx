@@ -83,14 +83,14 @@ const CompanyIntro = () => {
   const maxFormationDistance = isMobile ? 32 : 75;
   const formationY = prefersReducedMotion ? 0 : animationProgress * maxFormationDistance;
 
-  // 3. Smooth Thermal / Firing Transformation & Dual-Brick Materialization:
+  // 3. Materialization & Dual-Brick Shaping:
   // Smoothstep interpolation helper
   const smoothstep = (min, max, val) => {
     const t = Math.min(1, Math.max(0, (val - min) / (max - min)));
     return t * t * (3 - 2 * t);
   };
 
-  // Organic fade-in of finished brick pair starting smoothly during thermal curing (74% to 89%)
+  // Organic fade-in of finished brick pair (74% to 89%)
   const brickOpacity = prefersReducedMotion 
     ? 1 
     : smoothstep(0.74, 0.89, animationProgress);
@@ -163,11 +163,11 @@ const CompanyIntro = () => {
                 <div className="col-12">
                   <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
                     <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-arrows-collapse"></i>
+                      <i className="bi bi-sliders"></i>
                     </div>
                     <div>
-                      <h6 className="fw-bold mb-1">02. High-Density Extrusion</h6>
-                      <p className="small text-muted mb-0">Heavy vacuum de-airing and computerized hydraulic extrusion to compress soil particles into dense units.</p>
+                      <h6 className="fw-bold mb-1">02. Material Preparation</h6>
+                      <p className="small text-muted mb-0">Prepared clay is refined and conditioned before the shaping stage.</p>
                     </div>
                   </div>
                 </div>
@@ -175,11 +175,11 @@ const CompanyIntro = () => {
                 <div className="col-12">
                   <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
                     <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-thermometer-sun"></i>
+                      <i className="bi bi-arrows-collapse"></i>
                     </div>
                     <div>
-                      <h6 className="fw-bold mb-1">03. Controlled Thermal Firing</h6>
-                      <p className="small text-muted mb-0">Precision tunnel kilns exceeding 1,000°C fuse clay crystals into load-bearing masonry units.</p>
+                      <h6 className="fw-bold mb-1">03. Hydraulic Pressing</h6>
+                      <p className="small text-muted mb-0">The prepared clay is compressed and shaped using hydraulic pressing to form the brick profile.</p>
                     </div>
                   </div>
                 </div>
@@ -373,11 +373,23 @@ const CompanyIntro = () => {
             <div className="col-12">
               <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
                 <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
-                  <i className="bi bi-thermometer-sun"></i>
+                  <i className="bi bi-sliders"></i>
                 </div>
                 <div>
-                  <h6 className="fw-bold mb-1 fs-6">Controlled Thermal Firing</h6>
-                  <p className="small text-muted mb-0">Computerized kilns reaching over 1,000°C.</p>
+                  <h6 className="fw-bold mb-1 fs-6">Material Preparation</h6>
+                  <p className="small text-muted mb-0">Prepared clay is refined and conditioned before shaping.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12">
+              <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+                <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
+                  <i className="bi bi-arrows-collapse"></i>
+                </div>
+                <div>
+                  <h6 className="fw-bold mb-1 fs-6">Hydraulic Pressing</h6>
+                  <p className="small text-muted mb-0">Clay is compressed and shaped using hydraulic pressing.</p>
                 </div>
               </div>
             </div>

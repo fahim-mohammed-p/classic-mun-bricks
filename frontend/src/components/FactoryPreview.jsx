@@ -10,7 +10,7 @@ const FactoryPreview = () => {
           <div className="col-lg-6 order-lg-1 order-2">
             <div className="visual-placeholder-box border-terracotta border-opacity-25">
               <div className="placeholder-badge">
-                <i className="bi bi-play-circle me-1"></i> Virtual Tour / Kiln Process Interactive Placeholder
+                <i className="bi bi-play-circle me-1"></i> Virtual Tour / Manufacturing Process Interactive Placeholder
               </div>
 
               <svg 
@@ -22,7 +22,7 @@ const FactoryPreview = () => {
               >
                 <rect width="560" height="360" fill="#15181C" />
                 
-                {/* Kiln Conveyor Grid */}
+                {/* Conveyor Grid */}
                 <g opacity="0.3">
                   <path d="M0 300 L560 300" stroke="#B84A28" strokeWidth="6" />
                   <circle cx="100" cy="315" r="10" stroke="#FFFFFF" strokeWidth="2" />
@@ -47,7 +47,7 @@ const FactoryPreview = () => {
                   MANUFACTURING PROCESS TOUR
                 </text>
                 <text x="280" y="156" textAnchor="middle" fill="#EFECE6" fontSize="11" fontFamily="Plus Jakarta Sans" opacity="0.75">
-                  Clay Preparation → Extrusion → Kiln Firing → QC
+                  Clay Preparation → Material Refining → Hydraulic Pressing → QC
                 </text>
               </svg>
             </div>
@@ -63,13 +63,13 @@ const FactoryPreview = () => {
             </h2>
 
             <p className="text-light opacity-80 mb-4" style={{ fontSize: '1.05rem' }}>
-              Transparency and technical precision define our operational philosophy. We invite engineers, architects, and bulk purchasers to explore our raw material processing, high-pressure extrusion lines, and high-temperature tunnel kilns online.
+              Transparency and technical precision define our operational philosophy. We invite engineers, architects, and bulk purchasers to explore our raw material processing and hydraulic-pressing facility online.
             </p>
 
             <div className="d-flex flex-column gap-3 mb-4">
               <div className="d-flex align-items-center gap-3">
                 <i className="bi bi-check-circle-fill text-terracotta fs-5"></i>
-                <span className="text-light opacity-90">Interactive step-by-step kiln and extrusion workflow overview</span>
+                <span className="text-light opacity-90">Interactive step-by-step manufacturing workflow overview</span>
               </div>
               <div className="d-flex align-items-center gap-3">
                 <i className="bi bi-check-circle-fill text-terracotta fs-5"></i>

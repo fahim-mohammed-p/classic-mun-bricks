@@ -13,11 +13,11 @@ const Hero = () => {
           <div className="col-lg-8 col-xl-7">
             <h1 className="display-4 fw-bold text-white mb-3">
               Built on Strength.<br />
-              <span className="text-terracotta">Fired for Generations.</span>
+              <span className="text-terracotta">Made for Generations.</span>
             </h1>
 
             <p className="lead text-light opacity-90 mb-4" style={{ maxWidth: '560px', fontSize: '1.15rem' }}>
-              Engineered clay bricks crafted with high-density soil compaction and precision computerized kiln firing for structural integrity and lasting architectural beauty.
+              Quality clay bricks shaped through carefully prepared material and hydraulic pressing for consistent form and dependable construction use.
             </p>
 
             <div className="d-flex flex-wrap gap-3 mb-4">

@@ -14,8 +14,21 @@ dotenv.load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-classic-mun-bricks')
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 
-allowed_hosts_raw = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver')
-ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_raw.split(',') if host.strip()]
+allowed_hosts_raw = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver,classic-mun-bricks.onrender.com')
+ALLOWED_HOSTS = []
+for host in allowed_hosts_raw.split(','):
+    h = host.strip()
+    if not h:
+        continue
+    if h.startswith('https://'):
+        h = h[8:]
+    elif h.startswith('http://'):
+        h = h[7:]
+    h = h.split('/')[0]
+    if ':' in h and not (h.startswith('127.0.0.1') or h.startswith('localhost')):
+        h = h.split(':')[0]
+    if h and h not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(h)
 
 # Application definition
 INSTALLED_APPS = [
@@ -116,8 +129,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Configuration
-cors_origins_raw = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
-CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins_raw.split(',') if origin.strip()]
+cors_origins_raw = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,https://www.classicmunbricks.com,https://classicmunbricks.com')
+CORS_ALLOWED_ORIGINS = []
+for origin in cors_origins_raw.split(','):
+    o = origin.strip().rstrip('/')
+    if o and o not in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS.append(o)
 CORS_ALLOW_CREDENTIALS = True
 
 # Django REST Framework Configuration
@@ -134,7 +151,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '30/hour',
-        'contact_enquiry': '10/hour',
+        'contact_enquiry': '30/hour',
     }
 }
 

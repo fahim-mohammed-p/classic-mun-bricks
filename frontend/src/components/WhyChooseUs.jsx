@@ -10,17 +10,17 @@ const WhyChooseUs = () => {
     {
       icon: 'bi-boxes',
       title: 'Quality Manufacturing',
-      description: 'Strict quality control at every stage from raw clay screening to automated moisture testing and final kiln discharge.'
+      description: 'Strict quality control at every stage from raw clay screening to automated moisture testing and final product inspection.'
     },
     {
       icon: 'bi-shield-lock-fill',
       title: 'Trusted Products',
-      description: 'Engineered for high compressive strength, superior fire resistance, and minimal water absorption.'
+      description: 'Engineered for high compressive strength, weather resistance, and minimal water absorption.'
     },
     {
       icon: 'bi-truck-flatbed',
       title: 'Reliable Supply',
-      description: 'High-capacity production kilns capable of fulfilling commercial and large-scale residential contractor orders on time.'
+      description: 'High-capacity hydraulic pressing facilities capable of fulfilling commercial and large-scale residential contractor orders on time.'
     }
   ];
 
