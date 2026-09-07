@@ -485,7 +485,7 @@
 }
 
 .panel-footer-actions {
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 }
 
 .panel-action-btn {
@@ -498,20 +498,21 @@
   padding: 0.85rem 1.35rem;
   font-size: clamp(0.88rem, 2vw, 0.95rem);
   font-weight: 600;
-  border-radius: 10px;
-  background-color: var(--cmb-charcoal);
+  border-radius: 50px;
+  background-color: var(--cmb-terracotta);
   color: #FFFFFF;
   border: 1px solid transparent;
   transition: all 0.25s ease;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 14px rgba(184, 74, 40, 0.25);
 }
 
 .panel-action-btn:hover {
-  background-color: var(--cmb-terracotta);
+  background-color: var(--cmb-terracotta-dark);
   color: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(184, 74, 40, 0.25);
+  box-shadow: 0 6px 20px rgba(184, 74, 40, 0.35);
   transform: translateY(-2px);
 }
 
@@ -779,19 +780,32 @@
   }
 }
 
-/* Tablet (~768px to 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
+/* Screens < 992px (Tablets & Mobile Phones: 320px to 991px) */
+@media (max-width: 991.98px) {
+  .projects-map-section {
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .region-card-panel {
+    height: auto !important;
+    min-height: auto;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-state-tabs {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Tablet specific refinement (~768px to 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
   .map-canvas-wrapper {
     padding: 1.5rem 1.25rem;
   }
 
   .region-card-panel {
-    margin-top: 1rem;
     padding: 1.75rem;
-  }
-
-  .mobile-state-tabs {
-    margin-bottom: 1rem;
   }
 }
 

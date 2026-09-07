@@ -77,8 +77,8 @@ const SoilToBrickAnimation = ({
         return {
           cx: (bRect.left + bRect.width / 2) - sRect.left,
           cy: (bRect.top + bRect.height / 2) - sRect.top,
-          bw: bRect.width || (isMobile ? 110 : 145),
-          bh: bRect.height || (isMobile ? 195 : 255),
+          bw: bRect.width || (isMobile ? 180 : 250),
+          bh: bRect.height || (isMobile ? 175 : 235),
         };
       }
     }
@@ -87,8 +87,8 @@ const SoilToBrickAnimation = ({
     return {
       cx: isMobile ? width * 0.5 : width * 0.75,
       cy: isMobile ? height * 0.55 : height * 0.50,
-      bw: isMobile ? 110 : 145,
-      bh: isMobile ? 195 : 255,
+      bw: isMobile ? 180 : 250,
+      bh: isMobile ? 175 : 235,
     };
   }, [brickTargetRef, sectionRef, isMobile]);
 
@@ -266,56 +266,65 @@ const SoilToBrickAnimation = ({
       time += 0.018;
 
       // =====================================================================
-      // TIMELINE PHASES (Mapped to early completion):
+      // TIMELINE PHASES (Continuous Organic Progression):
       // 0%–15%: soil appears across the white section with ambient drift
       // 15%–35%: soil moves downward and inward
       // 35%–55%: particles gather strongly
-      // 55%–70%: rough clay mass forms
-      // 70%–82%: mass compresses into brick shape
-      // 82%–90%: exact brick asset reveals/fades in, particles fade away
-      // 90%+: finished brick fully visible and stable (section hold state)
+      // 50%–72%: rough clay mass forms
+      // 70%–88%: thermal curing & firing transition (smooth heating & crossfade)
+      // 84%–90%: dual finished bricks reveal, clay mass and particles dissolve seamlessly
+      // 90%+: finished brick pair fully visible and stable (section hold state)
       // =====================================================================
-      const gatherT = Math.min(1, Math.max(0, (p - 0.15) / 0.20));
-      const easedGather = gatherT * gatherT * (3 - 2 * gatherT); // Smoothstep curve
+      // Helper smoothstep function for organic, continuous transitions
+      const smoothstep = (min, max, val) => {
+        const t = Math.min(1, Math.max(0, (val - min) / (max - min)));
+        return t * t * (3 - 2 * t);
+      };
 
-      const convergeT = Math.min(1, Math.max(0, (p - 0.35) / 0.20));
-      const easedConverge = convergeT * convergeT * (3 - 2 * convergeT);
-
-      const compressT = Math.min(1, Math.max(0, (p - 0.55) / 0.23));
-      const easedCompress = compressT * compressT * (3 - 2 * compressT);
-
-      const fadeT = Math.min(1, Math.max(0, (p - 0.82) / 0.08));
-      const particleAlphaMultiplier = Math.max(0, 1 - fadeT);
+      const easedGather = smoothstep(0.12, 0.35, p);
+      const easedConverge = smoothstep(0.32, 0.55, p);
+      const easedCompress = smoothstep(0.50, 0.74, p);
+      const easedThermal = smoothstep(0.66, 0.86, p);
+      const particleAlphaMultiplier = 1 - smoothstep(0.74, 0.89, p);
 
       // Target brick geometry
       const { cx, cy, bw, bh } = getBrickTarget(width, height);
 
-      // Render forming rough clay mass between 54% and 86% of animation progress
-      if (p >= 0.54 && p < 0.86) {
-        const massIntro = Math.min(1, Math.max(0, (p - 0.54) / 0.14));
-        const massOutro = Math.max(0, 1 - Math.min(1, Math.max(0, (p - 0.78) / 0.08)));
-        const massAlpha = massIntro * massOutro * 0.76;
+      // Render forming rough clay mass between 50% and 89% of animation progress
+      if (p >= 0.50 && p < 0.89) {
+        const massIntro = smoothstep(0.50, 0.68, p);
+        const massOutro = 1 - smoothstep(0.74, 0.88, p);
+        const massAlpha = massIntro * massOutro * 0.74;
 
-        if (massAlpha > 0.02) {
+        if (massAlpha > 0.01) {
           ctx.save();
           // Clay mass centers on the moving formationY position
           ctx.translate(cx, cy + fY);
 
           // Subtle natural rotational perspective while forming
-          const rotDeg = (1 - easedCompress) * 0.025;
+          const rotDeg = (1 - easedCompress) * 0.018;
           ctx.rotate(rotDeg);
 
-          const curW = bw * (1.15 - easedCompress * 0.15);
-          const curH = bh * (1.15 - easedCompress * 0.15);
+          const curW = bw * (1.12 - easedCompress * 0.12);
+          const curH = bh * (1.12 - easedCompress * 0.12);
+
+          // Thermal curing color shift: warms from raw mineral clay into fired terracotta
+          const r1 = Math.round(150 + easedThermal * 40); // 150 -> 190
+          const g1 = Math.round(55 + easedThermal * 25);  // 55 -> 80
+          const b1 = Math.round(20 + easedThermal * 18);  // 20 -> 38
+
+          const r2 = Math.round(120 + easedThermal * 30);
+          const g2 = Math.round(38 + easedThermal * 18);
+          const b2 = Math.round(15 + easedThermal * 12);
 
           const grad = ctx.createLinearGradient(-curW / 2, -curH / 2, curW / 2, curH / 2);
-          grad.addColorStop(0, `rgba(184, 74, 40, ${massAlpha * 0.85})`);
-          grad.addColorStop(0.5, `rgba(143, 51, 24, ${massAlpha * 0.95})`);
-          grad.addColorStop(1, `rgba(95, 30, 12, ${massAlpha * 0.90})`);
+          grad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, ${massAlpha * 0.88})`);
+          grad.addColorStop(0.5, `rgba(${r2}, ${g2}, ${b2}, ${massAlpha * 0.95})`);
+          grad.addColorStop(1, `rgba(90, 26, 10, ${massAlpha * 0.90})`);
 
           ctx.fillStyle = grad;
           ctx.beginPath();
-          const cornerR = Math.max(4, 12 * (1 - easedCompress));
+          const cornerR = Math.max(6, 14 * (1 - easedCompress));
           ctx.roundRect(-curW / 2, -curH / 2, curW, curH, cornerR);
           ctx.fill();
 

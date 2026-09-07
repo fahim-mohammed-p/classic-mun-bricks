@@ -86,7 +86,7 @@ const VisitUs = () => {
         <div className="container position-relative z-2">
           <div className="row">
             {/* Desktop Sticky Stage Navigator (Large screens only) */}
-            <div className="col-xl-3 col-lg-3 d-none d-lg-block">
+            <div className="col-xl-3 col-lg-3 d-none d-lg-block factory-tour-sidebar-col">
               <FactoryTimelineNav
                 processes={FACTORY_PROCESSES}
                 activeStep={activeStep}

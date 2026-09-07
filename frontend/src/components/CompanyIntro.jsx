@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import SoilToBrickAnimation from './SoilToBrickAnimation';
+import brickLock from '../assets/brick-lock.webp';
 import brickGroove from '../assets/brick-groove.webp';
 import '../styles/soil-to-brick.css';
 
@@ -8,8 +9,8 @@ import '../styles/soil-to-brick.css';
  * 
  * Environmental "Soil → Brick" transformation story:
  * A full-section particle canvas lets raw soil and clay grains sweep across the
- * entire white section and converge directly into the authentic Classic Mun Bricks
- * product displayed at its verified, constant size.
+ * entire white section and converge into the authentic Classic Mun Bricks
+ * complementary interlocking product pair (Groove + Lock) displayed at verified, balanced sizes.
  */
 const CompanyIntro = () => {
   const sectionRef = useRef(null);
@@ -29,17 +30,16 @@ const CompanyIntro = () => {
     return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
-  // Check prefers-reduced-motion
+  // Check reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleMotionChange = (e) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleMotionChange);
-    return () => mediaQuery.removeEventListener('change', handleMotionChange);
+    const handler = (e) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
-  // Native Scroll-Driven Progress Tracking
+  // Section Scroll Tracking
   useEffect(() => {
     let ticking = false;
 
@@ -48,31 +48,13 @@ const CompanyIntro = () => {
         window.requestAnimationFrame(() => {
           if (sectionRef.current) {
             const rect = sectionRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
-            if (window.innerWidth >= 992) {
-              // DESKTOP: Track section scroll as sticky right column holds the brick stage
-              // Entry starts as top of section enters upper 65% of viewport
-              // Section ends when bottom of section reaches bottom of viewport
-              const entryOffset = windowHeight * 0.65;
-              const totalScrollDistance = rect.height - windowHeight * 0.35;
-              const currentOffset = entryOffset - rect.top;
-
-              if (totalScrollDistance > 0) {
-                const progress = Math.min(1, Math.max(0, currentOffset / totalScrollDistance));
-                setSectionScrollProgress(progress);
-              }
-            } else {
-              // MOBILE: Track section travel in natural mobile viewport flow
-              const entryOffset = windowHeight * 0.70;
-              const totalScrollDistance = rect.height * 0.90;
-              const currentOffset = entryOffset - rect.top;
-
-              if (totalScrollDistance > 0) {
-                const progress = Math.min(1, Math.max(0, currentOffset / totalScrollDistance));
-                setSectionScrollProgress(progress);
-              }
-            }
+            // Start as section enters viewport, reach full progress before exit
+            const totalScrollDistance = rect.height + windowHeight * 0.2;
+            const currentScrollDistance = windowHeight - rect.top;
+            const progress = Math.min(1, Math.max(0, currentScrollDistance / totalScrollDistance));
+            setSectionScrollProgress(progress);
           }
           ticking = false;
         });
@@ -89,7 +71,7 @@ const CompanyIntro = () => {
   // =========================================================================
   // SCROLL PROGRESS MAPPING & TIMELINE SPECIFICATION
   // =========================================================================
-  // 1. Map section scroll progress to complete at 75% of section distance
+  // 1. Map section scroll progress to complete early at 75% of section distance
   //    (Section 0.0 -> 0.75 maps to Animation 0.0 -> 1.0; 0.75 -> 1.0 holds finished brick)
   const ANIMATION_COMPLETION_THRESHOLD = 0.75;
   const animationProgress = Math.min(1, Math.max(0, sectionScrollProgress / ANIMATION_COMPLETION_THRESHOLD));
@@ -101,16 +83,31 @@ const CompanyIntro = () => {
   const maxFormationDistance = isMobile ? 32 : 75;
   const formationY = prefersReducedMotion ? 0 : animationProgress * maxFormationDistance;
 
-  // 3. Transformation Timing:
-  //    82%–90% of animationProgress: exact authentic brick reveals/fades in
-  //    90%+: finished brick fully visible, solid, and stable
+  // 3. Smooth Thermal / Firing Transformation & Dual-Brick Materialization:
+  // Smoothstep interpolation helper
+  const smoothstep = (min, max, val) => {
+    const t = Math.min(1, Math.max(0, (val - min) / (max - min)));
+    return t * t * (3 - 2 * t);
+  };
+
+  // Organic fade-in of finished brick pair starting smoothly during thermal curing (74% to 89%)
   const brickOpacity = prefersReducedMotion 
     ? 1 
-    : Math.min(1, Math.max(0, (animationProgress - 0.82) / 0.08));
+    : smoothstep(0.74, 0.89, animationProgress);
 
+  // Subtle settling scale (0.975 -> 1.0) without sudden jumps
   const brickScale = prefersReducedMotion 
     ? 1 
-    : 0.95 + Math.min(1, Math.max(0, (animationProgress - 0.82) / 0.08)) * 0.05;
+    : 0.975 + smoothstep(0.74, 0.89, animationProgress) * 0.025;
+
+  // Gentle separation factor into complementary interlocking pair
+  const separationProgress = prefersReducedMotion
+    ? 1
+    : smoothstep(0.75, 0.89, animationProgress);
+
+  const separationPx = isMobile ? 6 : 10;
+  const grooveTranslateX = -separationPx * separationProgress;
+  const lockTranslateX = separationPx * separationProgress;
 
   return (
     <section 
@@ -203,7 +200,7 @@ const CompanyIntro = () => {
                 <div 
                   ref={desktopBrickRef} 
                   className="manufacturing-brick-stage"
-                  aria-label="Classic Mun Bricks finished high-density brick"
+                  aria-label="Classic Mun Bricks finished complementary interlocking brick variants: Groove and Lock"
                 >
                   <div 
                     className="manufacturing-brick-wrapper"
@@ -211,24 +208,59 @@ const CompanyIntro = () => {
                       transform: `translate3d(0, ${formationY.toFixed(1)}px, 0) scale(${brickScale})`,
                     }}
                   >
-                    <img
-                      src={brickGroove}
-                      alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
-                      className="manufacturing-brick-img"
-                      style={{
-                        opacity: brickOpacity,
-                      }}
-                      loading="eager"
-                    />
+                    <div className="manufacturing-brick-pair">
+                      {/* 1. Groove / Recessed Variant (Left) */}
+                      <div 
+                        className="manufacturing-brick-unit unit-groove"
+                        style={{
+                          transform: `translate3d(${grooveTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
+                          opacity: brickOpacity,
+                        }}
+                      >
+                        <img
+                          src={brickGroove}
+                          alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
+                          className="manufacturing-brick-img"
+                          loading="eager"
+                        />
+                        <div 
+                          className="manufacturing-brick-shadow"
+                          style={{ opacity: brickOpacity * 0.85 }}
+                          aria-hidden="true"
+                        />
+                      </div>
 
-                    {/* Subtle Ground Contact Shadow */}
+                      {/* 2. Lock / Protruding Variant (Right) */}
+                      <div 
+                        className="manufacturing-brick-unit unit-lock"
+                        style={{
+                          transform: `translate3d(${lockTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
+                          opacity: brickOpacity,
+                        }}
+                      >
+                        <img
+                          src={brickLock}
+                          alt="Classic Mun Bricks authentic high-density clay brick with interlocking lock profile"
+                          className="manufacturing-brick-img"
+                          loading="eager"
+                        />
+                        <div 
+                          className="manufacturing-brick-shadow"
+                          style={{ opacity: brickOpacity * 0.85 }}
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Subtle Interlocking System Indicator */}
                     <div 
-                      className="manufacturing-brick-shadow"
-                      style={{
-                        opacity: brickOpacity * 0.85,
-                      }}
+                      className="manufacturing-interlock-caption"
+                      style={{ opacity: brickOpacity }}
                       aria-hidden="true"
-                    />
+                    >
+                      <span className="badge-dot"></span>
+                      <span>Interlocking System • Groove & Lock</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,7 +291,7 @@ const CompanyIntro = () => {
             <div 
               ref={mobileBrickRef} 
               className="manufacturing-brick-stage"
-              aria-label="Classic Mun Bricks finished high-density brick"
+              aria-label="Classic Mun Bricks finished complementary interlocking brick variants: Groove and Lock"
             >
               <div 
                 className="manufacturing-brick-wrapper"
@@ -267,24 +299,59 @@ const CompanyIntro = () => {
                   transform: `translate3d(0, ${formationY.toFixed(1)}px, 0) scale(${brickScale})`,
                 }}
               >
-                <img
-                  src={brickGroove}
-                  alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
-                  className="manufacturing-brick-img"
-                  style={{
-                    opacity: brickOpacity,
-                  }}
-                  loading="eager"
-                />
+                <div className="manufacturing-brick-pair">
+                  {/* 1. Groove / Recessed Variant (Left) */}
+                  <div 
+                    className="manufacturing-brick-unit unit-groove"
+                    style={{
+                      transform: `translate3d(${grooveTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
+                      opacity: brickOpacity,
+                    }}
+                  >
+                    <img
+                      src={brickGroove}
+                      alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
+                      className="manufacturing-brick-img"
+                      loading="eager"
+                    />
+                    <div 
+                      className="manufacturing-brick-shadow"
+                      style={{ opacity: brickOpacity * 0.85 }}
+                      aria-hidden="true"
+                    />
+                  </div>
 
-                {/* Subtle Ground Contact Shadow */}
+                  {/* 2. Lock / Protruding Variant (Right) */}
+                  <div 
+                    className="manufacturing-brick-unit unit-lock"
+                    style={{
+                      transform: `translate3d(${lockTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
+                      opacity: brickOpacity,
+                    }}
+                  >
+                    <img
+                      src={brickLock}
+                      alt="Classic Mun Bricks authentic high-density clay brick with interlocking lock profile"
+                      className="manufacturing-brick-img"
+                      loading="eager"
+                    />
+                    <div 
+                      className="manufacturing-brick-shadow"
+                      style={{ opacity: brickOpacity * 0.85 }}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+
+                {/* Subtle Interlocking System Indicator */}
                 <div 
-                  className="manufacturing-brick-shadow"
-                  style={{
-                    opacity: brickOpacity * 0.85,
-                  }}
+                  className="manufacturing-interlock-caption"
+                  style={{ opacity: brickOpacity }}
                   aria-hidden="true"
-                />
+                >
+                  <span className="badge-dot"></span>
+                  <span>Interlocking System • Groove & Lock</span>
+                </div>
               </div>
             </div>
           </div>

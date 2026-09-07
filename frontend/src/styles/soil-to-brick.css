@@ -73,18 +73,19 @@
 .manufacturing-brick-stage {
   position: relative;
   width: 100%;
-  max-width: 360px;
+  max-width: 420px;
   min-height: 320px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  perspective: 900px;
+  perspective: 1000px;
 }
 
 @media (max-width: 575.98px) {
   .manufacturing-brick-stage {
     min-height: 250px;
-    max-width: 280px;
+    max-width: 320px;
   }
 }
 
@@ -99,31 +100,59 @@
   will-change: transform;
 }
 
-/* Authentic Client Brick Image - Constant preserved size */
+/* Complementary Pair Container */
+.manufacturing-brick-pair {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2.5vw, 18px);
+  will-change: transform;
+}
+
+/* Individual Brick Unit */
+.manufacturing-brick-unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+
+.manufacturing-brick-unit.unit-groove {
+  z-index: 2;
+}
+
+.manufacturing-brick-unit.unit-lock {
+  z-index: 3;
+}
+
+/* Authentic Client Brick Image - Balanced proportions for complementary pair */
 .manufacturing-brick-img {
   display: block;
   width: auto;
-  height: 250px;
-  max-width: 90%;
+  height: 215px;
+  max-width: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 16px 32px rgba(143, 51, 24, 0.26)) drop-shadow(0 4px 12px rgba(26, 29, 32, 0.14));
+  filter: drop-shadow(0 14px 28px rgba(143, 51, 24, 0.24)) drop-shadow(0 4px 10px rgba(26, 29, 32, 0.12));
   transition: opacity 0.25s ease;
   will-change: transform, opacity;
 }
 
 @media (max-width: 575.98px) {
   .manufacturing-brick-img {
-    height: 195px;
+    height: 160px;
   }
 }
 
-/* Natural Ground Ambient Contact Shadow */
+/* Natural Ground Ambient Contact Shadow per brick unit */
 .manufacturing-brick-shadow {
   position: absolute;
-  bottom: -14px;
-  width: 165px;
-  height: 22px;
-  background: radial-gradient(ellipse at center, rgba(143, 51, 24, 0.34) 0%, rgba(26, 29, 32, 0.16) 45%, transparent 75%);
+  bottom: -12px;
+  width: 105px;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(143, 51, 24, 0.32) 0%, rgba(26, 29, 32, 0.14) 45%, transparent 75%);
   border-radius: 50%;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -132,9 +161,35 @@
 
 @media (max-width: 575.98px) {
   .manufacturing-brick-shadow {
-    width: 130px;
-    bottom: -10px;
+    width: 82px;
+    bottom: -9px;
+    height: 14px;
   }
+}
+
+/* Subtle Interlocking System Caption */
+.manufacturing-interlock-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.15rem;
+  padding: 0.3rem 0.85rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(184, 74, 40, 0.18);
+  border-radius: 20px;
+  font-size: clamp(0.72rem, 1.8vw, 0.78rem);
+  font-weight: 600;
+  color: var(--cmb-slate);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: opacity 0.3s ease;
+}
+
+.manufacturing-interlock-caption .badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--cmb-terracotta);
+  display: inline-block;
 }
 
 /* =========================================================================

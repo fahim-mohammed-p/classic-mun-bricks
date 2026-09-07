@@ -1,7 +1,7 @@
 // Authentic factory media assets for Classic Mun Bricks
 import vid01 from '../assets/visit-us/05-further-processing.mp4';
 import vid02 from '../assets/visit-us/02-material-refining.mov';
-import vid03 from '../assets/visit-us/3rd clip classic.mp4';
+import vid03 from '../assets/visit-us/3rd step classic.mp4';
 import img04 from '../assets/visit-us/01-material-processing.jpg';
 import vid04 from '../assets/visit-us/01-material-processing.mov';
 import vid05 from '../assets/visit-us/04-mixing-conditioning.mov';
@@ -41,14 +41,14 @@ export const FACTORY_PROCESSES = [
     id: 3,
     stepNumber: 3,
     formattedNumber: '03',
-    stageLabel: 'Stage 03 • Manufacturing Process',
-    title: 'Process Stage 03',
+    stageLabel: 'Stage 03 • Material Processing',
+    title: 'Clay Crushing & Fine Processing',
     shortDescription:
-      'A closer look at the next stage of our brick manufacturing process.',
+      'The prepared soil is broken down into a finer, more uniform material before moving to the next stage.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
     video: vid03,
-    altText: 'Manufacturing process stage 03 at Classic Mun Bricks',
-    badgeText: 'Stage 03 Footage',
+    altText: 'Clay crushing and fine processing at Classic Mun Bricks',
+    badgeText: 'Clay Crushing',
     layout: 'text-left',
   },
   {
