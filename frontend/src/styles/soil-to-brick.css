@@ -54,7 +54,7 @@
 .manufacturing-sticky-column {
   position: -webkit-sticky;
   position: sticky;
-  top: 120px;
+  top: clamp(160px, 19vh, 200px);
   z-index: 5;
   display: flex;
   align-items: center;

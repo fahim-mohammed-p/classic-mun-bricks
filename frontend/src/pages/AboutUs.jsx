@@ -1,67 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CONTACT_CONFIG } from '../config/contact';
+import CountUp from '../components/CountUp';
 import '../styles/about-us.css';
-
-/**
- * AnimatedCounter Component
- * Triggers a smooth count-up animation when entering the viewport once.
- * Respects prefers-reduced-motion.
- */
-const AnimatedCounter = ({ targetNumber, suffix = '+' }) => {
-  const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const counterRef = useRef(null);
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      setCount(targetNumber);
-      setHasAnimated(true);
-      return;
-    }
-
-    const node = counterRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          let start = 0;
-          const duration = 1400; // ms
-          const stepTime = 25;
-          const steps = duration / stepTime;
-          const increment = targetNumber / steps;
-
-          const timer = setInterval(() => {
-            start += increment;
-            if (start >= targetNumber) {
-              setCount(targetNumber);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(start));
-            }
-          }, stepTime);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(node);
-
-    return () => {
-      if (node) observer.unobserve(node);
-    };
-  }, [targetNumber, hasAnimated]);
-
-  return (
-    <span ref={counterRef}>
-      {typeof targetNumber === 'number' ? count.toLocaleString() : targetNumber}{suffix}
-    </span>
-  );
-};
 
 const AboutUs = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -115,7 +56,7 @@ const AboutUs = () => {
         <div className="container position-relative z-1">
           <div className="mx-auto" style={{ maxWidth: '640px' }}>
             <h1 className="about-hero-title mb-2">
-              {profile.years_experience} Years of Experience.<br className="d-none d-sm-inline" />
+              <CountUp value={profile.years_experience} /> Years of Experience.<br className="d-none d-sm-inline" />
               <span className="text-terracotta"> Built Through Real Projects.</span>
             </h1>
             <p className="lead text-light opacity-90 mb-0" style={{ fontSize: '1rem' }}>
@@ -156,12 +97,14 @@ const AboutUs = () => {
           <div className="mx-auto text-center" style={{ maxWidth: '840px' }}>
             {/* Header Badge */}
             <div className="about-eyebrow text-uppercase mb-3">
-              {profile.years_experience} YEARS OF MANUFACTURING EXPERIENCE
+              <CountUp value={profile.years_experience} /> YEARS OF MANUFACTURING EXPERIENCE
             </div>
 
             {/* Overarching Primary Footprint Stat (No Bordered Card Box) */}
             <div className="hero-stat-display stagger-item">
-              <div className="hero-stat-number">{profile.total_projects}</div>
+              <div className="hero-stat-number">
+                <CountUp value={profile.total_projects} />
+              </div>
               <div className="hero-stat-label">PROJECTS COMPLETED ACROSS KERALA & TAMIL NADU</div>
             </div>
 
@@ -170,12 +113,16 @@ const AboutUs = () => {
             {/* Regional Stats Breakdown (Typography Driven) */}
             <div className="row g-4 pt-2">
               <div className="col-6 stagger-item">
-                <div className="sub-stat-number tn-accent">{profile.tamil_nadu_projects}</div>
+                <div className="sub-stat-number tn-accent">
+                  <CountUp value={profile.tamil_nadu_projects} />
+                </div>
                 <div className="sub-stat-label">TAMIL NADU PROJECTS</div>
               </div>
 
               <div className="col-6 stagger-item">
-                <div className="sub-stat-number">{profile.kerala_projects}</div>
+                <div className="sub-stat-number">
+                  <CountUp value={profile.kerala_projects} />
+                </div>
                 <div className="sub-stat-label">KERALA PROJECTS</div>
               </div>
             </div>

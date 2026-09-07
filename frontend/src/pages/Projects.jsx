@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { COVERAGE_METRICS } from '../data/projectsCoverage';
 import { CONTACT_CONFIG } from '../config/contact';
+import CountUp from '../components/CountUp';
 import brickLock from '../assets/brick-lock.webp';
 import brickGroove from '../assets/brick-groove.webp';
 import '../styles/projects.css';
@@ -89,7 +90,7 @@ const Projects = () => {
             <div className="projects-stats-strip">
               <div className="stat-primary-group">
                 <span className="stat-num-compact text-accent">
-                  {COVERAGE_METRICS.totalProjects}
+                  <CountUp value={COVERAGE_METRICS.totalProjects} />
                 </span>
                 <span className="stat-label-compact">
                   {COVERAGE_METRICS.totalLabel}
@@ -100,14 +101,18 @@ const Projects = () => {
 
               <div className="stat-sub-group">
                 <div className="stat-item-compact">
-                  <span className="stat-num-compact">1.5K+</span>
+                  <span className="stat-num-compact">
+                    <CountUp value="1.5K+" />
+                  </span>
                   <span className="stat-label-compact">Kerala</span>
                 </div>
 
                 <div className="stat-divider-sub" aria-hidden="true"></div>
 
                 <div className="stat-item-compact">
-                  <span className="stat-num-compact">1K+</span>
+                  <span className="stat-num-compact">
+                    <CountUp value="1K+" />
+                  </span>
                   <span className="stat-label-compact">Tamil Nadu</span>
                 </div>
               </div>
@@ -437,30 +442,6 @@ const Projects = () => {
 
             {/* RIGHT / BOTTOM: Region Detail & Mobile Flow */}
             <div className="col-lg-5">
-              {/* Mobile Quick State Tabs (Visible on screens < 992px) */}
-              <div className="mobile-state-tabs d-lg-none mb-3" role="tablist">
-                <button
-                  type="button"
-                  className={`mobile-state-tab-btn ${selectedRegionId === 'kerala' ? 'is-active' : ''}`}
-                  onClick={() => handleSelectRegion('kerala')}
-                >
-                  <div className="d-flex align-items-center justify-content-between w-100">
-                    <span className="tab-state-name">Kerala</span>
-                    <span className="tab-state-count">1.5K+ Projects</span>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  className={`mobile-state-tab-btn ${selectedRegionId === 'tamil-nadu' ? 'is-active' : ''}`}
-                  onClick={() => handleSelectRegion('tamil-nadu')}
-                >
-                  <div className="d-flex align-items-center justify-content-between w-100">
-                    <span className="tab-state-name">Tamil Nadu</span>
-                    <span className="tab-state-count">1K+ Projects</span>
-                  </div>
-                </button>
-              </div>
-
               {/* Dynamic Region Information Card */}
               <div className="region-card-panel">
                 <div>
@@ -499,22 +480,20 @@ const Projects = () => {
                       ))}
                     </ul>
                   ) : (
-                    <div className="d-flex gap-2 mb-4 flex-wrap">
-                      <button
-                        type="button"
-                        className="btn btn-outline-dark btn-sm flex-fill py-2"
-                        onClick={() => handleSelectRegion('kerala')}
-                      >
-                        <i className="bi bi-geo-alt-fill text-terracotta me-1"></i> Kerala (1.5K+)
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-dark btn-sm flex-fill py-2"
-                        onClick={() => handleSelectRegion('tamil-nadu')}
-                      >
-                        <i className="bi bi-geo-alt-fill text-terracotta me-1"></i> Tamil Nadu (1K+)
-                      </button>
-                    </div>
+                    <ul className="panel-highlights-list">
+                      <li className="panel-highlight-item">
+                        <i className="bi bi-check-circle-fill"></i>
+                        <span>High-density structural red clay bricks</span>
+                      </li>
+                      <li className="panel-highlight-item">
+                        <i className="bi bi-check-circle-fill"></i>
+                        <span>Direct site supply across Kerala and Tamil Nadu</span>
+                      </li>
+                      <li className="panel-highlight-item">
+                        <i className="bi bi-check-circle-fill"></i>
+                        <span>Consistent form shaped through hydraulic pressing</span>
+                      </li>
+                    </ul>
                   )}
                 </div>
 

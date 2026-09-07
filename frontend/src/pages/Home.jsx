@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import CompanyIntro from '../components/CompanyIntro';
 import WhyChooseUs from '../components/WhyChooseUs';
 import FactoryPreview from '../components/FactoryPreview';
-import ProjectsPreview from '../components/ProjectsPreview';
 import FinalCTA from '../components/FinalCTA';
 
 const Home = () => {
@@ -13,7 +12,6 @@ const Home = () => {
       <CompanyIntro />
       <WhyChooseUs />
       <FactoryPreview />
-      <ProjectsPreview />
       <FinalCTA />
     </main>
   );

@@ -71,16 +71,17 @@ const CompanyIntro = () => {
   // =========================================================================
   // SCROLL PROGRESS MAPPING & TIMELINE SPECIFICATION
   // =========================================================================
-  // 1. Map section scroll progress to complete early at 75% of section distance
-  //    (Section 0.0 -> 0.75 maps to Animation 0.0 -> 1.0; 0.75 -> 1.0 holds finished brick)
-  const ANIMATION_COMPLETION_THRESHOLD = 0.75;
+  // 1. Map section scroll progress to animation progress
+  //    Desktop: completes earlier (0.58) so bricks are fully formed well before section bottom
+  //    Mobile: preserved at approved 0.75 threshold
+  const ANIMATION_COMPLETION_THRESHOLD = isMobile ? 0.75 : 0.58;
   const animationProgress = Math.min(1, Math.max(0, sectionScrollProgress / ANIMATION_COMPLETION_THRESHOLD));
 
   // 2. Vertical Formation Movement (formationY):
   //    Moves visual progressively lower inside the white section with scroll.
-  //    Desktop: up to 75px controlled travel (settles beside lower feature cards)
+  //    Desktop: up to 85px controlled travel (settles beside lower feature cards)
   //    Mobile: up to 32px controlled travel
-  const maxFormationDistance = isMobile ? 32 : 75;
+  const maxFormationDistance = isMobile ? 32 : 85;
   const formationY = prefersReducedMotion ? 0 : animationProgress * maxFormationDistance;
 
   // 3. Materialization & Dual-Brick Shaping:
@@ -90,20 +91,22 @@ const CompanyIntro = () => {
     return t * t * (3 - 2 * t);
   };
 
-  // Organic fade-in of finished brick pair (74% to 89%)
+  // Organic fade-in of finished brick pair:
+  // Desktop: completes earlier (0.52 to 0.72) so bricks stay visible comfortably
+  // Mobile: preserved exactly at approved (0.74 to 0.89)
   const brickOpacity = prefersReducedMotion 
     ? 1 
-    : smoothstep(0.74, 0.89, animationProgress);
+    : smoothstep(isMobile ? 0.74 : 0.52, isMobile ? 0.89 : 0.72, animationProgress);
 
   // Subtle settling scale (0.975 -> 1.0) without sudden jumps
   const brickScale = prefersReducedMotion 
     ? 1 
-    : 0.975 + smoothstep(0.74, 0.89, animationProgress) * 0.025;
+    : 0.975 + smoothstep(isMobile ? 0.74 : 0.52, isMobile ? 0.89 : 0.72, animationProgress) * 0.025;
 
   // Gentle separation factor into complementary interlocking pair
   const separationProgress = prefersReducedMotion
     ? 1
-    : smoothstep(0.75, 0.89, animationProgress);
+    : smoothstep(isMobile ? 0.75 : 0.54, isMobile ? 0.89 : 0.72, animationProgress);
 
   const separationPx = isMobile ? 6 : 10;
   const grooveTranslateX = -separationPx * separationProgress;

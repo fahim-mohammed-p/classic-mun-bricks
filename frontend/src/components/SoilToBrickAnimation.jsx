@@ -259,9 +259,9 @@ const SoilToBrickAnimation = ({
 
       ctx.clearRect(0, 0, width, height);
 
-      // Early completion: If animation reached finished brick state (>= 90%),
+      // Early completion: If animation reached finished brick state,
       // leave canvas completely clear. The authentic client brick is 100% visible and stable.
-      if (p >= 0.90) return;
+      if (p >= (isMobile ? 0.90 : 0.78)) return;
 
       time += 0.018;
 
@@ -270,9 +270,9 @@ const SoilToBrickAnimation = ({
       // 0%–15%: soil appears across the white section with ambient drift
       // 15%–35%: soil moves downward and inward
       // 35%–55%: particles gather strongly
-      // 50%–72%: material preparation & rough clay mass forms
+      // 50%–72%: material preparation & converging soil aggregates
       // 70%–88%: hydraulic pressing & shaping phase (smooth compaction)
-      // 84%–90%: dual finished bricks reveal, clay mass and particles dissolve seamlessly
+      // 84%–90%: dual finished bricks reveal, particles dissolve seamlessly
       // 90%+: finished brick pair fully visible and stable (section hold state)
       // =====================================================================
       // Helper smoothstep function for organic, continuous transitions
@@ -284,53 +284,10 @@ const SoilToBrickAnimation = ({
       const easedGather = smoothstep(0.12, 0.35, p);
       const easedConverge = smoothstep(0.32, 0.55, p);
       const easedCompress = smoothstep(0.50, 0.74, p);
-      const easedShaping = smoothstep(0.66, 0.86, p);
-      const particleAlphaMultiplier = 1 - smoothstep(0.74, 0.89, p);
+      const particleAlphaMultiplier = 1 - smoothstep(isMobile ? 0.74 : 0.54, isMobile ? 0.89 : 0.75, p);
 
       // Target brick geometry
       const { cx, cy, bw, bh } = getBrickTarget(width, height);
-
-      // Render forming rough clay mass between 50% and 89% of animation progress
-      if (p >= 0.50 && p < 0.89) {
-        const massIntro = smoothstep(0.50, 0.68, p);
-        const massOutro = 1 - smoothstep(0.74, 0.88, p);
-        const massAlpha = massIntro * massOutro * 0.74;
-
-        if (massAlpha > 0.01) {
-          ctx.save();
-          // Clay mass centers on the moving formationY position
-          ctx.translate(cx, cy + fY);
-
-          // Subtle natural rotational perspective while forming
-          const rotDeg = (1 - easedCompress) * 0.018;
-          ctx.rotate(rotDeg);
-
-          const curW = bw * (1.12 - easedCompress * 0.12);
-          const curH = bh * (1.12 - easedCompress * 0.12);
-
-          // Hydraulic pressing color shift: stabilizes from raw mineral clay into terracotta brick
-          const r1 = Math.round(150 + easedShaping * 40); // 150 -> 190
-          const g1 = Math.round(55 + easedShaping * 25);  // 55 -> 80
-          const b1 = Math.round(20 + easedShaping * 18);  // 20 -> 38
-
-          const r2 = Math.round(120 + easedShaping * 30);
-          const g2 = Math.round(38 + easedShaping * 18);
-          const b2 = Math.round(15 + easedShaping * 12);
-
-          const grad = ctx.createLinearGradient(-curW / 2, -curH / 2, curW / 2, curH / 2);
-          grad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, ${massAlpha * 0.88})`);
-          grad.addColorStop(0.5, `rgba(${r2}, ${g2}, ${b2}, ${massAlpha * 0.95})`);
-          grad.addColorStop(1, `rgba(90, 26, 10, ${massAlpha * 0.90})`);
-
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          const cornerR = Math.max(6, 14 * (1 - easedCompress));
-          ctx.roundRect(-curW / 2, -curH / 2, curW, curH, cornerR);
-          ctx.fill();
-
-          ctx.restore();
-        }
-      }
 
       // Render Soil / Clay Particles across the whole section
       const particles = particlesRef.current;

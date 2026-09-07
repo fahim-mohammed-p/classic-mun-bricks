@@ -34,6 +34,42 @@ const ProcessMedia = ({
     }
   }, [activeVideoId, isCurrentActive]);
 
+  // Mobile / Tablet Auto-Play on Scroll (IntersectionObserver)
+  // Plays active video when ~55% in view; pauses when leaving; preserves desktop hover behavior
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isMobileOrTablet = window.innerWidth < 992;
+        if (!isMobileOrTablet) return;
+
+        if (entry.isIntersecting) {
+          if (!isPausedByUser) {
+            handleStartPlayback(false);
+          }
+        } else {
+          if (videoRef.current && !videoRef.current.paused) {
+            handleStopPlayback();
+          }
+        }
+      },
+      {
+        threshold: 0.55,
+      }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [stepNumber, isPausedByUser]);
+
   const handleStartPlayback = (intentional = false) => {
     if (setActiveVideoId) {
       setActiveVideoId(stepNumber);
