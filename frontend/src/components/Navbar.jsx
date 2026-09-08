@@ -111,6 +111,14 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink 
+            to="/blog" 
+            className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <i className="bi bi-journal-text mobile-nav-icon"></i>
+            <span className="mobile-nav-label">Blog</span>
+          </NavLink>
+
+          <NavLink 
             to="/about-us" 
             className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
           >

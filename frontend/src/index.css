@@ -458,6 +458,7 @@ h1, h2, h3, h4, .font-heading {
   align-items: center;
   justify-content: center;
   flex: 1;
+  min-width: 0;
   height: 100%;
   padding: 6px 0;
   color: rgba(255, 255, 255, 0.6);
@@ -480,7 +481,29 @@ h1, h2, h3, h4, .font-heading {
   font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 1.1;
+  white-space: nowrap;
   transition: color 0.2s ease;
+}
+
+@media (max-width: 430px) {
+  .mobile-nav-label {
+    font-size: 0.66rem;
+    letter-spacing: 0;
+  }
+
+  .mobile-nav-icon {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .mobile-nav-label {
+    font-size: 0.6rem;
+  }
+
+  .mobile-nav-icon {
+    font-size: 1.1rem;
+  }
 }
 
 .mobile-nav-item:hover,
@@ -501,6 +524,8 @@ h1, h2, h3, h4, .font-heading {
   content: '';
   position: absolute;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 24px;
   height: 3px;
   background-color: var(--cmb-terracotta);
