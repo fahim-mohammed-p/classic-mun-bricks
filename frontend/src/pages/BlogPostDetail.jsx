@@ -12,6 +12,7 @@ const BlogPostDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isNotFound, setIsNotFound] = useState(false);
+  const [heroImageError, setHeroImageError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -21,6 +22,7 @@ const BlogPostDetail = () => {
         setLoading(true);
         setError(null);
         setIsNotFound(false);
+        setHeroImageError(false);
 
         const response = await fetch(API_ENDPOINTS.BLOG_POST_DETAIL(slug), {
           headers: {
@@ -189,13 +191,14 @@ const BlogPostDetail = () => {
               )}
             </header>
 
-            {/* Optional Featured Image */}
-            {post.featured_image && (
+            {/* Optional Featured Image (hides gracefully if unavailable or fails to load) */}
+            {post.featured_image && !heroImageError && (
               <div className="blog-detail-featured-image-wrap">
                 <img
                   src={post.featured_image}
                   alt={post.title}
                   className="blog-detail-featured-image"
+                  onError={() => setHeroImageError(true)}
                 />
               </div>
             )}
@@ -219,7 +222,7 @@ const BlogPostDetail = () => {
             </div>
 
             {/* Back to Blog Action */}
-            <div className="py-2">
+            <div className="blog-detail-back-wrap">
               <Link to="/blog" className="btn btn-outline-dark px-4 py-2" style={{ borderRadius: 'var(--cmb-radius)' }}>
                 <i className="bi bi-arrow-left me-2" /> Back to All Articles
               </Link>

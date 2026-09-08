@@ -142,7 +142,7 @@ const CompanyIntro = () => {
                 Manufacturing Excellence
               </span>
               <h2 className="display-6 fw-bold mt-2 mb-3">
-                Strong Beyond Any Bricks
+                Built on Strength.<br />Made for Generations.
               </h2>
 
               <p className="text-muted mb-4 fs-6 leading-relaxed">
@@ -276,7 +276,7 @@ const CompanyIntro = () => {
               Manufacturing Excellence
             </span>
             <h2 className="display-6 fw-bold mt-2 mb-3 fs-3">
-              Strong Beyond Any Bricks
+              Built on Strength.<br />Made for Generations.
             </h2>
             <p className="text-muted mb-0">
               Precision interlocking bricks shaped from natural laterite soil, built for durability and ease of construction.

@@ -12,8 +12,8 @@ const Hero = () => {
           {/* Hero Content Column */}
           <div className="col-lg-8 col-xl-7">
             <h1 className="display-4 fw-bold text-white mb-3">
-              Built on Strength.<br />
-              <span className="text-terracotta">Made for Generations.</span>
+              Strong Beyond<br />
+              <span className="text-terracotta">Any Bricks</span>
             </h1>
 
             <p className="lead text-light opacity-90 mb-4" style={{ maxWidth: '560px', fontSize: '1.15rem' }}>

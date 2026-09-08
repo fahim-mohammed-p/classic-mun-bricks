@@ -4,6 +4,30 @@ import { API_ENDPOINTS } from '../config/api';
 import SEO from '../components/SEO';
 import '../styles/blog.css';
 
+const BlogCardImage = ({ src, alt }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (!src || hasError) {
+    return (
+      <div className="blog-card-fallback-image" aria-hidden="true">
+        <i className="bi bi-journal-text blog-card-fallback-icon" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="blog-card-image-wrap">
+      <img
+        src={src}
+        alt={alt}
+        className="blog-card-image"
+        loading="lazy"
+        onError={() => setHasError(true)}
+      />
+    </div>
+  );
+};
+
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +114,7 @@ const Blog = () => {
       {/* =================================================================
           02. MAIN CONTENT AREA (LOADING / ERROR / EMPTY / POSTS)
           ================================================================= */}
-      <div className="container py-5">
+      <div className="container blog-main-container">
         {loading && (
           <div className="blog-spinner-wrap" aria-live="polite">
             <div className="spinner-border blog-spinner" role="status">
@@ -131,51 +155,40 @@ const Blog = () => {
 
         {/* POSTS GRID: Shown when published posts exist */}
         {!loading && !error && posts.length > 0 && (
-          <div className="row g-4">
+          <div className="blog-posts-grid">
             {posts.map((post) => (
-              <div key={post.id || post.slug} className="col-lg-4 col-md-6 col-12">
-                <Link to={`/blog/${post.slug}`} className="blog-card">
-                  {post.featured_image ? (
-                    <div className="blog-card-image-wrap">
-                      <img
-                        src={post.featured_image}
-                        alt={post.title}
-                        className="blog-card-image"
-                        loading="lazy"
-                      />
-                    </div>
-                  ) : (
-                    <div className="blog-card-text-header" aria-hidden="true" />
+              <Link key={post.id || post.slug} to={`/blog/${post.slug}`} className="blog-card">
+                <BlogCardImage src={post.featured_image} alt={post.title} />
+
+                <div className="blog-card-body">
+                  <div className="blog-card-meta">
+                    {post.published_at && (
+                      <span className="blog-card-meta-item blog-card-meta-date">
+                        <i className="bi bi-calendar3" />
+                        {formatDate(post.published_at)}
+                      </span>
+                    )}
+                    <span className="blog-card-meta-item blog-card-meta-author ms-auto">
+                      <i className="bi bi-person" />
+                      {post.author_name || 'Classic Mun Bricks'}
+                    </span>
+                  </div>
+
+                  <h2 className="blog-card-title">{post.title}</h2>
+
+                  {post.excerpt && (
+                    <p className="blog-card-excerpt">{post.excerpt}</p>
                   )}
 
-                  <div className="blog-card-body">
-                    <div className="blog-card-meta">
-                      {post.published_at && (
-                        <span className="blog-card-meta-item">
-                          <i className="bi bi-calendar3" />
-                          {formatDate(post.published_at)}
-                        </span>
-                      )}
-                      <span className="blog-card-meta-item ms-auto">
-                        <i className="bi bi-person" />
-                        {post.author_name || 'Classic Mun Bricks'}
-                      </span>
-                    </div>
-
-                    <h2 className="blog-card-title">{post.title}</h2>
-
-                    {post.excerpt && (
-                      <p className="blog-card-excerpt">{post.excerpt}</p>
-                    )}
-
-                    <div className="blog-card-footer">
-                      <span className="blog-card-link">
-                        Read Article <i className="bi bi-arrow-right" />
-                      </span>
-                    </div>
+                  <div className="blog-card-footer">
+                    <span className="blog-card-link">
+                      <span className="blog-card-link-text">Read Article</span>
+                      <span className="blog-card-link-text-mobile">Read</span>
+                      <i className="bi bi-arrow-right" />
+                    </span>
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
         )}
