@@ -249,14 +249,43 @@ const CompanyIntro = () => {
                       </div>
                     </div>
 
-                    {/* Subtle Product Range Indicator */}
+                    {/* Official Product Dimensions */}
                     <div 
-                      className="manufacturing-interlock-caption"
+                      className="manufacturing-brick-specs"
                       style={{ opacity: brickOpacity }}
-                      aria-hidden="true"
                     >
-                      <span className="badge-dot"></span>
-                      <span>Classic Brick Range</span>
+                      {/* Mun Interlock Brick (Both 6-inch and 8-inch options) */}
+                      <div className="brick-spec-block spec-mun">
+                        <div className="brick-spec-header">
+                          <span className="brick-spec-title">MUN BRICK</span>
+                          <span className="brick-spec-subtitle">Available Sizes</span>
+                        </div>
+                        <div className="brick-spec-list">
+                          <div className="brick-spec-row">
+                            <span className="brick-chip">6-inch</span>
+                            <span className="brick-dim-val">12″ L × 6″ B × 5″ H</span>
+                          </div>
+                          <div className="brick-spec-row">
+                            <span className="brick-chip">8-inch</span>
+                            <span className="brick-dim-val">12″ L × 8″ B × 5″ H</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Fine Divider */}
+                      <div className="brick-spec-divider" aria-hidden="true" />
+
+                      {/* Plain Laterite Soil Brick */}
+                      <div className="brick-spec-block spec-plain">
+                        <div className="brick-spec-header">
+                          <span className="brick-spec-title">PLAIN BRICK</span>
+                        </div>
+                        <div className="brick-spec-list">
+                          <div className="brick-spec-row">
+                            <span className="brick-dim-val">12″ L × 4″ B × 8″ H</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -342,14 +371,43 @@ const CompanyIntro = () => {
                   </div>
                 </div>
 
-                {/* Subtle Product Range Indicator */}
+                {/* Official Product Dimensions */}
                 <div 
-                  className="manufacturing-interlock-caption"
+                  className="manufacturing-brick-specs"
                   style={{ opacity: brickOpacity }}
-                  aria-hidden="true"
                 >
-                  <span className="badge-dot"></span>
-                  <span>Classic Brick Range</span>
+                  {/* Mun Interlock Brick (Both 6-inch and 8-inch options) */}
+                  <div className="brick-spec-block spec-mun">
+                    <div className="brick-spec-header">
+                      <span className="brick-spec-title">MUN BRICK</span>
+                      <span className="brick-spec-subtitle">Available Sizes</span>
+                    </div>
+                    <div className="brick-spec-list">
+                      <div className="brick-spec-row">
+                        <span className="brick-chip">6-inch</span>
+                        <span className="brick-dim-val">12″ L × 6″ B × 5″ H</span>
+                      </div>
+                      <div className="brick-spec-row">
+                        <span className="brick-chip">8-inch</span>
+                        <span className="brick-dim-val">12″ L × 8″ B × 5″ H</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Fine Divider */}
+                  <div className="brick-spec-divider" aria-hidden="true" />
+
+                  {/* Plain Laterite Soil Brick */}
+                  <div className="brick-spec-block spec-plain">
+                    <div className="brick-spec-header">
+                      <span className="brick-spec-title">PLAIN BRICK</span>
+                    </div>
+                    <div className="brick-spec-list">
+                      <div className="brick-spec-row">
+                        <span className="brick-dim-val">12″ L × 4″ B × 8″ H</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

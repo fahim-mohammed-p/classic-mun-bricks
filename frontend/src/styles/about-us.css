@@ -138,6 +138,24 @@
   pointer-events: none;
 }
 
+/* Clean Plain Experience Typography (No pill, oval, capsule, border, or background) */
+.about-experience-text {
+  display: block;
+  color: #E28766;
+  font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 auto 1.25rem;
+  line-height: 1.55;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  max-width: 100%;
+}
+
 /* Clean Typography Stat Display (No Card Tiles) */
 .hero-stat-display {
   padding-bottom: 2rem;

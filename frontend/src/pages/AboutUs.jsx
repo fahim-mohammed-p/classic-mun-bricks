@@ -95,9 +95,9 @@ const AboutUs = () => {
         <div className="about-stats-ambient"></div>
         <div className="container position-relative z-1">
           <div className="mx-auto text-center" style={{ maxWidth: '840px' }}>
-            {/* Header Badge */}
-            <div className="about-eyebrow text-uppercase mb-3">
-              <CountUp value={profile.years_experience} /> YEARS OF LATERITE BRICK EXPERIENCE &bull; 10 YEARS IN MUN INTERLOCK BRICKS
+            {/* Clean Plain Experience Typography (No pill, oval, capsule, or border) */}
+            <div className="about-experience-text text-uppercase mb-3">
+              20 YEARS OF LATERITE BRICK EXPERIENCE • 10 YEARS IN MUN INTERLOCK BRICKS
             </div>
 
             {/* Overarching Primary Footprint Stat (No Bordered Card Box) */}
