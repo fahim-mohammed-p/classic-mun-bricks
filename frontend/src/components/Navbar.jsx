@@ -52,6 +52,14 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <NavLink 
+                  to="/blog" 
+                  className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                >
+                  <i className="bi bi-journal-text me-1 opacity-75"></i> Blog
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink 
                   to="/contact" 
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >

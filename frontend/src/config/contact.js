@@ -3,8 +3,11 @@
  * Single source of truth for verified contact data, phone numbers, email, location, and social links.
  */
 export const CONTACT_CONFIG = {
-  companyName: "Classic M Brick",
+  companyName: "Classic Interlock Bricks",
   companyEmail: "Classicmbrick@gmail.com",
+  
+  // Official GST Identification Number
+  companyGst: "32AAUFC6900H1ZG",
   
   // Primary Phone Number
   companyPhonePrimary: "623 544 2000",
@@ -32,13 +35,20 @@ export const CONTACT_CONFIG = {
   
   // Physical Factory & Headquarters Address
   companyAddress: {
-    name: "Classic M Brick",
-    landmark: "near Alhuda English Medium School",
-    po: "PO Vattaparamba",
-    location: "Chappanangadi",
+    name: "Classic Interlock Bricks",
+    floor: "Ground Floor",
+    building: "11/279/AD1",
+    street: "Vattaparamba",
+    locality: "Kodur",
+    district: "Malappuram",
     state: "Kerala",
     pincode: "676503",
-    formatted: "Classic M Brick, near Alhuda English Medium School, PO Vattaparamba, Chappanangadi, Kerala 676503",
+    line1: "11/279/AD1, Vattaparamba",
+    line2: "Kodur, Malappuram - 676503",
+    landmark: "11/279/AD1, Vattaparamba",
+    po: "Kodur, Malappuram - 676503",
+    location: "Kodur",
+    formatted: "11/279/AD1, Vattaparamba, Kodur, Malappuram - 676503",
   },
 
   businessHours: "Monday – Saturday: 8:00 AM – 6:00 PM IST",

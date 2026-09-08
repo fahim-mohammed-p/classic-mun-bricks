@@ -19,7 +19,7 @@ export const COVERAGE_METRICS = {
       highlights: [
         'Residential Villas & Traditional Courtyard Architecture',
         'Commercial & Institutional Facades',
-        'Direct Site Supply from Chappanangadi Plant',
+        'Direct Site Supply from Kodur, Malappuram Plant',
       ],
       projects: [], // Real project stories will be connected here
     },

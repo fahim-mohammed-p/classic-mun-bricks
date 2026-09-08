@@ -81,7 +81,7 @@ const AboutUs = () => {
             {/* Desktop Right / Mobile Bottom: Short Factual Intro */}
             <div className="col-lg-8 text-center text-lg-start">
               <p className="editorial-intro-text mb-0">
-                Classic Mun Bricks has been serving construction projects across Kerala and Tamil Nadu for {profile.years_experience} years. Our experience comes from thousands of completed projects across both states.
+                Classic Mun Bricks brings {profile.years_experience} years of experience in laterite bricks and 10 years of specialized experience in Mun Interlock Bricks, serving construction projects across Kerala and Tamil Nadu.
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@ const AboutUs = () => {
           <div className="mx-auto text-center" style={{ maxWidth: '840px' }}>
             {/* Header Badge */}
             <div className="about-eyebrow text-uppercase mb-3">
-              <CountUp value={profile.years_experience} /> YEARS OF MANUFACTURING EXPERIENCE
+              <CountUp value={profile.years_experience} /> YEARS OF LATERITE BRICK EXPERIENCE &bull; 10 YEARS IN MUN INTERLOCK BRICKS
             </div>
 
             {/* Overarching Primary Footprint Stat (No Bordered Card Box) */}
@@ -174,9 +174,8 @@ const AboutUs = () => {
                   <div>
                     <h6 className="fw-bold mb-1">{CONTACT_CONFIG.companyAddress.name}</h6>
                     <div className="text-muted small">
-                      {CONTACT_CONFIG.companyAddress.landmark}<br />
-                      {CONTACT_CONFIG.companyAddress.po}<br />
-                      {CONTACT_CONFIG.companyAddress.location}, {CONTACT_CONFIG.companyAddress.state} {CONTACT_CONFIG.companyAddress.pincode}
+                      {CONTACT_CONFIG.companyAddress.line1}<br />
+                      {CONTACT_CONFIG.companyAddress.line2}
                     </div>
                   </div>
                 </div>

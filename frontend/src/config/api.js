@@ -6,4 +6,7 @@ export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localh
 export const API_ENDPOINTS = {
   CONTACT_ENQUIRIES: `${API_BASE_URL}/api/contact/enquiries/`,
   HEALTH_CHECK: `${API_BASE_URL}/api/health/`,
+  BLOG_POSTS: `${API_BASE_URL}/api/blog/posts/`,
+  BLOG_POST_DETAIL: (slug) => `${API_BASE_URL}/api/blog/posts/${slug}/`,
 };
+

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import SoilToBrickAnimation from './SoilToBrickAnimation';
 import brickLock from '../assets/brick-lock.webp';
-import brickGroove from '../assets/brick-groove.webp';
+import plainLateriteBrick from '../assets/plain-laterite-brick.png';
 import '../styles/soil-to-brick.css';
 
 /**
@@ -10,7 +10,7 @@ import '../styles/soil-to-brick.css';
  * Environmental "Soil → Brick" transformation story:
  * A full-section particle canvas lets raw soil and clay grains sweep across the
  * entire white section and converge into the authentic Classic Mun Bricks
- * complementary interlocking product pair (Groove + Lock) displayed at verified, balanced sizes.
+ * product range: interlocking brick and plain laterite soil brick.
  */
 const CompanyIntro = () => {
   const sectionRef = useRef(null);
@@ -109,8 +109,8 @@ const CompanyIntro = () => {
     : smoothstep(isMobile ? 0.75 : 0.54, isMobile ? 0.89 : 0.72, animationProgress);
 
   const separationPx = isMobile ? 6 : 10;
-  const grooveTranslateX = -separationPx * separationProgress;
-  const lockTranslateX = separationPx * separationProgress;
+  const leftTranslateX = -separationPx * separationProgress;
+  const rightTranslateX = separationPx * separationProgress;
 
   return (
     <section 
@@ -141,58 +141,50 @@ const CompanyIntro = () => {
               <span className="text-terracotta fw-bold small text-uppercase letter-spacing-1">
                 Manufacturing Excellence
               </span>
-              <h2 className="display-6 fw-bold mt-2 mb-4">
-                Mastering the Art of High-Density Brick Manufacturing
+              <h2 className="display-6 fw-bold mt-2 mb-3">
+                Strong Beyond Any Bricks
               </h2>
 
               <p className="text-muted mb-4 fs-6 leading-relaxed">
-                Classic Mun Bricks is a premier manufacturer specializing in high-grade red clay bricks, structural solid bricks, and facing masonry. Founded on principles of raw material purity and continuous technological upgrade, we supply essential building materials to leading architectural and construction firms.
+                Precision interlocking bricks shaped from natural laterite soil, built for durability and ease of construction.
               </p>
 
-              {/* Manufacturing Narrative Steps */}
-              <div className="row g-3 mb-4">
-                <div className="col-12">
-                  <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                    <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-layers-fill"></i>
-                    </div>
-                    <div>
-                      <h6 className="fw-bold mb-1">01. Pure Clay Sourcing</h6>
-                      <p className="small text-muted mb-0">Refined raw soil with zero synthetic binders, harvested from rich mineral deposits in Kerala.</p>
-                    </div>
+              {/* Three Client Facts */}
+              <div className="d-flex flex-column gap-3 mb-4">
+                {/* 01: Laterite Soil Bricks */}
+                <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+                  <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
+                    <i className="bi bi-layers-fill"></i>
+                  </div>
+                  <div>
+                    <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>01</div>
+                    <h6 className="fw-bold mb-1">Laterite Soil Bricks</h6>
+                    <p className="small text-muted mb-0">Compressed soil bricks made from laterite soil.</p>
                   </div>
                 </div>
 
-                <div className="col-12">
-                  <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                    <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-sliders"></i>
-                    </div>
-                    <div>
-                      <h6 className="fw-bold mb-1">02. Material Preparation</h6>
-                      <p className="small text-muted mb-0">Prepared clay is refined and conditioned before the shaping stage.</p>
-                    </div>
+                {/* 02: Deep-Sourced Laterite Soil */}
+                <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+                  <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
+                    <i className="bi bi-geo-alt-fill"></i>
+                  </div>
+                  <div>
+                    <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>02</div>
+                    <h6 className="fw-bold mb-1">Deep-Sourced Laterite Soil</h6>
+                    <p className="small text-muted mb-0">Laterite soil is sourced from approximately 10 feet below the earth's surface.</p>
                   </div>
                 </div>
 
-                <div className="col-12">
-                  <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                    <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-arrows-collapse"></i>
-                    </div>
-                    <div>
-                      <h6 className="fw-bold mb-1">03. Hydraulic Pressing</h6>
-                      <p className="small text-muted mb-0">The prepared clay is compressed and shaped using hydraulic pressing to form the brick profile.</p>
-                    </div>
+                {/* 03: Industry Experience */}
+                <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+                  <div className="icon-box flex-shrink-0 mb-0" style={{ width: '44px', height: '44px', fontSize: '1.2rem' }}>
+                    <i className="bi bi-award-fill"></i>
                   </div>
-                </div>
-              </div>
-
-              {/* Engineering Quote */}
-              <div className="p-3 rounded-3 bg-sand-muted border border-secondary border-opacity-10 d-flex align-items-center gap-3">
-                <i className="bi bi-quote fs-2 text-terracotta"></i>
-                <div className="small fw-semibold text-dark">
-                  "Our bricks are engineered to withstand extreme moisture, freeze-thaw cycles, and heavy structural load limits."
+                  <div>
+                    <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>03</div>
+                    <h6 className="fw-bold mb-1">Industry Experience</h6>
+                    <p className="small text-muted mb-0">10 years of experience in Mun Interlock Bricks and 20 years of experience in laterite bricks.</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -203,7 +195,7 @@ const CompanyIntro = () => {
                 <div 
                   ref={desktopBrickRef} 
                   className="manufacturing-brick-stage"
-                  aria-label="Classic Mun Bricks finished complementary interlocking brick variants: Groove and Lock"
+                  aria-label="Classic Mun Bricks finished product range: interlocking brick and plain laterite soil brick"
                 >
                   <div 
                     className="manufacturing-brick-wrapper"
@@ -212,17 +204,17 @@ const CompanyIntro = () => {
                     }}
                   >
                     <div className="manufacturing-brick-pair">
-                      {/* 1. Groove / Recessed Variant (Left) */}
+                      {/* 1. Existing Interlocking Brick (Left) */}
                       <div 
-                        className="manufacturing-brick-unit unit-groove"
+                        className="manufacturing-brick-unit unit-lock"
                         style={{
-                          transform: `translate3d(${grooveTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
+                          transform: `translate3d(${leftTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
                           opacity: brickOpacity,
                         }}
                       >
                         <img
-                          src={brickGroove}
-                          alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
+                          src={brickLock}
+                          alt="Classic Mun Bricks interlocking brick"
                           className="manufacturing-brick-img"
                           loading="eager"
                         />
@@ -233,20 +225,22 @@ const CompanyIntro = () => {
                         />
                       </div>
 
-                      {/* 2. Lock / Protruding Variant (Right) */}
+                      {/* 2. New Plain Laterite Brick (Right) */}
                       <div 
-                        className="manufacturing-brick-unit unit-lock"
+                        className="manufacturing-brick-unit unit-plain"
                         style={{
-                          transform: `translate3d(${lockTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
+                          transform: `translate3d(${rightTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
                           opacity: brickOpacity,
                         }}
                       >
-                        <img
-                          src={brickLock}
-                          alt="Classic Mun Bricks authentic high-density clay brick with interlocking lock profile"
-                          className="manufacturing-brick-img"
-                          loading="eager"
-                        />
+                        <div className="plain-brick-frame">
+                          <img
+                            src={plainLateriteBrick}
+                            alt="Classic Mun Bricks plain laterite soil brick"
+                            className="plain-brick-img"
+                            loading="eager"
+                          />
+                        </div>
                         <div 
                           className="manufacturing-brick-shadow"
                           style={{ opacity: brickOpacity * 0.85 }}
@@ -255,14 +249,14 @@ const CompanyIntro = () => {
                       </div>
                     </div>
 
-                    {/* Subtle Interlocking System Indicator */}
+                    {/* Subtle Product Range Indicator */}
                     <div 
                       className="manufacturing-interlock-caption"
                       style={{ opacity: brickOpacity }}
                       aria-hidden="true"
                     >
                       <span className="badge-dot"></span>
-                      <span>Interlocking System • Groove & Lock</span>
+                      <span>Classic Brick Range</span>
                     </div>
                   </div>
                 </div>
@@ -282,10 +276,10 @@ const CompanyIntro = () => {
               Manufacturing Excellence
             </span>
             <h2 className="display-6 fw-bold mt-2 mb-3 fs-3">
-              Mastering the Art of High-Density Brick Manufacturing
+              Strong Beyond Any Bricks
             </h2>
             <p className="text-muted mb-0">
-              Classic Mun Bricks is a premier manufacturer specializing in high-grade red clay bricks, structural solid bricks, and facing masonry. Founded on principles of raw material purity and continuous technological upgrade.
+              Precision interlocking bricks shaped from natural laterite soil, built for durability and ease of construction.
             </p>
           </div>
 
@@ -294,7 +288,7 @@ const CompanyIntro = () => {
             <div 
               ref={mobileBrickRef} 
               className="manufacturing-brick-stage"
-              aria-label="Classic Mun Bricks finished complementary interlocking brick variants: Groove and Lock"
+              aria-label="Classic Mun Bricks finished product range: interlocking brick and plain laterite soil brick"
             >
               <div 
                 className="manufacturing-brick-wrapper"
@@ -303,17 +297,17 @@ const CompanyIntro = () => {
                 }}
               >
                 <div className="manufacturing-brick-pair">
-                  {/* 1. Groove / Recessed Variant (Left) */}
+                  {/* 1. Existing Interlocking Brick (Left) */}
                   <div 
-                    className="manufacturing-brick-unit unit-groove"
+                    className="manufacturing-brick-unit unit-lock"
                     style={{
-                      transform: `translate3d(${grooveTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
+                      transform: `translate3d(${leftTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
                       opacity: brickOpacity,
                     }}
                   >
                     <img
-                      src={brickGroove}
-                      alt="Classic Mun Bricks authentic high-density clay brick with center groove profile"
+                      src={brickLock}
+                      alt="Classic Mun Bricks interlocking brick"
                       className="manufacturing-brick-img"
                       loading="eager"
                     />
@@ -324,20 +318,22 @@ const CompanyIntro = () => {
                     />
                   </div>
 
-                  {/* 2. Lock / Protruding Variant (Right) */}
+                  {/* 2. New Plain Laterite Brick (Right) */}
                   <div 
-                    className="manufacturing-brick-unit unit-lock"
+                    className="manufacturing-brick-unit unit-plain"
                     style={{
-                      transform: `translate3d(${lockTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
+                      transform: `translate3d(${rightTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
                       opacity: brickOpacity,
                     }}
                   >
-                    <img
-                      src={brickLock}
-                      alt="Classic Mun Bricks authentic high-density clay brick with interlocking lock profile"
-                      className="manufacturing-brick-img"
-                      loading="eager"
-                    />
+                    <div className="plain-brick-frame">
+                      <img
+                        src={plainLateriteBrick}
+                        alt="Classic Mun Bricks plain laterite soil brick"
+                        className="plain-brick-img"
+                        loading="eager"
+                      />
+                    </div>
                     <div 
                       className="manufacturing-brick-shadow"
                       style={{ opacity: brickOpacity * 0.85 }}
@@ -346,63 +342,55 @@ const CompanyIntro = () => {
                   </div>
                 </div>
 
-                {/* Subtle Interlocking System Indicator */}
+                {/* Subtle Product Range Indicator */}
                 <div 
                   className="manufacturing-interlock-caption"
                   style={{ opacity: brickOpacity }}
                   aria-hidden="true"
                 >
                   <span className="badge-dot"></span>
-                  <span>Interlocking System • Groove & Lock</span>
+                  <span>Classic Brick Range</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 3. Remaining section content */}
-          <div className="row g-3 mb-4">
-            <div className="col-12">
-              <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
-                  <i className="bi bi-layers-fill"></i>
-                </div>
-                <div>
-                  <h6 className="fw-bold mb-1 fs-6">Pure Clay Sourcing</h6>
-                  <p className="small text-muted mb-0">Refined raw soil with zero synthetic binders.</p>
-                </div>
+          {/* 3. The 3 factual points stacked cleanly */}
+          <div className="d-flex flex-column gap-3 mb-4">
+            {/* 01: Laterite Soil Bricks */}
+            <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+              <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
+                <i className="bi bi-layers-fill"></i>
+              </div>
+              <div>
+                <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>01</div>
+                <h6 className="fw-bold mb-1 fs-6">Laterite Soil Bricks</h6>
+                <p className="small text-muted mb-0">Compressed soil bricks made from laterite soil.</p>
               </div>
             </div>
 
-            <div className="col-12">
-              <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
-                  <i className="bi bi-sliders"></i>
-                </div>
-                <div>
-                  <h6 className="fw-bold mb-1 fs-6">Material Preparation</h6>
-                  <p className="small text-muted mb-0">Prepared clay is refined and conditioned before shaping.</p>
-                </div>
+            {/* 02: Deep-Sourced Laterite Soil */}
+            <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+              <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
+                <i className="bi bi-geo-alt-fill"></i>
+              </div>
+              <div>
+                <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>02</div>
+                <h6 className="fw-bold mb-1 fs-6">Deep-Sourced Laterite Soil</h6>
+                <p className="small text-muted mb-0">Laterite soil is sourced from approximately 10 feet below the earth's surface.</p>
               </div>
             </div>
 
-            <div className="col-12">
-              <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
-                <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
-                  <i className="bi bi-arrows-collapse"></i>
-                </div>
-                <div>
-                  <h6 className="fw-bold mb-1 fs-6">Hydraulic Pressing</h6>
-                  <p className="small text-muted mb-0">Clay is compressed and shaped using hydraulic pressing.</p>
-                </div>
+            {/* 03: Industry Experience */}
+            <div className="d-flex align-items-start gap-3 p-3 manufacturing-feature-card">
+              <div className="icon-box flex-shrink-0 mb-0" style={{ width: '42px', height: '42px', fontSize: '1.15rem' }}>
+                <i className="bi bi-award-fill"></i>
               </div>
-            </div>
-          </div>
-
-          {/* Engineer Quote */}
-          <div className="p-3 rounded-3 bg-sand-muted border border-secondary border-opacity-10 d-flex align-items-center gap-3">
-            <i className="bi bi-quote fs-2 text-terracotta"></i>
-            <div className="small fw-semibold text-dark">
-              "Our bricks are engineered to withstand extreme moisture, freeze-thaw cycles, and heavy structural load limits."
+              <div>
+                <div className="text-terracotta fw-bold small text-uppercase mb-1" style={{ letterSpacing: '0.05em' }}>03</div>
+                <h6 className="fw-bold mb-1 fs-6">Industry Experience</h6>
+                <p className="small text-muted mb-0">10 years of experience in Mun Interlock Bricks and 20 years of experience in laterite bricks.</p>
+              </div>
             </div>
           </div>
         </div>

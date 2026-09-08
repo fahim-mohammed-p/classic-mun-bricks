@@ -365,7 +365,7 @@ const Projects = () => {
                   {/* ====================================================
                       SUPPLY FLOW VECTORS & AMBIENT PROJECT DOTS
                       ==================================================== */}
-                  {/* Connecting Supply Lines from Chappanangadi Plant (175, 340) */}
+                  {/* Connecting Supply Lines from Kodur, Malappuram Plant (175, 340) */}
                   <g opacity="0.65" pointerEvents="none">
                     <path d="M 175 340 Q 160 260 145 170" className="supply-route-line" />
                     <path d="M 175 340 Q 200 480 240 560" className="supply-route-line" />
@@ -401,7 +401,7 @@ const Projects = () => {
                     <circle cx="350" cy="600" r="4.5" fill="#E58A67" className="project-node-dot node-pulse-alt" />
                   </g>
 
-                  {/* Manufacturing Plant Hub Marker (Chappanangadi, Malappuram) */}
+                  {/* Manufacturing Plant Hub Marker (Kodur, Malappuram) */}
                   <g transform="translate(175, 340)" className="plant-marker-icon" pointerEvents="none">
                     <circle cx="0" cy="0" r="10" fill="rgba(184, 74, 40, 0.25)" />
                     <circle cx="0" cy="0" r="6" fill="#B84A28" stroke="#FFFFFF" strokeWidth="1.5" />
@@ -411,9 +411,9 @@ const Projects = () => {
                   {/* Plant Label Badge */}
                   <g transform="translate(175, 360)" pointerEvents="none">
                     <rect
-                      x="-60"
+                      x="-68"
                       y="-10"
-                      width="120"
+                      width="136"
                       height="20"
                       rx="10"
                       fill="rgba(18, 20, 23, 0.85)"
@@ -429,7 +429,7 @@ const Projects = () => {
                       fontWeight="600"
                       letterSpacing="0.4px"
                     >
-                      Factory &bull; Chappanangadi
+                      Factory &bull; Kodur, Malappuram
                     </text>
                   </g>
                 </svg>

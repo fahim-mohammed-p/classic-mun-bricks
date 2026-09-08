@@ -128,6 +128,10 @@
   z-index: 3;
 }
 
+.manufacturing-brick-unit.unit-plain {
+  z-index: 3;
+}
+
 /* Authentic Client Brick Image - Balanced proportions for complementary pair */
 .manufacturing-brick-img {
   display: block;
@@ -146,6 +150,44 @@
   }
 }
 
+/* Plain Laterite Brick Frame (maintains upright portrait baseline & drop-shadow) */
+.plain-brick-frame {
+  position: relative;
+  width: 99px;
+  height: 215px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 14px 28px rgba(143, 51, 24, 0.24)) drop-shadow(0 4px 10px rgba(26, 29, 32, 0.12));
+}
+
+@media (max-width: 575.98px) {
+  .plain-brick-frame {
+    width: 74px;
+    height: 160px;
+  }
+}
+
+/* Rotated Plain Laterite Brick Image - Upright portrait orientation */
+.plain-brick-img {
+  display: block;
+  width: 215px;
+  height: 99px;
+  object-fit: contain;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  flex-shrink: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 575.98px) {
+  .plain-brick-img {
+    width: 160px;
+    height: 74px;
+  }
+}
+
 /* Natural Ground Ambient Contact Shadow per brick unit */
 .manufacturing-brick-shadow {
   position: absolute;
@@ -159,11 +201,19 @@
   z-index: 1;
 }
 
+.unit-plain .manufacturing-brick-shadow {
+  width: 95px;
+}
+
 @media (max-width: 575.98px) {
   .manufacturing-brick-shadow {
     width: 82px;
     bottom: -9px;
     height: 14px;
+  }
+
+  .unit-plain .manufacturing-brick-shadow {
+    width: 72px;
   }
 }
 
@@ -200,10 +250,14 @@
     display: none !important;
   }
 
-  .manufacturing-brick-img {
+  .manufacturing-brick-img,
+  .plain-brick-img {
     opacity: 1 !important;
-    transform: none !important;
     transition: none !important;
+  }
+
+  .manufacturing-brick-img {
+    transform: none !important;
   }
 
   .manufacturing-brick-shadow {

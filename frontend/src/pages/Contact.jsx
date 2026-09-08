@@ -297,7 +297,11 @@ const Contact = () => {
                   <div>
                     <div className="fw-bold small text-dark">{CONTACT_CONFIG.companyAddress.name}</div>
                     <div className="small text-muted">
-                      {CONTACT_CONFIG.companyAddress.formatted}
+                      {CONTACT_CONFIG.companyAddress.line1}<br />
+                      {CONTACT_CONFIG.companyAddress.line2}
+                    </div>
+                    <div className="small text-muted mt-1">
+                      <span className="fw-semibold text-dark">GSTIN:</span> {CONTACT_CONFIG.companyGst}
                     </div>
                   </div>
                 </div>

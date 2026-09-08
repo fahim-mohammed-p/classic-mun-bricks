@@ -11,6 +11,8 @@ import VisitUs from './pages/VisitUs';
 import Projects from './pages/Projects';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
+import Blog from './pages/Blog';
+import BlogPostDetail from './pages/BlogPostDetail';
 
 // Scroll to top helper on route change (instant scroll to avoid smooth-scroll animation locks)
 const ScrollToTop = () => {
@@ -38,6 +40,8 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPostDetail />} />
         </Routes>
       </div>
       <Footer />

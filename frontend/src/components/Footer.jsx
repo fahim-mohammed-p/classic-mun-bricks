@@ -58,6 +58,7 @@ const Footer = () => {
               <li><Link to="/visit-us">Visit Us</Link></li>
               <li><Link to="/projects">Projects</Link></li>
               <li><Link to="/about-us">About Us</Link></li>
+              <li><Link to="/blog">Blog</Link></li>
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -69,7 +70,8 @@ const Footer = () => {
               <li><span className="text-light-50">2.5K+ Total Completed Projects</span></li>
               <li><span className="text-light-50">1K+ Tamil Nadu Projects</span></li>
               <li><span className="text-light-50">1.5K+ Kerala Projects</span></li>
-              <li><span className="text-light-50">20 Years Manufacturing Experience</span></li>
+              <li><span className="text-light-50">20 Years Laterite Brick Experience</span></li>
+              <li><span className="text-light-50">10 Years Mun Interlock Experience</span></li>
             </ul>
           </div>
 
@@ -90,11 +92,14 @@ const Footer = () => {
                 {CONTACT_CONFIG.companyPhoneSecondary}
               </a>
             </p>
-            <p className="small mb-0 text-light-50">
+            <p className="small mb-2 text-light-50">
               <i className="bi bi-envelope me-2 text-terracotta"></i>
               <a href={`mailto:${CONTACT_CONFIG.companyEmail}`} className="text-light-50 text-decoration-none">
                 {CONTACT_CONFIG.companyEmail}
               </a>
+            </p>
+            <p className="small mb-0 text-light-50">
+              <span className="opacity-75">GSTIN:</span> {CONTACT_CONFIG.companyGst}
             </p>
           </div>
         </div>
