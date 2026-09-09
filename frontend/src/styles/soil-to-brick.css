@@ -73,7 +73,7 @@
 .manufacturing-brick-stage {
   position: relative;
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   min-height: 320px;
   display: flex;
   flex-direction: column;
@@ -84,8 +84,8 @@
 
 @media (max-width: 575.98px) {
   .manufacturing-brick-stage {
-    min-height: 250px;
-    max-width: 320px;
+    min-height: auto;
+    max-width: 330px;
   }
 }
 
@@ -218,142 +218,366 @@
 }
 
 /* =========================================================================
-   AUTHENTIC PRODUCT DIMENSIONS DISPLAY
+   FLOATING PRODUCT DIMENSION DIAGRAM ARCHITECTURE (NO CARDS / BOXES)
    ========================================================================= */
-.manufacturing-brick-specs {
+
+/* Desktop Side-by-Side Floating Pair */
+.manufacturing-floating-pair {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 410px;
-  margin-top: 1.15rem;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(184, 74, 40, 0.14);
-  border-radius: var(--cmb-radius, 8px);
-  box-shadow: 0 4px 18px rgba(26, 29, 32, 0.05);
-  transition: opacity 0.3s ease;
-  box-sizing: border-box;
+  max-width: 500px;
 }
 
-.brick-spec-block {
+/* Mobile Vertical Stack */
+.manufacturing-floating-mobile-stack {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 290px;
+  margin: 0 auto;
 }
 
-.brick-spec-block.spec-mun {
-  flex: 1.25;
-}
-
-.brick-spec-block.spec-plain {
-  flex: 0.95;
-}
-
-.brick-spec-header {
+/* Floating Technical Brick Unit (Completely Transparent, No Card Box) */
+.floating-brick-unit {
+  position: relative;
   display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
-  margin-bottom: 0.35rem;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  box-sizing: border-box;
+  will-change: transform, opacity;
 }
 
-.brick-spec-title {
+.floating-brick-unit.unit-mun {
+  flex: 1.15;
+  min-width: 210px;
+  max-width: 250px;
+}
+
+.floating-brick-unit.unit-plain {
+  flex: 0.95;
+  min-width: 170px;
+  max-width: 200px;
+}
+
+.floating-brick-unit.unit-mobile {
+  flex: none;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Product Header: Clean Floating Label & Plain-Text Switcher */
+.floating-brick-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.15rem 0.35rem 0.15rem;
+  margin-bottom: 0.35rem;
+  background: transparent;
+  border: none;
+  gap: 0.4rem;
+}
+
+.floating-brick-title {
   font-family: var(--cmb-font-heading, inherit);
   font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.75px;
   color: var(--cmb-terracotta, #B84A28);
   text-transform: uppercase;
-}
-
-.brick-spec-subtitle {
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: var(--cmb-slate, #64748B);
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
-.brick-spec-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.brick-spec-row {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
   white-space: nowrap;
 }
 
-.brick-chip {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--cmb-charcoal, #1A1D20);
-  background: rgba(184, 74, 40, 0.08);
-  border: 1px solid rgba(184, 74, 40, 0.16);
-  padding: 0.08rem 0.38rem;
-  border-radius: 4px;
-  line-height: 1.2;
+/* Interactive Size Selector: Plain Text Options (No Pill/Chip Box/Bordered Button) */
+.floating-size-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-.brick-dim-val {
-  font-size: 0.73rem;
+.size-plain-text {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0.15rem 1px 0.15rem;
+  font-family: inherit;
+  font-size: 0.72rem;
   font-weight: 600;
+  color: var(--cmb-slate, #64748B);
+  cursor: pointer;
+  line-height: 1.2;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.size-plain-text:hover:not(.active) {
+  color: var(--cmb-charcoal, #1A1D20);
+}
+
+.size-plain-text.active {
+  color: var(--cmb-terracotta, #B84A28);
+  font-weight: 700;
+  border-bottom: 2px solid var(--cmb-terracotta, #B84A28);
+}
+
+.size-plain-dot {
+  color: rgba(26, 29, 32, 0.25);
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+.plain-static-text {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--cmb-slate, #64748B);
+  letter-spacing: 0.3px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* Floating Technical Diagram Stage */
+.floating-diagram-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-left: 36px; /* Left gutter reserves space for the floating Height callout */
+  padding-right: 6px;
+  box-sizing: border-box;
+}
+
+.floating-brick-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.15rem 0;
+}
+
+/* Brick image proportions */
+.floating-brick-unit .manufacturing-brick-img {
+  height: 160px;
+  width: auto;
+}
+
+.floating-brick-unit .plain-brick-frame {
+  height: 160px;
+  width: 74px;
+}
+
+.floating-brick-unit .plain-brick-img {
+  width: 160px;
+  height: 74px;
+}
+
+.floating-brick-unit.unit-mobile .manufacturing-brick-img {
+  height: 125px;
+}
+
+.floating-brick-unit.unit-mobile .plain-brick-frame {
+  height: 125px;
+  width: 58px;
+}
+
+.floating-brick-unit.unit-mobile .plain-brick-img {
+  width: 125px;
+  height: 58px;
+}
+
+/* Ambient ground contact shadows */
+.floating-brick-body .manufacturing-brick-shadow {
+  position: absolute;
+  bottom: -10px;
+  width: 88px;
+  height: 14px;
+  background: radial-gradient(ellipse at center, rgba(143, 51, 24, 0.3) 0%, rgba(26, 29, 32, 0.12) 45%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.unit-plain .floating-brick-body .manufacturing-brick-shadow {
+  width: 68px;
+}
+
+/* =========================================================================
+   FLOATING MEASUREMENT CALLOUT LINES & LABELS (NO BOX / CARD)
+   ========================================================================= */
+.floating-dim {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+/* Breadth Callout (Top) */
+.floating-dim.dim-breadth {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.dim-line-guide-h.breadth-line {
+  width: 70%;
+  max-width: 130px;
+}
+
+.dim-line-guide-h.breadth-line-plain {
+  width: 76%;
+  max-width: 90px;
+}
+
+/* Length Callout (Bottom) */
+.floating-dim.dim-length {
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.dim-line-guide-h.length-line {
+  width: 86%;
+  max-width: 170px;
+}
+
+.dim-line-guide-h.length-line-plain {
+  width: 82%;
+  max-width: 110px;
+}
+
+/* Horizontal Guide Line with Fine End Ticks */
+.dim-line-guide-h {
+  display: flex;
+  align-items: center;
+  height: 10px;
+  position: relative;
+}
+
+.dim-tick {
+  width: 1.5px;
+  height: 8px;
+  background: var(--cmb-terracotta, #B84A28);
+  flex-shrink: 0;
+}
+
+.dim-line-segment {
+  flex: 1;
+  height: 1px;
+  background: rgba(184, 74, 40, 0.42);
+}
+
+.dim-floating-label {
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  background: transparent;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Height Callout (Side - Left) */
+.floating-dim.dim-height {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 115px;
+  width: 30px;
+}
+
+.floating-dim.dim-height.plain-height-wrap {
+  height: 125px;
+}
+
+.dim-line-guide-v {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.dim-tick-v {
+  width: 8px;
+  height: 1.5px;
+  background: var(--cmb-terracotta, #B84A28);
+  flex-shrink: 0;
+}
+
+.dim-line-segment-v {
+  flex: 1;
+  width: 1px;
+  background: rgba(184, 74, 40, 0.42);
+}
+
+.dim-floating-label-v {
+  padding: 3px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  background: transparent;
+  line-height: 1.1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Dimension Label Typography (Terracotta / Charcoal Accents) */
+.dim-label-name {
+  font-family: var(--cmb-font-heading, inherit);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--cmb-terracotta, #B84A28);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.dim-label-val {
+  font-size: 0.74rem;
+  font-weight: 800;
   color: var(--cmb-charcoal, #1A1D20);
   letter-spacing: 0.2px;
 }
 
-.brick-spec-divider {
-  width: 1px;
-  align-self: stretch;
-  background: rgba(184, 74, 40, 0.16);
-  margin: 0 0.65rem;
-  flex-shrink: 0;
-}
-
-/* Mobile Responsiveness for Brick Dimensions (< 576px) */
+/* Responsive Overrides (< 576px) */
 @media (max-width: 575.98px) {
-  .manufacturing-brick-specs {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-    max-width: 295px;
-    padding: 0.65rem 0.85rem;
-    margin-top: 1rem;
+  .floating-diagram-stage {
+    padding-left: 30px;
   }
 
-  .brick-spec-block.spec-mun,
-  .brick-spec-block.spec-plain {
-    flex: none;
-    width: 100%;
+  .floating-dim.dim-height {
+    height: 90px;
+    left: 0;
   }
 
-  .brick-spec-divider {
-    width: 100%;
-    height: 1px;
-    align-self: auto;
-    margin: 0.15rem 0;
+  .floating-dim.dim-height.plain-height-wrap {
+    height: 100px;
   }
 
-  .brick-spec-header {
-    justify-content: space-between;
-    margin-bottom: 0.25rem;
+  .dim-label-name {
+    font-size: 0.58rem;
   }
 
-  .brick-spec-row {
-    gap: 0.35rem;
-  }
-
-  .brick-chip {
-    font-size: 0.63rem;
-    padding: 0.06rem 0.32rem;
-  }
-
-  .brick-dim-val {
-    font-size: 0.71rem;
+  .dim-label-val {
+    font-size: 0.7rem;
   }
 }
 
@@ -381,8 +605,9 @@
     transition: none !important;
   }
 
-  .manufacturing-brick-specs {
+  .floating-brick-unit {
     opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
   }
 }

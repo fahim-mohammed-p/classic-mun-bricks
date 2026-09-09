@@ -6,7 +6,7 @@
 export const COVERAGE_METRICS = {
   totalProjects: '2.5K+',
   totalLabel: 'Projects Completed',
-  scopeDescription: 'Supplying premium red clay and engineered wire cut bricks across Kerala and Tamil Nadu.',
+  scopeDescription: 'Supplying premium laterite bricks and Mun Interlock Bricks across Kerala and Tamil Nadu.',
   regions: [
     {
       id: 'kerala',
@@ -30,11 +30,11 @@ export const COVERAGE_METRICS = {
       label: 'Projects Delivered',
       tagline: 'Border Districts & Interior Hubs',
       description:
-        'Engineered structural bricks and high-durability clay solutions for educational campuses, resorts, and premium construction.',
+        'Engineered laterite bricks and high-durability solutions for educational campuses, resorts, and premium construction.',
       highlights: [
         'Educational & Institutional Campuses',
         'Resorts, Farmhouses & Eco-stays',
-        'High-density Structural Clay Brick Supply',
+        'High-density Mun Interlock Brick Supply',
       ],
       projects: [], // Real project stories will be connected here
     },

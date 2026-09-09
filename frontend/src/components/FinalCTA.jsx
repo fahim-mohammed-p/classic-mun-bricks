@@ -13,7 +13,7 @@ const FinalCTA = () => {
             Building Something Strong?
           </h2>
           <p className="lead text-white opacity-90 mb-4">
-            Partner with Classic Mun Bricks for high-density structural clay supply, custom batch runs, and technical engineering support for your upcoming build.
+            Partner with Classic Mun Bricks for high-density laterite brick supply, custom batch runs, and technical engineering support for your upcoming build.
           </p>
           <div className="d-flex flex-wrap justify-content-center gap-3">
             <Link to="/contact" className="btn btn-dark btn-lg px-4 py-3 fw-bold rounded-2 shadow">

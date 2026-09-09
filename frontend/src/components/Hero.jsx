@@ -17,7 +17,7 @@ const Hero = () => {
             </h1>
 
             <p className="lead text-light opacity-90 mb-4" style={{ maxWidth: '560px', fontSize: '1.15rem' }}>
-              Quality clay bricks shaped through carefully prepared material and hydraulic pressing for consistent form and dependable construction use.
+              Compressed soil bricks made from laterite soil, shaped through carefully prepared material and hydraulic pressing for consistent form and dependable construction use.
             </p>
 
             <div className="d-flex flex-wrap gap-3 mb-4">

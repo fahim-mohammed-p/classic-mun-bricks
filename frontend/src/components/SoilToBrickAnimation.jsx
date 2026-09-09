@@ -2,21 +2,21 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import '../styles/soil-to-brick.css';
 
 /**
- * Natural soil and clay color palette sampled directly from authentic
- * Classic Mun Bricks raw clay and terracotta tones.
+ * Natural laterite soil color palette sampled directly from authentic
+ * Classic Mun Bricks raw soil and terracotta tones.
  */
-const CLAY_PALETTE = [
+const LATERITE_SOIL_PALETTE = [
   '#8F3318', // Deep terracotta
   '#B84A28', // Signature Classic Mun terracotta
-  '#A23E1F', // Clay red-brown
+  '#A23E1F', // Soil red-brown
   '#7A2812', // Rich mineral soil
-  '#C85B33', // Terracotta clay dust
-  '#5C200E', // Dark organic clay loam
-  '#D46D44', // Surface clay powder
+  '#C85B33', // Terracotta soil dust
+  '#5C200E', // Dark organic loam
+  '#D46D44', // Surface soil powder
   '#9B3B1B', // Dense compacted soil
 ];
 
-const CLAY_LIGHT_PALETTE = [
+const LATERITE_LIGHT_PALETTE = [
   '#C85B33',
   '#D46D44',
   '#B84A28',
@@ -27,7 +27,7 @@ const CLAY_LIGHT_PALETTE = [
  * SoilToBrickAnimation Component
  * 
  * Environmental Canvas Layer spanning the full Manufacturing Excellence section:
- * Soil and clay particles drift across the section and converge into the
+ * Laterite soil particles drift across the section and converge into the
  * exact position of the client brick on the right.
  * 
  * @param {Object} props
@@ -112,7 +112,7 @@ const SoilToBrickAnimation = ({
           scatterY = Math.random() * height;
           size = 1.6 + Math.random() * 2.0;
           alphaBase = 0.16 + Math.random() * 0.18;
-          color = CLAY_LIGHT_PALETTE[Math.floor(Math.random() * CLAY_LIGHT_PALETTE.length)];
+          color = LATERITE_LIGHT_PALETTE[Math.floor(Math.random() * LATERITE_LIGHT_PALETTE.length)];
           depth = 0.4 + Math.random() * 0.3; // Far layer
         } else if (rand < 0.55) {
           // Zone 2: Section Edges (Top, Bottom, Diagonal Entry) (35% of particles)
@@ -123,7 +123,7 @@ const SoilToBrickAnimation = ({
             : height * 0.78 + Math.random() * (height * 0.22);
           size = 2.2 + Math.random() * 3.2;
           alphaBase = 0.35 + Math.random() * 0.25;
-          color = CLAY_PALETTE[Math.floor(Math.random() * CLAY_PALETTE.length)];
+          color = LATERITE_SOIL_PALETTE[Math.floor(Math.random() * LATERITE_SOIL_PALETTE.length)];
           depth = 0.6 + Math.random() * 0.4; // Mid layer
         } else {
           // Zone 3: Right Transformation Field (45% of particles)
@@ -131,7 +131,7 @@ const SoilToBrickAnimation = ({
           scatterY = Math.random() * height;
           size = 2.8 + Math.random() * 4.6;
           alphaBase = 0.50 + Math.random() * 0.35;
-          color = CLAY_PALETTE[Math.floor(Math.random() * CLAY_PALETTE.length)];
+          color = LATERITE_SOIL_PALETTE[Math.floor(Math.random() * LATERITE_SOIL_PALETTE.length)];
           depth = 0.7 + Math.random() * 0.6; // Near layer
         }
       } else {
@@ -143,7 +143,7 @@ const SoilToBrickAnimation = ({
           scatterY = Math.random() * (height * 0.45);
           size = 1.5 + Math.random() * 1.8;
           alphaBase = 0.15 + Math.random() * 0.15;
-          color = CLAY_LIGHT_PALETTE[Math.floor(Math.random() * CLAY_LIGHT_PALETTE.length)];
+          color = LATERITE_LIGHT_PALETTE[Math.floor(Math.random() * LATERITE_LIGHT_PALETTE.length)];
           depth = 0.4 + Math.random() * 0.3;
         } else {
           // Lower stage area
@@ -151,7 +151,7 @@ const SoilToBrickAnimation = ({
           scatterY = height * 0.30 + Math.random() * (height * 0.65);
           size = 2.2 + Math.random() * 3.4;
           alphaBase = 0.40 + Math.random() * 0.30;
-          color = CLAY_PALETTE[Math.floor(Math.random() * CLAY_PALETTE.length)];
+          color = LATERITE_SOIL_PALETTE[Math.floor(Math.random() * LATERITE_SOIL_PALETTE.length)];
           depth = 0.6 + Math.random() * 0.5;
         }
       }
@@ -289,7 +289,7 @@ const SoilToBrickAnimation = ({
       // Target brick geometry
       const { cx, cy, bw, bh } = getBrickTarget(width, height);
 
-      // Render Soil / Clay Particles across the whole section
+      // Render Soil Particles across the whole section
       const particles = particlesRef.current;
       const totalTravelProgress = easedGather * 0.5 + easedConverge * 0.35 + easedCompress * 0.15;
 
@@ -309,7 +309,7 @@ const SoilToBrickAnimation = ({
         const curX = pt.scatterX + (pt.targetX - pt.scatterX) * totalTravelProgress + ambientX;
         const curY = pt.scatterY + (targetY - pt.scatterY) * totalTravelProgress + ambientY + downwardDrift;
 
-        // Particle size adapts slightly as clay compresses
+        // Particle size adapts slightly as soil compresses
         const curScale = (1 - easedCompress * 0.25) * pt.depth;
         const alpha = pt.alphaBase * particleAlphaMultiplier * (0.6 + totalTravelProgress * 0.4);
 

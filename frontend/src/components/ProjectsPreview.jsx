@@ -12,7 +12,7 @@ const ProjectsPreview = () => {
     {
       title: 'Heritage Courtyard Estate',
       location: 'Oakridge Valley',
-      category: 'Red Clay Pavers & Masonry',
+      category: 'Laterite Masonry & Interlock',
       accentColor: '#91361B'
     },
     {

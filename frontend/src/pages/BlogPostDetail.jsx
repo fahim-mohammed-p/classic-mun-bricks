@@ -216,7 +216,7 @@ const BlogPostDetail = () => {
                   {post.author_name || 'Classic Mun Bricks'}
                 </h6>
                 <p className="small text-muted mb-0">
-                  Manufacturer of precision hydraulic-pressed interlocking clay bricks for architectural, residential, and commercial projects across South India.
+                  Manufacturer of precision hydraulic-pressed Mun Interlock Bricks and laterite bricks for architectural, residential, and commercial projects across South India.
                 </p>
               </div>
             </div>

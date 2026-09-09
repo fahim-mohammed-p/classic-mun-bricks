@@ -10,7 +10,7 @@ const WhyChooseUs = () => {
     {
       icon: 'bi-boxes',
       title: 'Quality Manufacturing',
-      description: 'Strict quality control at every stage from raw clay screening to automated moisture testing and final product inspection.'
+      description: 'Strict quality control at every stage from raw laterite soil screening to automated moisture testing and final product inspection.'
     },
     {
       icon: 'bi-shield-lock-fill',

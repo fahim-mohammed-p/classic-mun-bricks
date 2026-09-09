@@ -8,7 +8,7 @@ import '../styles/soil-to-brick.css';
  * CompanyIntro Component - Manufacturing Excellence
  * 
  * Environmental "Soil → Brick" transformation story:
- * A full-section particle canvas lets raw soil and clay grains sweep across the
+ * A full-section particle canvas lets raw laterite soil grains sweep across the
  * entire white section and converge into the authentic Classic Mun Bricks
  * product range: interlocking brick and plain laterite soil brick.
  */
@@ -19,6 +19,7 @@ const CompanyIntro = () => {
   const [sectionScrollProgress, setSectionScrollProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [munSize, setMunSize] = useState('6-inch');
 
   // Viewport detection
   useEffect(() => {
@@ -203,86 +204,175 @@ const CompanyIntro = () => {
                       transform: `translate3d(0, ${formationY.toFixed(1)}px, 0) scale(${brickScale})`,
                     }}
                   >
-                    <div className="manufacturing-brick-pair">
-                      {/* 1. Existing Interlocking Brick (Left) */}
+                    <div className="manufacturing-floating-pair">
+                      {/* 1. Mun Interlock Brick Floating Unit */}
                       <div 
-                        className="manufacturing-brick-unit unit-lock"
+                        className="floating-brick-unit unit-mun"
                         style={{
-                          transform: `translate3d(${leftTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
+                          transform: `translate3d(${leftTranslateX.toFixed(1)}px, 0, 0)`,
                           opacity: brickOpacity,
                         }}
                       >
-                        <img
-                          src={brickLock}
-                          alt="Classic Mun Bricks interlocking brick"
-                          className="manufacturing-brick-img"
-                          loading="eager"
-                        />
-                        <div 
-                          className="manufacturing-brick-shadow"
-                          style={{ opacity: brickOpacity * 0.85 }}
-                          aria-hidden="true"
-                        />
+                        {/* Header: Title & Plain-Text Size Selector */}
+                        <div className="floating-brick-header">
+                          <span className="floating-brick-title">MUN BRICK</span>
+                          <div className="floating-size-selector" role="group" aria-label="Mun brick size options">
+                            <button
+                              type="button"
+                              className={`size-plain-text ${munSize === '6-inch' ? 'active' : ''}`}
+                              onClick={() => setMunSize('6-inch')}
+                              aria-pressed={munSize === '6-inch'}
+                              aria-label="Select 6-inch size"
+                            >
+                              6-inch
+                            </button>
+                            <span className="size-plain-dot" aria-hidden="true">•</span>
+                            <button
+                              type="button"
+                              className={`size-plain-text ${munSize === '8-inch' ? 'active' : ''}`}
+                              onClick={() => setMunSize('8-inch')}
+                              aria-pressed={munSize === '8-inch'}
+                              aria-label="Select 8-inch size"
+                            >
+                              8-inch
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Floating Product Dimension Diagram Stage */}
+                        <div className="floating-diagram-stage">
+                          {/* Breadth / Depth Callout (Top) */}
+                          <div className="floating-dim dim-breadth" aria-label={`Breadth: ${munSize === '6-inch' ? '6 inches' : '8 inches'}`}>
+                            <div className="dim-line-guide-h breadth-line">
+                              <span className="dim-tick tick-start"></span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-floating-label">
+                                <span className="dim-label-name">Breadth</span>
+                                <span className="dim-label-val">{munSize === '6-inch' ? '6″' : '8″'}</span>
+                              </span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-tick tick-end"></span>
+                            </div>
+                          </div>
+
+                          {/* Height Callout (Side - Left) */}
+                          <div className="floating-dim dim-height" aria-label="Height: 5 inches">
+                            <div className="dim-line-guide-v">
+                              <span className="dim-tick-v tick-top"></span>
+                              <span className="dim-line-segment-v"></span>
+                              <span className="dim-floating-label-v">
+                                <span className="dim-label-name">Height</span>
+                                <span className="dim-label-val">5″</span>
+                              </span>
+                              <span className="dim-line-segment-v"></span>
+                              <span className="dim-tick-v tick-bottom"></span>
+                            </div>
+                          </div>
+
+                          {/* Floating Brick Visual */}
+                          <div className="floating-brick-body">
+                            <img
+                              src={brickLock}
+                              alt="Classic Mun Bricks interlocking brick"
+                              className="manufacturing-brick-img"
+                              loading="eager"
+                            />
+                            <div 
+                              className="manufacturing-brick-shadow"
+                              style={{ opacity: brickOpacity * 0.85 }}
+                              aria-hidden="true"
+                            />
+                          </div>
+
+                          {/* Length Callout (Bottom) */}
+                          <div className="floating-dim dim-length" aria-label="Length: 12 inches">
+                            <div className="dim-line-guide-h length-line">
+                              <span className="dim-tick tick-start"></span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-floating-label">
+                                <span className="dim-label-name">Length</span>
+                                <span className="dim-label-val">12″</span>
+                              </span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-tick tick-end"></span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* 2. New Plain Laterite Brick (Right) */}
+                      {/* 2. Plain Laterite Brick Floating Unit */}
                       <div 
-                        className="manufacturing-brick-unit unit-plain"
+                        className="floating-brick-unit unit-plain"
                         style={{
-                          transform: `translate3d(${rightTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
+                          transform: `translate3d(${rightTranslateX.toFixed(1)}px, 0, 10px)`,
                           opacity: brickOpacity,
                         }}
                       >
-                        <div className="plain-brick-frame">
-                          <img
-                            src={plainLateriteBrick}
-                            alt="Classic Mun Bricks plain laterite soil brick"
-                            className="plain-brick-img"
-                            loading="eager"
-                          />
+                        {/* Header: Title & Plain-Text Static Label */}
+                        <div className="floating-brick-header">
+                          <span className="floating-brick-title">PLAIN BRICK</span>
+                          <span className="plain-static-text">Standard Size</span>
                         </div>
-                        <div 
-                          className="manufacturing-brick-shadow"
-                          style={{ opacity: brickOpacity * 0.85 }}
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </div>
 
-                    {/* Official Product Dimensions */}
-                    <div 
-                      className="manufacturing-brick-specs"
-                      style={{ opacity: brickOpacity }}
-                    >
-                      {/* Mun Interlock Brick (Both 6-inch and 8-inch options) */}
-                      <div className="brick-spec-block spec-mun">
-                        <div className="brick-spec-header">
-                          <span className="brick-spec-title">MUN BRICK</span>
-                          <span className="brick-spec-subtitle">Available Sizes</span>
-                        </div>
-                        <div className="brick-spec-list">
-                          <div className="brick-spec-row">
-                            <span className="brick-chip">6-inch</span>
-                            <span className="brick-dim-val">12″ L × 6″ B × 5″ H</span>
+                        {/* Floating Product Dimension Diagram Stage */}
+                        <div className="floating-diagram-stage">
+                          {/* Breadth / Depth Callout (Top) */}
+                          <div className="floating-dim dim-breadth" aria-label="Breadth: 4 inches">
+                            <div className="dim-line-guide-h breadth-line-plain">
+                              <span className="dim-tick tick-start"></span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-floating-label">
+                                <span className="dim-label-name">Breadth</span>
+                                <span className="dim-label-val">4″</span>
+                              </span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-tick tick-end"></span>
+                            </div>
                           </div>
-                          <div className="brick-spec-row">
-                            <span className="brick-chip">8-inch</span>
-                            <span className="brick-dim-val">12″ L × 8″ B × 5″ H</span>
+
+                          {/* Height Callout (Side - Left) */}
+                          <div className="floating-dim dim-height plain-height-wrap" aria-label="Height: 8 inches">
+                            <div className="dim-line-guide-v plain-height-line">
+                              <span className="dim-tick-v tick-top"></span>
+                              <span className="dim-line-segment-v"></span>
+                              <span className="dim-floating-label-v">
+                                <span className="dim-label-name">Height</span>
+                                <span className="dim-label-val">8″</span>
+                              </span>
+                              <span className="dim-line-segment-v"></span>
+                              <span className="dim-tick-v tick-bottom"></span>
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      {/* Fine Divider */}
-                      <div className="brick-spec-divider" aria-hidden="true" />
+                          {/* Floating Brick Visual */}
+                          <div className="floating-brick-body">
+                            <div className="plain-brick-frame">
+                              <img
+                                src={plainLateriteBrick}
+                                alt="Classic Mun Bricks plain laterite soil brick"
+                                className="plain-brick-img"
+                                loading="eager"
+                              />
+                            </div>
+                            <div 
+                              className="manufacturing-brick-shadow"
+                              style={{ opacity: brickOpacity * 0.85 }}
+                              aria-hidden="true"
+                            />
+                          </div>
 
-                      {/* Plain Laterite Soil Brick */}
-                      <div className="brick-spec-block spec-plain">
-                        <div className="brick-spec-header">
-                          <span className="brick-spec-title">PLAIN BRICK</span>
-                        </div>
-                        <div className="brick-spec-list">
-                          <div className="brick-spec-row">
-                            <span className="brick-dim-val">12″ L × 4″ B × 8″ H</span>
+                          {/* Length Callout (Bottom) */}
+                          <div className="floating-dim dim-length" aria-label="Length: 12 inches">
+                            <div className="dim-line-guide-h length-line-plain">
+                              <span className="dim-tick tick-start"></span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-floating-label">
+                                <span className="dim-label-name">Length</span>
+                                <span className="dim-label-val">12″</span>
+                              </span>
+                              <span className="dim-line-segment"></span>
+                              <span className="dim-tick tick-end"></span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -325,86 +415,169 @@ const CompanyIntro = () => {
                   transform: `translate3d(0, ${formationY.toFixed(1)}px, 0) scale(${brickScale})`,
                 }}
               >
-                <div className="manufacturing-brick-pair">
-                  {/* 1. Existing Interlocking Brick (Left) */}
+                <div className="manufacturing-floating-mobile-stack">
+                  {/* 1. Mun Interlock Brick Floating Unit (First) */}
                   <div 
-                    className="manufacturing-brick-unit unit-lock"
-                    style={{
-                      transform: `translate3d(${leftTranslateX.toFixed(1)}px, 0, 0) rotateY(3deg)`,
-                      opacity: brickOpacity,
-                    }}
+                    className="floating-brick-unit unit-mun unit-mobile"
+                    style={{ opacity: brickOpacity }}
                   >
-                    <img
-                      src={brickLock}
-                      alt="Classic Mun Bricks interlocking brick"
-                      className="manufacturing-brick-img"
-                      loading="eager"
-                    />
-                    <div 
-                      className="manufacturing-brick-shadow"
-                      style={{ opacity: brickOpacity * 0.85 }}
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  {/* 2. New Plain Laterite Brick (Right) */}
-                  <div 
-                    className="manufacturing-brick-unit unit-plain"
-                    style={{
-                      transform: `translate3d(${rightTranslateX.toFixed(1)}px, 0, 10px) rotateY(-3deg)`,
-                      opacity: brickOpacity,
-                    }}
-                  >
-                    <div className="plain-brick-frame">
-                      <img
-                        src={plainLateriteBrick}
-                        alt="Classic Mun Bricks plain laterite soil brick"
-                        className="plain-brick-img"
-                        loading="eager"
-                      />
-                    </div>
-                    <div 
-                      className="manufacturing-brick-shadow"
-                      style={{ opacity: brickOpacity * 0.85 }}
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
-
-                {/* Official Product Dimensions */}
-                <div 
-                  className="manufacturing-brick-specs"
-                  style={{ opacity: brickOpacity }}
-                >
-                  {/* Mun Interlock Brick (Both 6-inch and 8-inch options) */}
-                  <div className="brick-spec-block spec-mun">
-                    <div className="brick-spec-header">
-                      <span className="brick-spec-title">MUN BRICK</span>
-                      <span className="brick-spec-subtitle">Available Sizes</span>
-                    </div>
-                    <div className="brick-spec-list">
-                      <div className="brick-spec-row">
-                        <span className="brick-chip">6-inch</span>
-                        <span className="brick-dim-val">12″ L × 6″ B × 5″ H</span>
-                      </div>
-                      <div className="brick-spec-row">
-                        <span className="brick-chip">8-inch</span>
-                        <span className="brick-dim-val">12″ L × 8″ B × 5″ H</span>
+                    {/* Header: Title & Plain-Text Size Selector */}
+                    <div className="floating-brick-header">
+                      <span className="floating-brick-title">MUN BRICK</span>
+                      <div className="floating-size-selector" role="group" aria-label="Mun brick size options">
+                        <button
+                          type="button"
+                          className={`size-plain-text ${munSize === '6-inch' ? 'active' : ''}`}
+                          onClick={() => setMunSize('6-inch')}
+                          aria-pressed={munSize === '6-inch'}
+                          aria-label="Select 6-inch size"
+                        >
+                          6-inch
+                        </button>
+                        <span className="size-plain-dot" aria-hidden="true">•</span>
+                        <button
+                          type="button"
+                          className={`size-plain-text ${munSize === '8-inch' ? 'active' : ''}`}
+                          onClick={() => setMunSize('8-inch')}
+                          aria-pressed={munSize === '8-inch'}
+                          aria-label="Select 8-inch size"
+                        >
+                          8-inch
+                        </button>
                       </div>
                     </div>
+
+                    {/* Floating Product Dimension Diagram Stage */}
+                    <div className="floating-diagram-stage">
+                      {/* Breadth / Depth Callout (Top) */}
+                      <div className="floating-dim dim-breadth" aria-label={`Breadth: ${munSize === '6-inch' ? '6 inches' : '8 inches'}`}>
+                        <div className="dim-line-guide-h breadth-line">
+                          <span className="dim-tick tick-start"></span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-floating-label">
+                            <span className="dim-label-name">Breadth</span>
+                            <span className="dim-label-val">{munSize === '6-inch' ? '6″' : '8″'}</span>
+                          </span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-tick tick-end"></span>
+                        </div>
+                      </div>
+
+                      {/* Height Callout (Side - Left) */}
+                      <div className="floating-dim dim-height" aria-label="Height: 5 inches">
+                        <div className="dim-line-guide-v">
+                          <span className="dim-tick-v tick-top"></span>
+                          <span className="dim-line-segment-v"></span>
+                          <span className="dim-floating-label-v">
+                            <span className="dim-label-name">Height</span>
+                            <span className="dim-label-val">5″</span>
+                          </span>
+                          <span className="dim-line-segment-v"></span>
+                          <span className="dim-tick-v tick-bottom"></span>
+                        </div>
+                      </div>
+
+                      {/* Floating Brick Visual */}
+                      <div className="floating-brick-body">
+                        <img
+                          src={brickLock}
+                          alt="Classic Mun Bricks interlocking brick"
+                          className="manufacturing-brick-img"
+                          loading="eager"
+                        />
+                        <div 
+                          className="manufacturing-brick-shadow"
+                          style={{ opacity: brickOpacity * 0.85 }}
+                          aria-hidden="true"
+                        />
+                      </div>
+
+                      {/* Length Callout (Bottom) */}
+                      <div className="floating-dim dim-length" aria-label="Length: 12 inches">
+                        <div className="dim-line-guide-h length-line">
+                          <span className="dim-tick tick-start"></span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-floating-label">
+                            <span className="dim-label-name">Length</span>
+                            <span className="dim-label-val">12″</span>
+                          </span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-tick tick-end"></span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Fine Divider */}
-                  <div className="brick-spec-divider" aria-hidden="true" />
-
-                  {/* Plain Laterite Soil Brick */}
-                  <div className="brick-spec-block spec-plain">
-                    <div className="brick-spec-header">
-                      <span className="brick-spec-title">PLAIN BRICK</span>
+                  {/* 2. Plain Laterite Brick Floating Unit (Second) */}
+                  <div 
+                    className="floating-brick-unit unit-plain unit-mobile"
+                    style={{ opacity: brickOpacity }}
+                  >
+                    {/* Header: Title & Plain-Text Static Label */}
+                    <div className="floating-brick-header">
+                      <span className="floating-brick-title">PLAIN BRICK</span>
+                      <span className="plain-static-text">Standard Size</span>
                     </div>
-                    <div className="brick-spec-list">
-                      <div className="brick-spec-row">
-                        <span className="brick-dim-val">12″ L × 4″ B × 8″ H</span>
+
+                    {/* Floating Product Dimension Diagram Stage */}
+                    <div className="floating-diagram-stage">
+                      {/* Breadth / Depth Callout (Top) */}
+                      <div className="floating-dim dim-breadth" aria-label="Breadth: 4 inches">
+                        <div className="dim-line-guide-h breadth-line-plain">
+                          <span className="dim-tick tick-start"></span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-floating-label">
+                            <span className="dim-label-name">Breadth</span>
+                            <span className="dim-label-val">4″</span>
+                          </span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-tick tick-end"></span>
+                        </div>
+                      </div>
+
+                      {/* Height Callout (Side - Left) */}
+                      <div className="floating-dim dim-height plain-height-wrap" aria-label="Height: 8 inches">
+                        <div className="dim-line-guide-v plain-height-line">
+                          <span className="dim-tick-v tick-top"></span>
+                          <span className="dim-line-segment-v"></span>
+                          <span className="dim-floating-label-v">
+                            <span className="dim-label-name">Height</span>
+                            <span className="dim-label-val">8″</span>
+                          </span>
+                          <span className="dim-line-segment-v"></span>
+                          <span className="dim-tick-v tick-bottom"></span>
+                        </div>
+                      </div>
+
+                      {/* Floating Brick Visual */}
+                      <div className="floating-brick-body">
+                        <div className="plain-brick-frame">
+                          <img
+                            src={plainLateriteBrick}
+                            alt="Classic Mun Bricks plain laterite soil brick"
+                            className="plain-brick-img"
+                            loading="eager"
+                          />
+                        </div>
+                        <div 
+                          className="manufacturing-brick-shadow"
+                          style={{ opacity: brickOpacity * 0.85 }}
+                          aria-hidden="true"
+                        />
+                      </div>
+
+                      {/* Length Callout (Bottom) */}
+                      <div className="floating-dim dim-length" aria-label="Length: 12 inches">
+                        <div className="dim-line-guide-h length-line-plain">
+                          <span className="dim-tick tick-start"></span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-floating-label">
+                            <span className="dim-label-name">Length</span>
+                            <span className="dim-label-val">12″</span>
+                          </span>
+                          <span className="dim-line-segment"></span>
+                          <span className="dim-tick tick-end"></span>
+                        </div>
                       </div>
                     </div>
                   </div>

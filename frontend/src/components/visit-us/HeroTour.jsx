@@ -45,7 +45,7 @@ const HeroTour = ({ onStartTour }) => {
 
         {/* Supporting Narrative */}
         <p className="tour-hero-lead">
-          Experience our complete brick manufacturing journey online. From raw mineral processing to precision-shaped structural units, see our Kerala manufacturing facility in action wherever you are located.
+          Experience our complete brick manufacturing journey. From raw mineral processing to precision-shaped structural units, see our Kerala manufacturing facility.
         </p>
 
         {/* Animated Scroll Prompt */}

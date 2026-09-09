@@ -15,7 +15,7 @@ const Footer = () => {
             </Link>
             <p className="small text-light-50 mb-3" style={{ maxWidth: '340px' }}>
 
-              Manufacturing structural clay bricks for architectural, commercial, and residential construction projects across Kerala and Tamil Nadu.
+              Manufacturing laterite bricks and Mun Interlock Bricks for architectural, commercial, and residential construction projects across Kerala and Tamil Nadu.
             </p>
             
             {/* Verified Social Links */}

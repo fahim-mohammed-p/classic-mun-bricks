@@ -47,7 +47,7 @@ const FactoryPreview = () => {
                   MANUFACTURING PROCESS TOUR
                 </text>
                 <text x="280" y="156" textAnchor="middle" fill="#EFECE6" fontSize="11" fontFamily="Plus Jakarta Sans" opacity="0.75">
-                  Clay Preparation → Material Refining → Hydraulic Pressing → QC
+                  Soil Preparation → Material Refining → Hydraulic Pressing → QC
                 </text>
               </svg>
             </div>

@@ -196,7 +196,7 @@ const Contact = () => {
               Let’s Talk About Your Next Project.
             </h1>
             <p className="lead text-light opacity-90 mb-0" style={{ fontSize: '1.05rem' }}>
-              Whether you're planning a new build or looking for structural clay brick specifications, send us your requirement and our team will get in touch.
+              Whether you're planning a new build or looking for Mun Interlock Brick specifications, send us your requirement and our team will get in touch.
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ const Contact = () => {
                 Get in Touch
               </h2>
               <p className="text-muted mb-4">
-                We supply high-density structural clay bricks for projects across Kerala and Tamil Nadu. Share your requirements or reach out through our available channels.
+                We supply laterite bricks and Mun Interlock Bricks for projects across Kerala and Tamil Nadu. Share your requirements or reach out through our available channels.
               </p>
 
               {/* Quick Action Cards (Verified Business Contact Details) */}

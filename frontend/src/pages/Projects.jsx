@@ -467,7 +467,7 @@ const Projects = () => {
                   <p className="panel-description">
                     {activeRegion
                       ? activeRegion.description
-                      : 'Classic Mun Bricks has built an established supply footprint delivering premium red clay and engineered wire cut bricks directly to residential, institutional, and commercial sites across Kerala and Tamil Nadu.'}
+                      : 'Classic Mun Bricks has built an established supply footprint delivering premium laterite bricks and Mun Interlock Bricks directly to residential, institutional, and commercial sites across Kerala and Tamil Nadu.'}
                   </p>
 
                   {activeRegion ? (
@@ -483,7 +483,7 @@ const Projects = () => {
                     <ul className="panel-highlights-list">
                       <li className="panel-highlight-item">
                         <i className="bi bi-check-circle-fill"></i>
-                        <span>High-density structural red clay bricks</span>
+                        <span>High-density Mun Interlock Bricks</span>
                       </li>
                       <li className="panel-highlight-item">
                         <i className="bi bi-check-circle-fill"></i>

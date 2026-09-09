@@ -33,7 +33,7 @@ export const FACTORY_PROCESSES = [
       'Screened material moves steadily along mechanical conveyors for continuous refinement. High-capacity processing equipment breaks down aggregate particles into a fine, workable state ready for precise moisture distribution.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
     video: vid02,
-    altText: 'Conveyor system refining and transporting processed clay material',
+    altText: 'Conveyor system refining and transporting processed laterite soil material',
     badgeText: 'Refining Conveyor',
     layout: 'text-right',
   },
@@ -42,13 +42,13 @@ export const FACTORY_PROCESSES = [
     stepNumber: 3,
     formattedNumber: '03',
     stageLabel: 'Stage 03 • Material Processing',
-    title: 'Clay Crushing & Fine Processing',
+    title: 'Soil Crushing & Fine Processing',
     shortDescription:
       'The prepared soil is broken down into a finer, more uniform material before moving to the next stage.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
     video: vid03,
-    altText: 'Clay crushing and fine processing at Classic Mun Bricks',
-    badgeText: 'Clay Crushing',
+    altText: 'Soil crushing and fine processing at Classic Mun Bricks',
+    badgeText: 'Soil Crushing',
     layout: 'text-left',
   },
   {
@@ -58,10 +58,10 @@ export const FACTORY_PROCESSES = [
     stageLabel: 'Stage 04 • Raw Material Feed',
     title: 'Initial Material Processing',
     shortDescription:
-      'Raw clay and natural minerals enter the primary processing conveyor. The material undergoes initial crushing and screening to break down large aggregates and establish initial uniformity before entering refined preparation channels.',
+      'Raw laterite soil and natural minerals enter the primary processing conveyor. The material undergoes initial crushing and screening to break down large aggregates and establish initial uniformity before entering refined preparation channels.',
     image: img04,
     video: vid04,
-    altText: 'Raw clay material entering initial conveyor feeder at the Classic Mun Bricks factory in Kerala',
+    altText: 'Raw laterite soil entering initial conveyor feeder at the Classic Mun Bricks factory in Kerala',
     badgeText: 'Conveyor & Screening',
     layout: 'text-right',
   },
@@ -72,10 +72,10 @@ export const FACTORY_PROCESSES = [
     stageLabel: 'Stage 05 • Moisture & Plasticity',
     title: 'Mixing & Conditioning',
     shortDescription:
-      'The prepared clay blend is thoroughly mixed and conditioned with controlled water addition. Heavy-duty mixing paddles blend the minerals to achieve the exact plasticity and internal cohesion required for flawless hydraulic pressing.',
+      'The prepared soil blend is thoroughly mixed and conditioned with controlled water addition. Heavy-duty mixing paddles blend the minerals to achieve the exact plasticity and internal cohesion required for flawless hydraulic pressing.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
     video: vid05,
-    altText: 'Conditioning mixer blending clay with controlled moisture',
+    altText: 'Conditioning mixer blending soil with controlled moisture',
     badgeText: 'Conditioning Mixer',
     layout: 'text-left',
   },
