@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import SoilToBrickAnimation from './SoilToBrickAnimation';
-import brickLock from '../assets/brick-lock.webp';
+import brickLock from '../assets/brick-lock-horizontal.webp';
 import plainLateriteBrick from '../assets/plain-laterite-brick.png';
 import '../styles/soil-to-brick.css';
 

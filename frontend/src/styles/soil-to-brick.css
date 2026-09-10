@@ -163,27 +163,18 @@
 
 .grooved-brick-img {
   display: block;
-  height: 195px;
-  width: auto;
-  max-width: none;
+  width: 195px;
+  height: auto;
   object-fit: contain;
-  transform: rotate(90deg);
-  transform-origin: center center;
-  filter: drop-shadow(10px 0 22px rgba(143, 51, 24, 0.22)) drop-shadow(3px 0 8px rgba(26, 29, 32, 0.1));
+  filter: drop-shadow(0 10px 22px rgba(143, 51, 24, 0.22)) drop-shadow(0 3px 8px rgba(26, 29, 32, 0.1));
   transition: opacity 0.25s ease;
   will-change: transform, opacity;
 }
 
 @media (max-width: 575.98px) {
-  .plain-brick-horizontal-img {
-    width: 160px;
-  }
-  .grooved-brick-body {
-    width: 160px;
-    height: 90px;
-  }
+  .plain-brick-horizontal-img,
   .grooved-brick-img {
-    height: 160px;
+    width: 160px;
   }
 }
 
@@ -246,16 +237,7 @@
 }
 
 /* Image Bodies - Centered & Floating */
-.grooved-brick-body {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 195px;
-  height: 110px;
-  margin: 0 auto;
-}
-
+.grooved-brick-body,
 .plain-brick-body {
   position: relative;
   display: flex;
