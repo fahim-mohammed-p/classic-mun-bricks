@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 
 const FinalCTA = () => {
   return (
-    <section className="section-padding bg-terracotta text-white text-center position-relative overflow-hidden">
-      <div className="container position-relative z-1">
+    <section className="final-cta-section text-white text-center position-relative overflow-hidden">
+      {/* Background Architectural Masonry Pattern */}
+      <div className="final-cta-pattern-bg" aria-hidden="true"></div>
+
+      {/* Dark Radial & Directional Readability Gradient */}
+      <div className="final-cta-gradient-overlay" aria-hidden="true"></div>
+
+      {/* Subtle Warm Terracotta Ambient Glow */}
+      <div className="final-cta-glow-overlay" aria-hidden="true"></div>
+
+      <div className="container position-relative z-2">
         <div className="mx-auto" style={{ maxWidth: '680px' }}>
           <span className="badge bg-white text-terracotta fw-bold px-3 py-2 text-uppercase mb-3 rounded-pill">
             Get In Touch

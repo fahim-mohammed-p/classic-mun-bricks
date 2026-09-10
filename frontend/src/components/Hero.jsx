@@ -5,7 +5,12 @@ import FloatingBricks from './FloatingBricks';
 const Hero = () => {
   return (
     <section className="hero-section">
-      <div className="hero-overlay"></div>
+      {/* Design-based Brick Masonry Background Visual Layer */}
+      <div className="hero-bg-visual" aria-hidden="true">
+        <div className="hero-pattern-bg"></div>
+        <div className="hero-bg-gradient-overlay"></div>
+        <div className="hero-bg-glow-overlay"></div>
+      </div>
       <FloatingBricks variant="home" />
       <div className="container position-relative z-2">
         <div className="row align-items-center">

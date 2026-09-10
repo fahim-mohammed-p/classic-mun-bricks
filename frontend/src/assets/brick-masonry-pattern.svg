@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="224" viewBox="0 0 280 224">
+  <!-- Mortar base: Deep dark brown / charcoal -->
+  <rect width="280" height="224" fill="#201814"/>
+
+  <!-- Course 1 (y: 2 to 54, height: 52px) -->
+  <rect x="2" y="2" width="136" height="52" rx="2" fill="#6E3422"/>
+  <line x1="4" y1="4" x2="136" y2="4" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="4" y1="53" x2="136" y2="53" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="142" y="2" width="136" height="52" rx="2" fill="#632F1F"/>
+  <line x1="144" y1="4" x2="276" y2="4" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="144" y1="53" x2="276" y2="53" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <!-- Course 2 (y: 58 to 110, offset 70px) -->
+  <rect x="-68" y="58" width="136" height="52" rx="2" fill="#5E2D1E"/>
+  <line x1="2" y1="60" x2="66" y2="60" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="2" y1="109" x2="66" y2="109" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="72" y="58" width="136" height="52" rx="2" fill="#763A27"/>
+  <line x1="74" y1="60" x2="206" y2="60" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="74" y1="109" x2="206" y2="109" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="212" y="58" width="136" height="52" rx="2" fill="#5E2D1E"/>
+  <line x1="214" y1="60" x2="278" y2="60" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="214" y1="109" x2="278" y2="109" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <!-- Course 3 (y: 114 to 166, height: 52px) -->
+  <rect x="2" y="114" width="136" height="52" rx="2" fill="#653020"/>
+  <line x1="4" y1="116" x2="136" y2="116" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="4" y1="165" x2="136" y2="165" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="142" y="114" width="136" height="52" rx="2" fill="#6E3422"/>
+  <line x1="144" y1="116" x2="276" y2="116" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="144" y1="165" x2="276" y2="165" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <!-- Course 4 (y: 170 to 222, offset 70px) -->
+  <rect x="-68" y="170" width="136" height="52" rx="2" fill="#723725"/>
+  <line x1="2" y1="172" x2="66" y2="172" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="2" y1="221" x2="66" y2="221" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="72" y="170" width="136" height="52" rx="2" fill="#5A2B1C"/>
+  <line x1="74" y1="172" x2="206" y2="172" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="74" y1="221" x2="206" y2="221" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+
+  <rect x="212" y="170" width="136" height="52" rx="2" fill="#723725"/>
+  <line x1="214" y1="172" x2="278" y2="172" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1.2"/>
+  <line x1="214" y1="221" x2="278" y2="221" stroke="#000000" stroke-opacity="0.25" stroke-width="1.2"/>
+</svg>
