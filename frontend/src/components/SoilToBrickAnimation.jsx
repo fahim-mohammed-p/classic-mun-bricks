@@ -261,19 +261,18 @@ const SoilToBrickAnimation = ({
 
       // Early completion: If animation reached finished brick state,
       // leave canvas completely clear. The authentic client brick is 100% visible and stable.
-      if (p >= (isMobile ? 0.90 : 0.78)) return;
+      if (p >= (isMobile ? 0.90 : 0.88)) return;
 
       time += 0.018;
 
       // =====================================================================
       // TIMELINE PHASES (Continuous Organic Progression):
       // 0%–15%: soil appears across the white section with ambient drift
-      // 15%–35%: soil moves downward and inward
-      // 35%–55%: particles gather strongly
-      // 50%–72%: material preparation & converging soil aggregates
-      // 70%–88%: hydraulic pressing & shaping phase (smooth compaction)
-      // 84%–90%: dual finished bricks reveal, particles dissolve seamlessly
-      // 90%+: finished brick pair fully visible and stable (section hold state)
+      // 15%–38%: soil moves downward and inward (gather)
+      // 36%–65%: particles gather strongly and converge toward target
+      // 58%–82%: material preparation & converging soil aggregates compress
+      // 66%–85%: dual finished bricks reveal, particles dissolve seamlessly
+      // 85%+: finished brick pair fully visible and stable (section hold state)
       // =====================================================================
       // Helper smoothstep function for organic, continuous transitions
       const smoothstep = (min, max, val) => {
@@ -281,10 +280,10 @@ const SoilToBrickAnimation = ({
         return t * t * (3 - 2 * t);
       };
 
-      const easedGather = smoothstep(0.12, 0.35, p);
-      const easedConverge = smoothstep(0.32, 0.55, p);
-      const easedCompress = smoothstep(0.50, 0.74, p);
-      const particleAlphaMultiplier = 1 - smoothstep(isMobile ? 0.74 : 0.54, isMobile ? 0.89 : 0.75, p);
+      const easedGather = smoothstep(isMobile ? 0.12 : 0.15, isMobile ? 0.35 : 0.38, p);
+      const easedConverge = smoothstep(isMobile ? 0.32 : 0.36, isMobile ? 0.55 : 0.65, p);
+      const easedCompress = smoothstep(isMobile ? 0.50 : 0.58, isMobile ? 0.74 : 0.82, p);
+      const particleAlphaMultiplier = 1 - smoothstep(isMobile ? 0.74 : 0.66, isMobile ? 0.89 : 0.85, p);
 
       // Target brick geometry
       const { cx, cy, bw, bh } = getBrickTarget(width, height);
