@@ -163,10 +163,13 @@
 
 .grooved-brick-img {
   display: block;
-  width: 200px;
-  height: auto;
+  height: 195px;
+  width: auto;
+  max-width: none;
   object-fit: contain;
-  filter: drop-shadow(0 10px 22px rgba(143, 51, 24, 0.22)) drop-shadow(0 3px 8px rgba(26, 29, 32, 0.1));
+  transform: rotate(90deg);
+  transform-origin: center center;
+  filter: drop-shadow(10px 0 22px rgba(143, 51, 24, 0.22)) drop-shadow(3px 0 8px rgba(26, 29, 32, 0.1));
   transition: opacity 0.25s ease;
   will-change: transform, opacity;
 }
@@ -175,16 +178,20 @@
   .plain-brick-horizontal-img {
     width: 160px;
   }
+  .grooved-brick-body {
+    width: 160px;
+    height: 90px;
+  }
   .grooved-brick-img {
-    width: 165px;
+    height: 160px;
   }
 }
 
 /* Natural Ground Ambient Contact Shadows */
 .manufacturing-brick-shadow {
   position: absolute;
-  bottom: -10px;
-  width: 110px;
+  bottom: -8px;
+  width: 135px;
   height: 16px;
   background: radial-gradient(ellipse at center, rgba(143, 51, 24, 0.3) 0%, rgba(26, 29, 32, 0.12) 45%, transparent 75%);
   border-radius: 50%;
@@ -199,14 +206,11 @@
 }
 
 @media (max-width: 575.98px) {
-  .manufacturing-brick-shadow {
-    width: 95px;
-    bottom: -8px;
-    height: 12px;
-  }
+  .manufacturing-brick-shadow,
   .plain-horizontal-shadow {
     width: 115px;
     bottom: -6px;
+    height: 12px;
   }
 }
 
@@ -242,7 +246,16 @@
 }
 
 /* Image Bodies - Centered & Floating */
-.grooved-brick-body,
+.grooved-brick-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 195px;
+  height: 110px;
+  margin: 0 auto;
+}
+
 .plain-brick-body {
   position: relative;
   display: flex;
