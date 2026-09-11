@@ -567,9 +567,9 @@ h1, h2, h3, h4, .font-heading {
     transform: translateY(-50%) scale(0.92);
   }
 
-  /* Move CTA buttons slightly lower in the hero (Task 4) */
+  /* Move CTA buttons slightly lower in the hero: +25px more breathing room (Task 1) */
   .hero-cta-actions {
-    margin-top: 2rem;
+    margin-top: clamp(3.25rem, 7.5vh, 4rem);
     margin-bottom: 1.25rem;
   }
 
@@ -631,7 +631,7 @@ h1, h2, h3, h4, .font-heading {
     flex-direction: column;
     align-items: stretch;
     gap: 0.75rem;
-    margin-top: 2.25rem;
+    margin-top: clamp(3.5rem, 8vh, 4.25rem);
     margin-bottom: 1.25rem;
   }
 
@@ -664,6 +664,10 @@ h1, h2, h3, h4, .font-heading {
   .hero-btn-cta {
     font-size: 0.88rem;
     padding: 0.7rem 1rem;
+  }
+
+  .hero-cta-actions {
+    margin-top: 3.25rem;
   }
 }
 
@@ -1109,9 +1113,46 @@ h1, h2, h3, h4, .font-heading {
     padding: 2.75rem 0 3rem;
   }
 
+  /* Branded Masonry Pattern Mobile Tuning: +20-25% more visible, quiet branded texture (Task 2A) */
   .product-showcase-pattern-bg {
-    background-size: 210px 168px;
-    opacity: 0.38; /* Softened slightly for clean, clutter-free mobile backdrop behind cards */
+    background-size: 240px 192px;
+    opacity: 0.58;
+    filter: brightness(1.15) contrast(1.08);
+  }
+
+  /* Softer mobile contrast overlay so masonry pattern is clearly recognizable behind cards */
+  .product-showcase-gradient-overlay {
+    background: 
+      radial-gradient(
+        ellipse 85% 70% at 50% 50%, 
+        rgba(24, 20, 18, 0.60) 0%, 
+        rgba(24, 20, 18, 0.46) 65%, 
+        rgba(20, 16, 14, 0.28) 100%
+      ),
+      linear-gradient(
+        180deg, 
+        rgba(20, 16, 14, 0.70) 0%, 
+        transparent 20%, 
+        transparent 80%, 
+        rgba(20, 16, 14, 0.75) 100%
+      );
+  }
+
+  .product-showcase-glow-overlay {
+    background: radial-gradient(
+      ellipse 70% 50% at 50% 30%, 
+      rgba(185, 79, 46, 0.14) 0%, 
+      transparent 70%
+    );
+  }
+
+  .product-showcase-title {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  }
+
+  .product-showcase-desc {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+    color: rgba(255, 255, 255, 0.88) !important;
   }
 
   .product-cards-grid-wrap {
@@ -1281,14 +1322,47 @@ h1, h2, h3, h4, .font-heading {
     padding: 3rem 0;
   }
 
+  /* Branded Masonry Pattern Mobile Tuning: Warmer laterite brick shapes, clearly visible (Task 2B) */
   .final-cta-pattern-bg {
-    background-size: 210px 168px;
-    opacity: 0.80;
+    background-size: 250px 200px;
+    opacity: 0.96;
+    filter: brightness(1.22) contrast(1.14) saturate(1.10);
+  }
+
+  /* Tuned mobile gradient: dark radial shield behind text while letting surrounding brickwork shine */
+  .final-cta-gradient-overlay {
+    background: 
+      radial-gradient(
+        circle at 50% 48%, 
+        rgba(22, 17, 14, 0.72) 0%, 
+        rgba(22, 17, 14, 0.52) 56%, 
+        rgba(22, 17, 14, 0.22) 100%
+      ),
+      linear-gradient(
+        180deg, 
+        rgba(22, 17, 14, 0.68) 0%, 
+        transparent 22%, 
+        transparent 78%, 
+        rgba(22, 17, 14, 0.75) 100%
+      );
+  }
+
+  .final-cta-glow-overlay {
+    background: radial-gradient(
+      ellipse 65% 55% at 50% 50%, 
+      rgba(185, 79, 46, 0.22) 0%, 
+      transparent 70%
+    );
   }
 
   .final-cta-section h2 {
     font-size: 1.85rem;
     margin-bottom: 0.85rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  }
+
+  .final-cta-section p.lead {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
   }
 
   h1 {
