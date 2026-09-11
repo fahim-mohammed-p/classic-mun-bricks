@@ -178,33 +178,6 @@ const Hero = () => {
                 {SLIDES[currentSlide].subtext}
               </p>
 
-              {/* Mobile-Only Dedicated Slider Arrow Controls (Task 2: clean breathing room, no touching buttons) */}
-              <div className="hero-mobile-nav-row d-flex d-md-none align-items-center justify-content-between">
-                <div className="hero-mobile-arrows-group d-flex align-items-center gap-2">
-                  <button
-                    type="button"
-                    className="hero-mobile-arrow-btn prev"
-                    onClick={prevSlide}
-                    aria-label="Previous slide"
-                    title="Previous slide"
-                  >
-                    <i className="bi bi-chevron-left" aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
-                    className="hero-mobile-arrow-btn next"
-                    onClick={nextSlide}
-                    aria-label="Next slide"
-                    title="Next slide"
-                  >
-                    <i className="bi bi-chevron-right" aria-hidden="true" />
-                  </button>
-                </div>
-                <span className="hero-mobile-slide-counter">
-                  0{currentSlide + 1} <span className="counter-sep">/</span> 0{SLIDES.length}
-                </span>
-              </div>
-
               {/* CTA Action Buttons */}
               <div className="hero-cta-actions">
                 <Link to="/visit-us" className="btn-cmb-primary hero-btn-cta">
@@ -220,10 +193,10 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Desktop-Only Side Floating Navigation Arrow Controls */}
+      {/* Side Floating Navigation Arrow Controls (Desktop & Mobile) */}
       <button
         type="button"
-        className="hero-arrow-btn prev-arrow d-none d-md-flex"
+        className="hero-arrow-btn prev-arrow"
         onClick={prevSlide}
         aria-label="Previous slide"
         title="Previous slide"
@@ -233,7 +206,7 @@ const Hero = () => {
 
       <button
         type="button"
-        className="hero-arrow-btn next-arrow d-none d-md-flex"
+        className="hero-arrow-btn next-arrow"
         onClick={nextSlide}
         aria-label="Next slide"
         title="Next slide"

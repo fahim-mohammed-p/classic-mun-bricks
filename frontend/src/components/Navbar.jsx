@@ -7,7 +7,7 @@ import { useHeroNav } from '../context/HeroNavContext';
 const Navbar = () => {
   const { isHome, isHeroInView } = useHeroNav();
   const isDesktopGlass = isHome && isHeroInView;
-  const isMobileBottomNavHidden = isHome && isHeroInView;
+  const isMobileHeaderTransparent = isHome && isHeroInView;
 
   return (
     <>
@@ -78,8 +78,14 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* MOBILE COMPACT TOP BRAND HEADER */}
-      <header className="mobile-header d-lg-none sticky-top bg-charcoal text-white border-bottom border-secondary border-opacity-25 px-3 py-2">
+      {/* MOBILE COMPACT TOP BRAND HEADER — Transparent over Home Hero, Solid on scroll, standard on other pages */}
+      <header 
+        className={`mobile-header d-lg-none px-3 py-2 ${
+          isHome 
+            ? `is-home-header ${isMobileHeaderTransparent ? 'is-transparent' : 'is-scrolled'}`
+            : 'sticky-top bg-charcoal text-white border-bottom border-secondary border-opacity-25'
+        }`}
+      >
         <div className="d-flex align-items-center justify-content-start">
           <Link className="navbar-brand text-white text-decoration-none d-inline-flex align-items-center m-0 p-0" to="/" aria-label="Classic Mun Bricks Home">
             <BrandLogo variant="mobileHeader" />
@@ -87,13 +93,10 @@ const Navbar = () => {
         </div>
       </header>
 
-
-
-      {/* MOBILE APP-LIKE FIXED BOTTOM NAVIGATION */}
+      {/* MOBILE APP-LIKE FIXED BOTTOM NAVIGATION — ALWAYS VISIBLE ON ALL PAGES & HERO */}
       <nav 
-        className={`mobile-bottom-nav d-lg-none ${isMobileBottomNavHidden ? 'is-hero-hidden' : ''}`} 
+        className="mobile-bottom-nav d-lg-none" 
         aria-label="Mobile Navigation"
-        aria-hidden={isMobileBottomNavHidden}
       >
         <div className="mobile-bottom-nav-inner">
           <NavLink 
