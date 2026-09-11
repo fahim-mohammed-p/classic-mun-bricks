@@ -435,6 +435,299 @@ h1, h2, h3, h4, .font-heading {
   margin-bottom: 0.35rem;
 }
 
+/* ========================================================
+   HOME PAGE PRODUCTS SHOWCASE SECTION
+   ======================================================== */
+.product-showcase-section {
+  position: relative;
+  background-color: var(--cmb-charcoal, #181818);
+  padding: 4.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.product-showcase-ambient {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(
+      ellipse 65% 55% at 50% 25%, 
+      rgba(185, 79, 46, 0.14) 0%, 
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.product-showcase-card {
+  background-color: var(--cmb-white, #FFFFFF);
+  border: 1px solid var(--cmb-border, #D9D1C5);
+  border-radius: var(--cmb-radius, 2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.product-showcase-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--cmb-brick, #B94F2E);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.product-card-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #F6F3EC;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--cmb-border, #D9D1C5);
+}
+
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-showcase-card:hover .product-card-img {
+  transform: scale(1.025);
+}
+
+.product-view-controls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.65rem;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.product-arrow-btn {
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--cmb-radius, 2px);
+  background-color: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: var(--cmb-charcoal, #181818);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.product-arrow-btn:hover {
+  background-color: var(--cmb-brick, #B94F2E);
+  color: #FFFFFF;
+  border-color: var(--cmb-brick, #B94F2E);
+  transform: scale(1.06);
+}
+
+.product-arrow-btn:active {
+  transform: scale(0.92);
+}
+
+.product-view-indicator {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  background-color: rgba(24, 24, 24, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-family: var(--cmb-font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--cmb-radius, 2px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.view-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.38);
+  transition: all 0.2s ease;
+}
+
+.view-dot.is-active {
+  width: 9px;
+  border-radius: 2px;
+  background-color: var(--cmb-brick, #B94F2E);
+}
+
+.product-card-top-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 4;
+}
+
+.product-badge {
+  font-family: var(--cmb-font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-color: rgba(24, 24, 24, 0.88);
+  color: #FFFFFF;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--cmb-radius, 2px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.product-badge.badge-placeholder {
+  background-color: rgba(185, 79, 46, 0.15);
+  color: var(--cmb-brick-muted, #C56A4B);
+  border-color: var(--cmb-brick, #B94F2E);
+}
+
+.product-placeholder-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #FAF7F2;
+  border: 1.5px dashed var(--cmb-border, #D9D1C5);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.placeholder-icon-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--cmb-radius, 2px);
+  background-color: rgba(185, 79, 46, 0.08);
+  border: 1px solid rgba(185, 79, 46, 0.2);
+  color: var(--cmb-brick, #B94F2E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.placeholder-status-pill {
+  font-family: var(--cmb-font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cmb-charcoal, #181818);
+  margin-bottom: 0.25rem;
+}
+
+.placeholder-hint-text {
+  font-size: 0.82rem;
+  color: var(--cmb-muted-text, #6F6A64);
+}
+
+.product-card-body {
+  padding: 1.25rem 1.35rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.product-card-header {
+  margin-bottom: 0.85rem;
+}
+
+.product-card-title {
+  font-family: var(--cmb-font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cmb-charcoal, #181818);
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
+}
+
+.product-card-subtitle {
+  font-family: var(--cmb-font-body);
+  font-size: 0.825rem;
+  color: var(--cmb-muted-text, #6F6A64);
+  display: block;
+}
+
+.product-dimension-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--cmb-border, #D9D1C5);
+  gap: 0.5rem;
+}
+
+.dimension-label {
+  font-family: var(--cmb-font-body);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cmb-muted-text, #6F6A64);
+}
+
+.dimension-value {
+  font-family: var(--cmb-font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--cmb-charcoal, #181818);
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 767.98px) {
+  .product-showcase-section {
+    padding: 3.25rem 0;
+  }
+
+  .product-card-title {
+    font-size: 1.15rem;
+  }
+
+  .product-card-body {
+    padding: 1rem 1.15rem 1.15rem;
+  }
+
+  .dimension-value {
+    font-size: 0.82rem;
+  }
+}
+
 /* Final CTA Section - Architectural Masonry Treatment */
 .final-cta-section {
   position: relative;

@@ -3,7 +3,7 @@ import SEO from '../components/SEO';
 import Hero from '../components/Hero';
 import CompanyIntro from '../components/CompanyIntro';
 import WhyChooseUs from '../components/WhyChooseUs';
-import FactoryPreview from '../components/FactoryPreview';
+import ProductShowcase from '../components/ProductShowcase';
 import HomeGallery from '../components/HomeGallery';
 import FinalCTA from '../components/FinalCTA';
 
@@ -20,7 +20,7 @@ const Home = () => {
       <Hero />
       <CompanyIntro />
       <WhyChooseUs />
-      <FactoryPreview />
+      <ProductShowcase />
       <HomeGallery />
       <FinalCTA />
     </main>
