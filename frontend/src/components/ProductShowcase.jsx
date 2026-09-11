@@ -154,10 +154,16 @@ const ProductShowcase = () => {
       id="products"
       aria-labelledby="product-showcase-heading"
     >
-      {/* Subtle ambient background glow */}
-      <div className="product-showcase-ambient" aria-hidden="true"></div>
+      {/* Background Architectural Masonry Pattern (Reused Branded Pattern) */}
+      <div className="product-showcase-pattern-bg" aria-hidden="true"></div>
 
-      <div className="container position-relative z-1">
+      {/* Dark Readability & Calmer Contrast Overlay */}
+      <div className="product-showcase-gradient-overlay" aria-hidden="true"></div>
+
+      {/* Subtle Warm Terracotta Ambient Glow */}
+      <div className="product-showcase-glow-overlay" aria-hidden="true"></div>
+
+      <div className="container position-relative z-2">
         {/* Section Header - Compact and Simple */}
         <div className="text-center mx-auto mb-3 mb-md-4 product-showcase-header">
           <span className="badge-tag mb-2">

@@ -245,90 +245,339 @@ h1, h2, h3, h4, .font-heading {
   font-family: var(--cmb-font-body);
 }
 
-/* Hero Section */
+/* ==========================================================================
+   HERO SLIDER SYSTEM — FULL-WIDTH ARCHITECTURAL SHOWCASE
+   ========================================================================== */
+.hero-slider-section {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  height: clamp(600px, 78vh, 740px);
+  background-color: var(--cmb-charcoal);
+  color: var(--cmb-white);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+
+/* 1. Slides Viewport & Absolute Slide Stacking */
+.hero-slides-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.85s ease;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* 2. Slide Background Image & Desktop Ken Burns Subtle Slow Zoom */
+.hero-slide-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  transform: scale(1);
+  transition: transform 6.5s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .hero-slide.is-active .hero-slide-img {
+    transform: scale(1.06);
+  }
+}
+
+/* 3. Directional Dark Gradient Overlay: Warm dark brown/black gradient for text legibility without over-darkening */
+.hero-slide-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: 
+    /* Subtle horizontal warm dark brown/black gradient: darker behind text on left, open and luminous on right */
+    linear-gradient(
+      90deg, 
+      rgba(18, 14, 12, 0.82) 0%, 
+      rgba(18, 14, 12, 0.65) 34%, 
+      rgba(18, 14, 12, 0.28) 62%, 
+      rgba(18, 14, 12, 0.06) 100%
+    ),
+    /* Delicate vertical edge shading */
+    linear-gradient(
+      180deg, 
+      rgba(18, 14, 12, 0.44) 0%, 
+      transparent 24%, 
+      transparent 76%, 
+      rgba(18, 14, 12, 0.64) 100%
+    );
+}
+
+/* 4. Content Container & Typography */
+.hero-content-container {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+.hero-text-block {
+  position: relative;
+  z-index: 5;
+}
+
+.hero-main-heading {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(2.4rem, 4.5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.85rem;
+  color: #FFFFFF;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75);
+}
+
+.hero-subtext {
+  font-family: var(--cmb-font-body);
+  font-size: clamp(1.08rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  line-height: 1.55;
+  max-width: 480px;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 1.85rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* 5. CTA Action Buttons */
+.hero-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.hero-btn-cta {
+  font-size: 0.95rem;
+  padding: 0.75rem 1.6rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 6. Navigation Arrow Controls */
+.hero-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--cmb-radius, 2px);
+  background-color: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.22s ease, border-color 0.22s ease, transform 0.22s ease, color 0.22s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  touch-action: manipulation;
+}
+
+.hero-arrow-btn:hover {
+  background-color: var(--cmb-brick, #B94F2E);
+  border-color: var(--cmb-brick, #B94F2E);
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.hero-arrow-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.hero-arrow-btn.prev-arrow {
+  left: 1.5rem;
+}
+
+.hero-arrow-btn.next-arrow {
+  right: 1.5rem;
+}
+
+/* 7. Bottom Dot Pagination */
+.hero-slider-pagination {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.hero-dot-btn {
+  padding: 6px 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.hero-dot-fill {
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.38);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 12px;
+}
+
+.hero-dot-btn:hover .hero-dot-fill {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.hero-dot-btn.is-active .hero-dot-fill {
+  width: 28px;
+  background-color: var(--cmb-brick, #B94F2E);
+  box-shadow: 0 0 8px rgba(185, 79, 46, 0.6);
+}
+
+/* 8. Mobile & Responsive Layout Refinements */
+@media (max-width: 991.98px) {
+  .hero-slider-section {
+    min-height: 560px;
+    height: auto;
+    padding: 5rem 0 4.5rem;
+  }
+
+  .hero-arrow-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .hero-arrow-btn.prev-arrow {
+    left: 0.85rem;
+  }
+
+  .hero-arrow-btn.next-arrow {
+    right: 0.85rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-slider-section {
+    min-height: 520px;
+    height: auto;
+    padding: 4rem 0 3.75rem;
+  }
+
+  /* Subtle mobile overlay: warm dark brown/black gradient for high text readability while keeping brick photo bright & clear */
+  .hero-slide-overlay {
+    background: 
+      linear-gradient(
+        180deg, 
+        rgba(18, 14, 12, 0.78) 0%, 
+        rgba(18, 14, 12, 0.58) 42%, 
+        rgba(18, 14, 12, 0.28) 75%, 
+        rgba(18, 14, 12, 0.58) 100%
+      );
+  }
+
+  .hero-content-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-main-heading {
+    font-size: 2.1rem;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-subtext {
+    font-size: 0.96rem;
+    line-height: 1.5;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-arrow-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+    background-color: rgba(20, 20, 20, 0.65);
+  }
+
+  .hero-arrow-btn.prev-arrow {
+    left: 0.45rem;
+  }
+
+  .hero-arrow-btn.next-arrow {
+    right: 0.45rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero-slider-section {
+    min-height: 490px;
+    padding: 3.5rem 0 3.25rem;
+  }
+
+  .hero-content-container {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+
+  .hero-main-heading {
+    font-size: 1.85rem;
+    line-height: 1.22;
+  }
+
+  .hero-cta-actions {
+    gap: 0.65rem;
+  }
+
+  .hero-btn-cta {
+    padding: 0.68rem 1.15rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Backward-compatibility fallback */
 .hero-section {
   position: relative;
   background-color: var(--cmb-charcoal);
   color: var(--cmb-white);
   padding: 5.25rem 0 4.75rem;
   overflow: hidden;
-}
-
-.hero-section h1 {
-  font-family: var(--cmb-font-heading);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
-}
-
-.hero-section .lead {
-  font-family: var(--cmb-font-body);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
-}
-
-/* Stylized Hero Background Visual Architecture - Design-based Brick Masonry */
-.hero-bg-visual {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-  user-select: none;
-}
-
-.hero-pattern-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('./assets/hero-brick-pattern.svg');
-  background-repeat: repeat;
-  background-size: 288px 224px; /* Wide 2.69:1 laterite brick proportions */
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Directional Dark Gradient Overlay: Preserves 100% Left Content Readability while showcasing brick texture prominently (35-50% visibility) */
-.hero-bg-gradient-overlay {
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(
-      90deg, 
-      rgba(24, 24, 24, 0.86) 0%, 
-      rgba(24, 24, 24, 0.74) 42%, 
-      rgba(24, 24, 24, 0.42) 68%, 
-      rgba(24, 24, 24, 0.16) 100%
-    ),
-    linear-gradient(
-      180deg, 
-      rgba(24, 24, 24, 0.60) 0%, 
-      transparent 25%, 
-      transparent 75%, 
-      rgba(24, 24, 24, 0.85) 100%
-    );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Warm Terracotta Architectural Ambient Glow */
-.hero-bg-glow-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 75% 40%, 
-    rgba(185, 79, 46, 0.16) 0%, 
-    transparent 70%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Backward-compatibility fallback */
-.hero-overlay {
-  display: none;
 }
 
 .badge-tag {
@@ -440,23 +689,66 @@ h1, h2, h3, h4, .font-heading {
    ======================================================== */
 .product-showcase-section {
   position: relative;
-  background-color: var(--cmb-charcoal, #181818);
+  background-color: #1a1411; /* Deep brown/charcoal base matching Final CTA */
   padding: 3.85rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
 }
 
-.product-showcase-ambient {
+/* Reused Classic Mun Bricks Wide-Brick Architectural Masonry Pattern */
+.product-showcase-pattern-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/brick-masonry-pattern.svg');
+  background-repeat: repeat;
+  background-size: 280px 224px; /* Wide 2.6:1 rectangular laterite brick proportions */
+  opacity: 0.48; /* Calmer brick visibility than Final CTA (0.85) so product cards stay the primary focus */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Soft Dark Contrast Gradient Overlay: Calmer than Final CTA to keep product cards prominent */
+.product-showcase-gradient-overlay {
   position: absolute;
   inset: 0;
   background: 
     radial-gradient(
-      ellipse 65% 55% at 50% 25%, 
-      rgba(185, 79, 46, 0.12) 0%, 
-      transparent 70%
+      ellipse 82% 65% at 50% 50%, 
+      rgba(24, 20, 18, 0.76) 0%, 
+      rgba(24, 20, 18, 0.62) 60%, 
+      rgba(20, 16, 14, 0.42) 100%
+    ),
+    linear-gradient(
+      180deg, 
+      rgba(20, 16, 14, 0.85) 0%, 
+      transparent 18%, 
+      transparent 82%, 
+      rgba(20, 16, 14, 0.88) 100%
     );
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+}
+
+/* Subtle Warm Terracotta Ambient Center Glow */
+.product-showcase-glow-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 28%, 
+    rgba(185, 79, 46, 0.10) 0%, 
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+/* Backward-compatibility fallback */
+.product-showcase-ambient {
+  display: none;
 }
 
 .product-cards-grid-wrap {
@@ -719,6 +1011,11 @@ h1, h2, h3, h4, .font-heading {
 @media (max-width: 767.98px) {
   .product-showcase-section {
     padding: 2.75rem 0 3rem;
+  }
+
+  .product-showcase-pattern-bg {
+    background-size: 210px 168px;
+    opacity: 0.38; /* Softened slightly for clean, clutter-free mobile backdrop behind cards */
   }
 
   .product-cards-grid-wrap {
