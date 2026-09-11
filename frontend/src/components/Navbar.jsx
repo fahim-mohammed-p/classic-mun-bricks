@@ -2,12 +2,19 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { CONTACT_CONFIG } from '../config/contact';
 import BrandLogo from './BrandLogo';
+import { useHeroNav } from '../context/HeroNavContext';
 
 const Navbar = () => {
+  const { isHome, isHeroInView } = useHeroNav();
+  const isDesktopGlass = isHome && isHeroInView;
+  const isMobileBottomNavHidden = isHome && isHeroInView;
+
   return (
     <>
       {/* DESKTOP TOP NAVBAR */}
-      <nav className="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top d-none d-lg-block">
+      <nav 
+        className={`navbar navbar-expand-lg navbar-dark navbar-custom d-none d-lg-block ${isHome ? 'is-home-nav' : 'sticky-top'} ${isDesktopGlass ? 'is-hero-glass' : ''} ${isHome && !isHeroInView ? 'is-scrolled' : ''}`}
+      >
         <div className="container">
           {/* Official Brand Logo & Name */}
           <Link className="navbar-brand text-decoration-none" to="/" aria-label="Classic Mun Bricks Home">
@@ -83,7 +90,11 @@ const Navbar = () => {
 
 
       {/* MOBILE APP-LIKE FIXED BOTTOM NAVIGATION */}
-      <nav className="mobile-bottom-nav d-lg-none" aria-label="Mobile Navigation">
+      <nav 
+        className={`mobile-bottom-nav d-lg-none ${isMobileBottomNavHidden ? 'is-hero-hidden' : ''}`} 
+        aria-label="Mobile Navigation"
+        aria-hidden={isMobileBottomNavHidden}
+      >
         <div className="mobile-bottom-nav-inner">
           <NavLink 
             to="/" 

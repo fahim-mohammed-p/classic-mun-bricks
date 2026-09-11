@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import heroSlide1 from '../assets/hero-slides/hero-slide-1.webp';
 import heroSlide2 from '../assets/hero-slides/hero-slide-2.webp';
 import heroSlide3 from '../assets/hero-slides/hero-slide-3.webp';
+import { useHeroNav } from '../context/HeroNavContext';
 
 /**
  * Slide Definitions:
@@ -49,6 +50,9 @@ const Hero = () => {
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const heroSectionRef = useRef(null);
+
+  const { isHome, setIsHeroInView } = useHeroNav();
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
@@ -61,6 +65,25 @@ const Hero = () => {
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
+
+  // IntersectionObserver to detect whether Home Hero is active in viewport
+  useEffect(() => {
+    if (!isHome || !heroSectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroInView(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: '-72px 0px 0px 0px', // 72px offset for desktop navbar
+        threshold: [0, 0.15],
+      }
+    );
+
+    observer.observe(heroSectionRef.current);
+    return () => observer.disconnect();
+  }, [isHome, setIsHeroInView]);
 
   // Auto-slide effect with pause on hover
   useEffect(() => {
@@ -101,6 +124,8 @@ const Hero = () => {
 
   return (
     <section 
+      ref={heroSectionRef}
+      id="home-hero"
       className="hero-slider-section"
       aria-label="Classic Mun Bricks Hero Showcase"
       onMouseEnter={() => setIsPaused(true)}
@@ -153,6 +178,33 @@ const Hero = () => {
                 {SLIDES[currentSlide].subtext}
               </p>
 
+              {/* Mobile-Only Dedicated Slider Arrow Controls (Task 2: clean breathing room, no touching buttons) */}
+              <div className="hero-mobile-nav-row d-flex d-md-none align-items-center justify-content-between">
+                <div className="hero-mobile-arrows-group d-flex align-items-center gap-2">
+                  <button
+                    type="button"
+                    className="hero-mobile-arrow-btn prev"
+                    onClick={prevSlide}
+                    aria-label="Previous slide"
+                    title="Previous slide"
+                  >
+                    <i className="bi bi-chevron-left" aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="hero-mobile-arrow-btn next"
+                    onClick={nextSlide}
+                    aria-label="Next slide"
+                    title="Next slide"
+                  >
+                    <i className="bi bi-chevron-right" aria-hidden="true" />
+                  </button>
+                </div>
+                <span className="hero-mobile-slide-counter">
+                  0{currentSlide + 1} <span className="counter-sep">/</span> 0{SLIDES.length}
+                </span>
+              </div>
+
               {/* CTA Action Buttons */}
               <div className="hero-cta-actions">
                 <Link to="/visit-us" className="btn-cmb-primary hero-btn-cta">
@@ -168,10 +220,10 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Navigation Arrow Controls */}
+      {/* Desktop-Only Side Floating Navigation Arrow Controls */}
       <button
         type="button"
-        className="hero-arrow-btn prev-arrow"
+        className="hero-arrow-btn prev-arrow d-none d-md-flex"
         onClick={prevSlide}
         aria-label="Previous slide"
         title="Previous slide"
@@ -181,7 +233,7 @@ const Hero = () => {
 
       <button
         type="button"
-        className="hero-arrow-btn next-arrow"
+        className="hero-arrow-btn next-arrow d-none d-md-flex"
         onClick={nextSlide}
         aria-label="Next slide"
         title="Next slide"

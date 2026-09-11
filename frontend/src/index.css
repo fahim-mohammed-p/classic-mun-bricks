@@ -110,6 +110,36 @@ h1, h2, h3, h4, .font-heading {
   transition: var(--cmb-transition);
 }
 
+/* 3B — DESKTOP HOME HERO GLASS NAVBAR OVER HERO IMAGE */
+@media (min-width: 992px) {
+  .navbar-custom.is-home-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    width: 100%;
+    transition: background-color 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease, -webkit-backdrop-filter 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .navbar-custom.is-home-nav.is-hero-glass {
+    background-color: rgba(15, 15, 15, 0.36);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Solid navbar restored immediately after scrolling past Home Hero */
+  .navbar-custom.is-home-nav.is-scrolled {
+    background-color: var(--cmb-charcoal);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+}
+
 .navbar-custom .navbar-brand {
   font-family: var(--cmb-font-heading);
   font-size: 1.25rem;
@@ -468,36 +498,87 @@ h1, h2, h3, h4, .font-heading {
   box-shadow: 0 0 8px rgba(185, 79, 46, 0.6);
 }
 
-/* 8. Mobile & Responsive Layout Refinements */
+/* Desktop Headroom & Viewport Balance over Glass Navbar */
+@media (min-width: 992px) {
+  .hero-slider-section {
+    min-height: 640px;
+    height: clamp(640px, 86vh, 800px);
+    padding-top: calc(72px + 2rem);
+    padding-bottom: 2.5rem;
+  }
+}
+
+/* 6B. Mobile Dedicated Slider Arrow Navigation Row */
+.hero-mobile-nav-row {
+  margin-bottom: 1.35rem;
+  padding: 0 0.1rem;
+}
+
+.hero-mobile-arrows-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.hero-mobile-arrow-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--cmb-radius, 2px);
+  background-color: rgba(22, 18, 15, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.hero-mobile-arrow-btn:active {
+  background-color: var(--cmb-brick, #B94F2E);
+  border-color: var(--cmb-brick, #B94F2E);
+  transform: scale(0.92);
+}
+
+.hero-mobile-slide-counter {
+  font-family: var(--cmb-font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.82);
+  background-color: rgba(22, 18, 15, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--cmb-radius, 2px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-mobile-slide-counter .counter-sep {
+  color: var(--cmb-brick, #B94F2E);
+  margin: 0 0.25rem;
+}
+
+/* 8. Mobile & Responsive Layout Refinements (Task 1: No Next Section Peek) */
 @media (max-width: 991.98px) {
   .hero-slider-section {
-    min-height: 560px;
+    min-height: calc(100vh - 54px);
+    min-height: calc(100svh - 54px);
+    min-height: calc(100dvh - 54px);
     height: auto;
-    padding: 5rem 0 4.5rem;
-  }
-
-  .hero-arrow-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-
-  .hero-arrow-btn.prev-arrow {
-    left: 0.85rem;
-  }
-
-  .hero-arrow-btn.next-arrow {
-    right: 0.85rem;
+    padding: 2.5rem 0 3.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 
 @media (max-width: 767.98px) {
-  .hero-slider-section {
-    min-height: 520px;
-    height: auto;
-    padding: 4rem 0 3.75rem;
-  }
-
   /* Subtle mobile overlay: warm dark brown/black gradient for high text readability while keeping brick photo bright & clear */
   .hero-slide-overlay {
     background: 
@@ -511,63 +592,55 @@ h1, h2, h3, h4, .font-heading {
   }
 
   .hero-content-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 1rem;
+    padding-left: 1.85rem;
+    padding-right: 1.85rem;
+    padding-top: 0.5rem;
     padding-bottom: 1.5rem;
   }
 
   .hero-main-heading {
-    font-size: 2.1rem;
-    line-height: 1.2;
-    margin-bottom: 0.85rem;
+    font-size: 2.15rem;
+    line-height: 1.18;
+    margin-bottom: 0.75rem;
   }
 
   .hero-subtext {
-    font-size: 0.96rem;
+    font-size: 1.02rem;
     line-height: 1.5;
-    margin-bottom: 1.4rem;
-  }
-
-  .hero-arrow-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 0.95rem;
-    background-color: rgba(20, 20, 20, 0.65);
-  }
-
-  .hero-arrow-btn.prev-arrow {
-    left: 0.45rem;
-  }
-
-  .hero-arrow-btn.next-arrow {
-    right: 0.45rem;
+    margin-bottom: 1.25rem;
   }
 }
 
 @media (max-width: 575.98px) {
   .hero-slider-section {
-    min-height: 490px;
-    padding: 3.5rem 0 3.25rem;
+    min-height: calc(100vh - 54px);
+    min-height: calc(100svh - 54px);
+    min-height: calc(100dvh - 54px);
+    padding: 2rem 0 3rem;
   }
 
   .hero-content-container {
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
   }
 
   .hero-main-heading {
-    font-size: 1.85rem;
-    line-height: 1.22;
+    font-size: 1.95rem;
+    line-height: 1.2;
   }
 
   .hero-cta-actions {
-    gap: 0.65rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-btn-cta {
-    padding: 0.68rem 1.15rem;
-    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1.35rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -1279,6 +1352,19 @@ h1, h2, h3, h4, .font-heading {
   border-top: 1px solid var(--cmb-border);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.35s ease;
+}
+
+/* 3A — MOBILE HOME HERO: HIDE BOTTOM NAVIGATION WHILE HERO IS IN VIEW */
+.mobile-bottom-nav.is-hero-hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .mobile-bottom-nav-inner {
@@ -1507,6 +1593,12 @@ h1, h2, h3, h4, .font-heading {
     bottom: calc(64px + 14px + env(safe-area-inset-bottom, 0px));
     right: 14px;
     gap: 10px;
+    transition: bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* When bottom nav is hidden on Home Hero, comfortably position floating actions lower */
+  body.home-hero-active .floating-actions-stack {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
   }
 
   .floating-action-btn {

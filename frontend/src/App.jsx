@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { HeroNavProvider } from './context/HeroNavContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -29,24 +30,26 @@ const ScrollToTop = () => {
 
 function App() {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
-      <ScrollToTop />
-      <Navbar />
-      <div className="flex-grow-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/visit-us" element={<VisitUs />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostDetail />} />
-        </Routes>
+    <HeroNavProvider>
+      <div className="d-flex flex-column min-vh-100">
+        <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
+        <ScrollToTop />
+        <Navbar />
+        <div className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/visit-us" element={<VisitUs />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPostDetail />} />
+          </Routes>
+        </div>
+        <Footer />
+        <WhatsAppButton />
       </div>
-      <Footer />
-      <WhatsAppButton />
-    </div>
+    </HeroNavProvider>
   );
 }
 
