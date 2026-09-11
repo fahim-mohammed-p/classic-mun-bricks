@@ -51,7 +51,7 @@
   background: rgba(184, 74, 40, 0.12);
   border: 1px solid rgba(184, 74, 40, 0.3);
   padding: 0.3rem 0.85rem;
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
 }
 
 .projects-hero-title {
@@ -84,7 +84,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   padding: 0.85rem 1.75rem;
-  border-radius: 14px;
+  border-radius: var(--cmb-radius);
   box-sizing: border-box;
 }
 
@@ -154,10 +154,10 @@
 .region-toggle-bar {
   display: inline-flex;
   background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 50px;
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
   padding: 0.25rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--cmb-shadow-sm);
   max-width: 100%;
 }
 
@@ -168,7 +168,7 @@
   font-size: clamp(0.78rem, 2vw, 0.88rem);
   font-weight: 600;
   padding: 0.55rem clamp(0.85rem, 2vw, 1.35rem);
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
   transition: all 0.2s ease;
   cursor: pointer;
   display: flex;
@@ -194,7 +194,7 @@
   background: rgba(184, 74, 40, 0.18);
   color: var(--cmb-terracotta);
   padding: 0.12rem 0.45rem;
-  border-radius: 12px;
+  border-radius: var(--cmb-radius);
   font-weight: 700;
 }
 
@@ -206,7 +206,7 @@
 /* Cinematic Map Container */
 .map-canvas-wrapper {
   background: radial-gradient(ellipse at center, #24292E 0%, #15181C 100%);
-  border-radius: clamp(14px, 2.5vw, 20px);
+  border-radius: var(--cmb-radius-lg, 3px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
   padding: clamp(1rem, 2.5vw, 2rem) clamp(0.5rem, 2vw, 1.25rem);
@@ -354,9 +354,9 @@
 
 .mobile-state-tab-btn {
   flex: 1;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--cmb-border);
   background: #FFFFFF;
-  border-radius: 12px;
+  border-radius: var(--cmb-radius);
   padding: 0.75rem 1rem;
   min-height: 50px;
   cursor: pointer;
@@ -379,7 +379,7 @@
   color: var(--cmb-terracotta);
   background: rgba(184, 74, 40, 0.1);
   padding: 0.2rem 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--cmb-radius);
 }
 
 .mobile-state-tab-btn.is-active {
@@ -400,9 +400,9 @@
 /* Region Detail Panel */
 .region-card-panel {
   background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: clamp(14px, 2.5vw, 20px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  box-shadow: var(--cmb-shadow-sm);
   padding: clamp(1.4rem, 3vw, 2.25rem);
   height: 100%;
   display: flex;
@@ -434,7 +434,7 @@
   color: var(--cmb-charcoal);
   background: var(--cmb-sand-muted);
   padding: 0.25rem 0.75rem;
-  border-radius: 8px;
+  border-radius: var(--cmb-radius);
 }
 
 .panel-state-name {
@@ -498,7 +498,7 @@
   padding: 0.85rem 1.35rem;
   font-size: clamp(0.88rem, 2vw, 0.95rem);
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
   background-color: var(--cmb-terracotta);
   color: #FFFFFF;
   border: 1px solid transparent;
@@ -535,7 +535,7 @@
 
 .project-modal-card {
   background: #FFFFFF;
-  border-radius: clamp(16px, 3vw, 20px);
+  border-radius: var(--cmb-radius-lg, 3px);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
   width: 100%;
@@ -642,7 +642,7 @@
   background: rgba(184, 74, 40, 0.1);
   color: var(--cmb-terracotta);
   padding: 0.3rem 0.8rem;
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
   margin-bottom: 0.85rem;
 }
 
@@ -677,7 +677,7 @@
   justify-content: center;
   font-weight: 600;
   padding: 0.65rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--cmb-radius);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
@@ -723,7 +723,7 @@
 .btn-cta-whatsapp {
   min-height: 48px;
   padding: 0.75rem 1.75rem;
-  border-radius: 10px;
+  border-radius: var(--cmb-radius);
   font-weight: 600;
   font-size: clamp(0.88rem, 2vw, 0.95rem);
   text-decoration: none;

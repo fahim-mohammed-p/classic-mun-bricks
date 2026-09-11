@@ -15,7 +15,7 @@ const FinalCTA = () => {
 
       <div className="container position-relative z-2">
         <div className="mx-auto" style={{ maxWidth: '680px' }}>
-          <span className="badge bg-white text-terracotta fw-bold px-3 py-2 text-uppercase mb-3 rounded-pill">
+          <span className="badge bg-white text-terracotta fw-bold px-3 py-2 text-uppercase mb-3 rounded-1">
             Get In Touch
           </span>
           <h2 className="display-5 fw-bold text-white mb-3">

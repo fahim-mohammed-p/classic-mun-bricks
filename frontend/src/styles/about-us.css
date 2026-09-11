@@ -70,7 +70,7 @@
   letter-spacing: 1.2px;
   text-transform: uppercase;
   padding: 0.3rem 0.75rem;
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
 }
 
 .about-hero-title {
@@ -227,17 +227,17 @@
 
 .about-location-info-box {
   background-color: var(--cmb-white);
-  border-radius: var(--cmb-radius-lg);
-  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  border: 1px solid var(--cmb-border);
   padding: 2rem;
   box-shadow: var(--cmb-shadow-sm);
 }
 
 .about-map-frame {
-  border-radius: var(--cmb-radius-lg);
+  border-radius: var(--cmb-radius-lg, 3px);
   overflow: hidden;
-  border: 1px solid var(--cmb-sand-dark);
-  box-shadow: var(--cmb-shadow-md);
+  border: 1px solid var(--cmb-border);
+  box-shadow: var(--cmb-shadow-sm);
   height: 400px;
 }
 

@@ -42,11 +42,11 @@ const FactoryPreview = () => {
                 <line x1="280" y1="120" x2="280" y2="260" stroke="#C68A36" strokeDasharray="4 4" strokeWidth="2" />
                 
                 {/* Center Badge */}
-                <rect x="130" y="110" width="300" height="60" rx="10" fill="#1A1D20" stroke="#B84A28" strokeWidth="2" />
-                <text x="280" y="138" textAnchor="middle" fill="#FFFFFF" fontSize="14" fontFamily="Cinzel" fontWeight="bold">
+                <rect x="130" y="110" width="300" height="60" rx="2" fill="#1A1D20" stroke="#B84A28" strokeWidth="2" />
+                <text x="280" y="138" textAnchor="middle" fill="#FFFFFF" fontSize="14" fontFamily="Libre Baskerville, serif" fontWeight="bold">
                   MANUFACTURING PROCESS TOUR
                 </text>
-                <text x="280" y="156" textAnchor="middle" fill="#EFECE6" fontSize="11" fontFamily="Plus Jakarta Sans" opacity="0.75">
+                <text x="280" y="156" textAnchor="middle" fill="#EFECE6" fontSize="11" fontFamily="Source Sans 3, sans-serif" opacity="0.75">
                   Soil Preparation → Material Refining → Hydraulic Pressing → QC
                 </text>
               </svg>

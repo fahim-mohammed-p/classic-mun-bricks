@@ -39,7 +39,7 @@
   letter-spacing: 1.2px;
   text-transform: uppercase;
   padding: 0.35rem 0.85rem;
-  border-radius: 50px;
+  border-radius: var(--cmb-radius);
 }
 
 .contact-hero-title {
@@ -62,7 +62,7 @@
   align-items: center;
   gap: 0.85rem;
   background: var(--cmb-white);
-  border: 1px solid var(--cmb-sand-dark);
+  border: 1px solid var(--cmb-border);
   border-radius: var(--cmb-radius);
   padding: 0.9rem 1.15rem;
   text-decoration: none;
@@ -104,8 +104,8 @@
 
 .contact-info-card {
   background-color: var(--cmb-white);
-  border-radius: var(--cmb-radius-lg);
-  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  border: 1px solid var(--cmb-border);
   padding: 1.75rem;
   /* NO fixed height to prevent stretching bugs */
 }
@@ -140,10 +140,10 @@
 
 .form-card {
   background-color: var(--cmb-white);
-  border-radius: var(--cmb-radius-lg);
-  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  border: 1px solid var(--cmb-border);
   padding: 2.25rem;
-  box-shadow: var(--cmb-shadow-md);
+  box-shadow: var(--cmb-shadow-sm);
 }
 
 .form-label-custom {
@@ -161,7 +161,7 @@
   font-family: var(--cmb-font-body);
   color: var(--cmb-charcoal);
   background-color: #FAFAFA;
-  border: 1.5px solid var(--cmb-sand-dark);
+  border: 1px solid var(--cmb-border);
   border-radius: var(--cmb-radius);
   transition: var(--cmb-transition);
   outline: none;
@@ -220,16 +220,16 @@ select.form-control-custom {
 
 .location-card {
   background-color: var(--cmb-white);
-  border-radius: var(--cmb-radius-lg);
-  border: 1px solid var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  border: 1px solid var(--cmb-border);
   padding: 2.25rem;
 }
 
 .compact-placeholder-box {
   padding: 2.5rem 1.5rem;
   background-color: var(--cmb-sand-light);
-  border-radius: var(--cmb-radius-lg);
-  border: 1px dashed var(--cmb-sand-dark);
+  border-radius: var(--cmb-radius);
+  border: 1px dashed var(--cmb-border);
 }
 
 /* --------------------------------------------------------
@@ -261,7 +261,7 @@ select.form-control-custom {
 
   .form-card {
     padding: 1.5rem;
-    border-radius: 12px;
+    border-radius: var(--cmb-radius);
   }
 
   .form-control-custom {

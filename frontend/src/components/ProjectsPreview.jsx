@@ -74,8 +74,8 @@ const ProjectsPreview = () => {
                       <rect x="260" y="190" width="60" height="60" fill="#FFFFFF" />
                     </g>
 
-                    <rect x="70" y="105" width="260" height="40" rx="6" fill="#141618" stroke="rgba(255,255,255,0.2)" />
-                    <text x="200" y="130" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontFamily="Plus Jakarta Sans" fontWeight="600">
+                    <rect x="70" y="105" width="260" height="40" rx="2" fill="#141618" stroke="rgba(255,255,255,0.2)" />
+                    <text x="200" y="130" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontFamily="Source Sans 3, sans-serif" fontWeight="600">
                       Real Client Structure Photo Slot
                     </text>
                   </svg>

@@ -33,19 +33,18 @@
   z-index: 2;
 }
 
-/* Feature Cards slight translucent backing for 100% text legibility */
+/* Feature Cards flat classic corporate backing for 100% text legibility */
 .manufacturing-feature-card {
-  background-color: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(184, 74, 40, 0.1);
-  border-radius: var(--cmb-radius, 8px);
-  box-shadow: 0 4px 16px rgba(26, 29, 32, 0.04);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background-color: var(--cmb-white, #FFFFFF);
+  border: 1px solid var(--cmb-border, #D9D1C5);
+  border-radius: var(--cmb-radius, 2px);
+  box-shadow: 0 2px 6px rgba(24, 24, 24, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .manufacturing-feature-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(184, 74, 40, 0.08);
+  border-color: var(--cmb-brick, #B94F2E);
+  box-shadow: 0 4px 12px rgba(24, 24, 24, 0.08);
 }
 
 /* =========================================================================
