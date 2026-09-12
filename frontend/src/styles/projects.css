@@ -19,7 +19,7 @@
    ======================================================== */
 .projects-hero {
   position: relative;
-  background: linear-gradient(180deg, #1A1D20 0%, #15181B 100%);
+  background: linear-gradient(180deg, #4A261C 0%, #3D1E16 100%);
   color: #FFFFFF;
   padding: clamp(2.25rem, 5vw, 3.75rem) 0 clamp(1.75rem, 3.5vw, 2.75rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -33,7 +33,7 @@
   transform: translateX(-50%);
   width: min(600px, 90vw);
   height: 320px;
-  background: radial-gradient(circle, rgba(184, 74, 40, 0.16) 0%, rgba(26, 29, 32, 0) 70%);
+  background: radial-gradient(circle, rgba(226, 135, 102, 0.18) 0%, rgba(74, 38, 28, 0) 70%);
   pointer-events: none;
   filter: blur(40px);
 }
@@ -205,9 +205,9 @@
 
 /* Cinematic Map Container */
 .map-canvas-wrapper {
-  background: radial-gradient(ellipse at center, #24292E 0%, #15181C 100%);
+  background: radial-gradient(ellipse at center, #572B1E 0%, #432117 100%);
   border-radius: var(--cmb-radius-lg, 3px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
   padding: clamp(1rem, 2.5vw, 2rem) clamp(0.5rem, 2vw, 1.25rem);
   position: relative;
@@ -224,7 +224,7 @@
   left: 35%;
   width: min(300px, 70vw);
   height: min(300px, 70vw);
-  background: radial-gradient(circle, rgba(184, 74, 40, 0.14) 0%, rgba(26, 29, 32, 0) 70%);
+  background: radial-gradient(circle, rgba(226, 135, 102, 0.18) 0%, rgba(74, 38, 28, 0) 70%);
   pointer-events: none;
   filter: blur(40px);
 }
@@ -687,7 +687,7 @@
    ======================================================== */
 .projects-cta-section {
   padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(2.25rem, 4vw, 3.25rem);
-  background: linear-gradient(180deg, #1F2327 0%, #17191C 100%);
+  background: linear-gradient(180deg, #572B1E 0%, #4A261C 100%);
   color: #FFFFFF;
   text-align: center;
   position: relative;

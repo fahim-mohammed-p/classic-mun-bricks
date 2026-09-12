@@ -12,7 +12,7 @@
    -------------------------------------------------------- */
 .contact-hero {
   position: relative;
-  background-color: var(--cmb-charcoal);
+  background-color: #4A261C;
   color: var(--cmb-white);
   padding: 3.5rem 0 3rem;
   overflow: hidden;
@@ -22,8 +22,8 @@
 .contact-hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(184, 74, 40, 0.15) 0%, transparent 60%),
-              linear-gradient(180deg, rgba(26, 29, 32, 0.7) 0%, rgba(26, 29, 32, 0.98) 100%);
+  background: radial-gradient(circle at 80% 20%, rgba(226, 135, 102, 0.18) 0%, transparent 60%),
+              linear-gradient(180deg, rgba(74, 38, 28, 0.82) 0%, rgba(87, 43, 30, 0.96) 100%);
   pointer-events: none;
 }
 
@@ -237,7 +237,7 @@ select.form-control-custom {
    -------------------------------------------------------- */
 .contact-final-cta {
   padding: 4.5rem 0;
-  background: linear-gradient(135deg, #1A1D20 0%, #2A2E33 100%);
+  background: linear-gradient(135deg, #4A261C 0%, #572B1E 100%);
   color: var(--cmb-white);
 }
 

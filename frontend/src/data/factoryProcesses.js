@@ -2,6 +2,7 @@
 import vid01 from '../assets/visit-us/05-further-processing.mp4';
 import vid02 from '../assets/visit-us/02-material-refining.mov';
 import vid03 from '../assets/visit-us/3rd step classic.mp4';
+import vidNew from '../assets/visit-us/visit us new.mp4';
 import img04 from '../assets/visit-us/01-material-processing.jpg';
 import vid04 from '../assets/visit-us/01-material-processing.mov';
 import vid05 from '../assets/visit-us/04-mixing-conditioning.mov';
@@ -55,7 +56,21 @@ export const FACTORY_PROCESSES = [
     id: 4,
     stepNumber: 4,
     formattedNumber: '04',
-    stageLabel: 'Stage 04 • Raw Material Feed',
+    stageLabel: 'Stage 04 • Soil Transfer',
+    title: 'Processed Soil Transfer',
+    shortDescription:
+      'Processed soil is transferred to the next stage of preparation.',
+    image: null, // Zero-shift poster frame rendered seamlessly from video
+    video: vidNew,
+    altText: 'Processed laterite soil being discharged and transferred at the Classic Mun Bricks factory',
+    badgeText: 'Soil Transfer',
+    layout: 'text-right',
+  },
+  {
+    id: 5,
+    stepNumber: 5,
+    formattedNumber: '05',
+    stageLabel: 'Stage 05 • Raw Material Feed',
     title: 'Initial Material Processing',
     shortDescription:
       'Raw laterite soil and natural minerals enter the primary processing conveyor. The material undergoes initial crushing and screening to break down large aggregates and establish initial uniformity before entering refined preparation channels.',
@@ -63,13 +78,13 @@ export const FACTORY_PROCESSES = [
     video: vid04,
     altText: 'Raw laterite soil entering initial conveyor feeder at the Classic Mun Bricks factory in Kerala',
     badgeText: 'Conveyor & Screening',
-    layout: 'text-right',
+    layout: 'text-left',
   },
   {
-    id: 5,
-    stepNumber: 5,
-    formattedNumber: '05',
-    stageLabel: 'Stage 05 • Moisture & Plasticity',
+    id: 6,
+    stepNumber: 6,
+    formattedNumber: '06',
+    stageLabel: 'Stage 06 • Moisture & Plasticity',
     title: 'Mixing & Conditioning',
     shortDescription:
       'The prepared soil blend is thoroughly mixed and conditioned with controlled water addition. Heavy-duty mixing paddles blend the minerals to achieve the exact plasticity and internal cohesion required for flawless hydraulic pressing.',
@@ -77,20 +92,6 @@ export const FACTORY_PROCESSES = [
     video: vid05,
     altText: 'Conditioning mixer blending soil with controlled moisture',
     badgeText: 'Conditioning Mixer',
-    layout: 'text-left',
-  },
-  {
-    id: 6,
-    stepNumber: 6,
-    formattedNumber: '06',
-    stageLabel: 'Stage 06 • Manufacturing Process',
-    title: 'Process Stage 06',
-    shortDescription:
-      'The material continues through the next stage of the production process.',
-    image: null, // Zero-shift poster frame rendered seamlessly from video
-    video: vid06,
-    altText: 'Manufacturing process stage 06 at Classic Mun Bricks',
-    badgeText: 'Stage 06 Footage',
     layout: 'text-right',
   },
   {
@@ -100,11 +101,25 @@ export const FACTORY_PROCESSES = [
     stageLabel: 'Stage 07 • Manufacturing Process',
     title: 'Process Stage 07',
     shortDescription:
-      'The final stage shown in this factory journey before the process continues onward.',
+      'The material continues through the next stage of the production process.',
     image: null, // Zero-shift poster frame rendered seamlessly from video
-    video: vid07,
+    video: vid06,
     altText: 'Manufacturing process stage 07 at Classic Mun Bricks',
     badgeText: 'Stage 07 Footage',
     layout: 'text-left',
+  },
+  {
+    id: 8,
+    stepNumber: 8,
+    formattedNumber: '08',
+    stageLabel: 'Stage 08 • Manufacturing Process',
+    title: 'Process Stage 08',
+    shortDescription:
+      'The final stage shown in this factory journey before the process continues onward.',
+    image: null, // Zero-shift poster frame rendered seamlessly from video
+    video: vid07,
+    altText: 'Manufacturing process stage 08 at Classic Mun Bricks',
+    badgeText: 'Stage 08 Footage',
+    layout: 'text-right',
   },
 ];

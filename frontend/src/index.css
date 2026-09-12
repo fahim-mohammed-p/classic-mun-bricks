@@ -1,5 +1,5 @@
 /* Classic Mun Bricks - Global Design System (Established Corporate Identity) */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
 :root {
   /* Brand Color Palette - Established Corporate */
@@ -28,9 +28,10 @@
   --cmb-sand-dark: var(--cmb-border);
   --cmb-gold: #C68A36;
 
-  /* Typography: Libre Baskerville (Headings) + Source Sans 3 (Body/UI) */
-  --cmb-font-heading: 'Libre Baskerville', serif;
-  --cmb-font-body: 'Source Sans 3', sans-serif;
+  /* Typography: Coherent IBM Plex Sans System Across All Components */
+  --cmb-font-primary: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --cmb-font-heading: var(--cmb-font-primary);
+  --cmb-font-body: var(--cmb-font-primary);
 
   /* Sharp Edge System: 0-4px radius */
   --cmb-radius: 2px;
@@ -60,6 +61,10 @@ body {
   overflow-x: clip;
   overflow-y: visible;
   line-height: 1.6;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: var(--cmb-font-body);
 }
 
 #root {
@@ -519,11 +524,11 @@ h1, h2, h3, h4, .font-heading {
     min-height: 100vh;
     min-height: 100svh;
     min-height: 100dvh;
-    padding-top: calc(52px + env(safe-area-inset-top, 0px) + 0.75rem);
+    padding-top: calc(52px + env(safe-area-inset-top, 0px) + clamp(1rem, 2.5vh, 1.75rem));
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 1.25rem);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     overflow: hidden;
   }
 
@@ -567,9 +572,9 @@ h1, h2, h3, h4, .font-heading {
     transform: translateY(-50%) scale(0.92);
   }
 
-  /* Move CTA buttons slightly lower in the hero: +25px more breathing room (Task 1) */
+  /* Move CTA buttons visibly lower: 30-45px clear visual breathing room below arrow level (Task 1) */
   .hero-cta-actions {
-    margin-top: clamp(3.25rem, 7.5vh, 4rem);
+    margin-top: clamp(6.5rem, calc(45vh - 105px), 16rem);
     margin-bottom: 1.25rem;
   }
 
@@ -613,8 +618,9 @@ h1, h2, h3, h4, .font-heading {
     min-height: 100vh;
     min-height: 100svh;
     min-height: 100dvh;
-    padding-top: calc(52px + env(safe-area-inset-top, 0px) + 0.5rem);
+    padding-top: calc(52px + env(safe-area-inset-top, 0px) + clamp(0.75rem, 2vh, 1.25rem));
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 1.25rem);
+    justify-content: flex-start;
   }
 
   .hero-content-container {
@@ -631,7 +637,7 @@ h1, h2, h3, h4, .font-heading {
     flex-direction: column;
     align-items: stretch;
     gap: 0.75rem;
-    margin-top: clamp(3.5rem, 8vh, 4.25rem);
+    margin-top: clamp(6.5rem, calc(45vh - 100px), 16rem);
     margin-bottom: 1.25rem;
   }
 
@@ -667,7 +673,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   .hero-cta-actions {
-    margin-top: 3.25rem;
+    margin-top: clamp(5.5rem, calc(45vh - 85px), 14rem);
   }
 }
 
@@ -1758,6 +1764,148 @@ h1, h2, h3, h4, .font-heading {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   TASK 2: PROFESSIONAL CARD HOVER INTERACTIONS (DESKTOP / HOVER DEVICES ONLY)
+   Corporate, subtle, restrained micro-interactions (250-350ms ease)
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  /* 1. Feature Cards & Manufacturing Feature Cards (Home) */
+  .feature-card,
+  .manufacturing-feature-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .feature-card:hover,
+  .manufacturing-feature-card:hover {
+    transform: translateY(-2.5px);
+    border-color: rgba(185, 79, 46, 0.45) !important;
+    box-shadow: 0 6px 18px rgba(32, 20, 16, 0.08);
+  }
+  .feature-card:hover .icon-box,
+  .manufacturing-feature-card:hover .icon-box {
+    transform: scale(1.05);
+    background-color: rgba(185, 79, 46, 0.12);
+    color: var(--cmb-brick, #B94F2E);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  .feature-card .icon-box,
+  .manufacturing-feature-card .icon-box {
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* 2. Product Showcase Cards (Home) */
+  .product-showcase-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .product-showcase-card:hover {
+    transform: translateY(-2.5px);
+    border-color: rgba(185, 79, 46, 0.55);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+  .product-showcase-card .product-card-img {
+    transition: transform 0.35s ease;
+  }
+  .product-showcase-card:hover .product-card-img {
+    transform: scale(1.025);
+  }
+
+  /* 3. Visit Us Process Media & Timeline Sidebar */
+  .process-media-wrapper {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .process-media-wrapper:hover {
+    transform: translateY(-2px);
+    border-color: rgba(185, 79, 46, 0.5);
+    box-shadow: 0 8px 24px rgba(32, 20, 16, 0.12);
+  }
+
+  /* 4. Projects Region Card Panel */
+  .region-card-panel {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .region-card-panel:hover {
+    transform: translateY(-2px);
+    border-color: rgba(185, 79, 46, 0.4);
+    box-shadow: 0 8px 24px rgba(32, 20, 16, 0.1);
+  }
+  .region-card-panel:hover .panel-highlight-item i {
+    transform: scale(1.1);
+    transition: transform 0.25s ease;
+  }
+  .panel-highlight-item i {
+    transition: transform 0.25s ease;
+  }
+
+  /* 5. About Us Location Info Box */
+  .about-location-info-box {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .about-location-info-box:hover {
+    transform: translateY(-2px);
+    border-color: rgba(185, 79, 46, 0.45);
+    box-shadow: 0 6px 18px rgba(32, 20, 16, 0.08);
+  }
+  .about-location-info-box:hover .icon-box {
+    transform: scale(1.05);
+    color: var(--cmb-brick, #B94F2E);
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  .about-location-info-box .icon-box {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  /* 6. Blog Cards */
+  .blog-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-2.5px);
+    border-color: rgba(185, 79, 46, 0.45);
+    box-shadow: 0 8px 22px rgba(32, 20, 16, 0.09);
+  }
+  .blog-card .blog-card-image {
+    transition: transform 0.35s ease;
+  }
+  .blog-card:hover .blog-card-image {
+    transform: scale(1.028);
+  }
+  .blog-card:hover .blog-card-link i {
+    transform: translateX(3px);
+    color: var(--cmb-brick, #B94F2E);
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .blog-card .blog-card-link i {
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  /* 7. Contact Quick Action Cards & Info / Location Cards */
+  .quick-action-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .quick-action-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(185, 79, 46, 0.5);
+    box-shadow: 0 6px 16px rgba(32, 20, 16, 0.08);
+  }
+  .quick-action-card:hover .quick-action-icon {
+    transform: scale(1.06);
+    transition: transform 0.3s ease;
+  }
+  .quick-action-card .quick-action-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .contact-info-card,
+  .location-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .contact-info-card:hover,
+  .location-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(185, 79, 46, 0.4);
+    box-shadow: 0 6px 18px rgba(32, 20, 16, 0.08);
   }
 }
 

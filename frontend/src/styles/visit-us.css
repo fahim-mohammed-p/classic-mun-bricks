@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--cmb-charcoal);
+  background-color: #4A261C;
   color: var(--cmb-white);
   overflow: hidden;
   padding: 6rem 0 4rem;
@@ -40,8 +40,8 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 50% 30%, rgba(184, 74, 40, 0.12) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(26, 29, 32, 0.75) 0%, rgba(26, 29, 32, 0.88) 60%, rgba(26, 29, 32, 0.98) 100%);
+    radial-gradient(circle at 50% 30%, rgba(226, 135, 102, 0.16) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(74, 38, 28, 0.82) 0%, rgba(87, 43, 30, 0.88) 60%, rgba(74, 38, 28, 0.96) 100%);
   pointer-events: none;
 }
 
@@ -391,8 +391,8 @@
   aspect-ratio: 16 / 10;
   border-radius: var(--cmb-radius-lg, 3px);
   overflow: hidden;
-  background-color: var(--cmb-slate);
-  border: 1px solid rgba(26, 29, 32, 0.12);
+  background-color: #4A261C;
+  border: 1px solid rgba(74, 38, 28, 0.2);
   box-shadow: var(--cmb-shadow-md);
   transition: var(--cmb-transition);
   cursor: pointer;
@@ -434,7 +434,7 @@
   object-fit: cover;
   object-position: center;
   z-index: 1;
-  background-color: var(--cmb-slate);
+  background-color: #4A261C;
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -452,7 +452,7 @@
 .process-media-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(26, 29, 32, 0.15) 0%, rgba(26, 29, 32, 0.45) 100%);
+  background: linear-gradient(180deg, rgba(74, 38, 28, 0.15) 0%, rgba(74, 38, 28, 0.5) 100%);
   z-index: 4;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -468,7 +468,7 @@
   bottom: 1.25rem;
   left: 1.25rem;
   z-index: 5;
-  background-color: rgba(26, 29, 32, 0.88);
+  background-color: rgba(74, 38, 28, 0.9);
   backdrop-filter: blur(8px);
   color: var(--cmb-white);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -616,7 +616,7 @@
    7. TOUR OUTRO / TRANSITION & PROJECTS CTA
    -------------------------------------------------------------------------- */
 .tour-outro-section {
-  background-color: var(--cmb-charcoal);
+  background-color: #4A261C;
   color: var(--cmb-white);
   padding: 6rem 0 6.5rem;
   position: relative;
@@ -627,7 +627,7 @@
 .tour-outro-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(184, 74, 40, 0.16) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(226, 135, 102, 0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
