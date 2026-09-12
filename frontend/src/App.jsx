@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { HeroNavProvider } from './context/HeroNavContext';
+import { useCardAnimations } from './hooks/useCardAnimations';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -29,6 +30,9 @@ const ScrollToTop = () => {
 };
 
 function App() {
+  // Mobile-first continuous card micro-animation observer
+  useCardAnimations();
+
   return (
     <HeroNavProvider>
       <div className="d-flex flex-column min-vh-100">

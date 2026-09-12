@@ -1,0 +1,496 @@
+/* ==========================================================================
+   CLASSIC MUN BRICKS — MOBILE-FIRST CONTINUOUS CARD MICRO-ANIMATION SYSTEM
+   Established Corporate Identity • Refined • Restrained • Viewport-Aware
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. DESIGN TOKENS & SYSTEM VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand Micro-Animation Palette */
+  --cmb-anim-terracotta: #B84A28;
+  --cmb-anim-terracotta-light: #C15A35;
+  --cmb-anim-terracotta-dark: #A84427;
+  --cmb-anim-brown-deep: #4A261C;
+  --cmb-anim-brown-alt: #572B1E;
+  --cmb-anim-ivory-warm: #F5F1E8;
+  --cmb-anim-highlight: #E28766;
+
+  /* Refined Architectural Animation Durations */
+  --cmb-dur-trace: 5.8s;
+  --cmb-dur-sweep: 6.8s;
+  --cmb-dur-corner: 4.2s;
+  --cmb-dur-icon: 3.6s;
+  --cmb-dur-accent: 5.2s;
+  --cmb-dur-breathe: 10s;
+}
+
+/* Register Custom Property for Conic Angle Interpolation */
+@property --cmb-trace-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* --------------------------------------------------------------------------
+   1. DELAY STAGGERING (PREVENTS ROBOTIC SYNCHRONIZATION)
+   -------------------------------------------------------------------------- */
+:is(
+  .feature-card,
+  .manufacturing-feature-card,
+  .product-showcase-card,
+  .quick-action-card,
+  .contact-info-card,
+  .location-card,
+  .region-card-panel,
+  .blog-card,
+  .process-media-wrapper,
+  .about-location-info-box
+) {
+  --cmb-anim-delay: 0s;
+}
+
+*:nth-child(2) > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+*:nth-child(2) > * > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+.quick-action-card:nth-child(2),
+.product-showcase-card:nth-child(2) {
+  --cmb-anim-delay: 0.45s;
+}
+
+*:nth-child(3) > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+*:nth-child(3) > * > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+.quick-action-card:nth-child(3),
+.product-showcase-card:nth-child(3) {
+  --cmb-anim-delay: 0.9s;
+}
+
+*:nth-child(4) > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+*:nth-child(4) > * > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+.quick-action-card:nth-child(4),
+.product-showcase-card:nth-child(4) {
+  --cmb-anim-delay: 1.35s;
+}
+
+*:nth-child(5) > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+*:nth-child(5) > * > :is(.feature-card, .manufacturing-feature-card, .quick-action-card, .blog-card),
+.quick-action-card:nth-child(5) {
+  --cmb-anim-delay: 1.8s;
+}
+
+/* ==========================================================================
+   EFFECT TYPE 1 — TRAVELLING BORDER TRACE (MAIN REQUESTED EFFECT)
+   Thin 1.5px terracotta line continuously moving around card perimeter.
+   Target Cards:
+   - .feature-card (Why Choose Us)
+   - .manufacturing-feature-card (Manufacturing Excellence)
+   - .quick-action-card (Contact Quick Methods)
+   - .product-showcase-card (Home Product Showcase)
+   ========================================================================== */
+.feature-card,
+.manufacturing-feature-card,
+.quick-action-card,
+.product-showcase-card {
+  position: relative;
+}
+
+.feature-card::before,
+.manufacturing-feature-card::before,
+.quick-action-card::before,
+.product-showcase-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--cmb-trace-angle, 0deg) at 50% 50%,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(184, 74, 40, 0.12) 305deg,
+    rgba(193, 90, 53, 0.65) 335deg,
+    rgba(226, 135, 102, 0.95) 354deg,
+    rgba(184, 74, 40, 0.22) 360deg
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  box-sizing: border-box;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cmbBorderTraceRotate var(--cmb-dur-trace) linear infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+/* Active state triggered by Viewport Observer */
+.feature-card.is-in-view::before,
+.manufacturing-feature-card.is-in-view::before,
+.quick-action-card.is-in-view::before,
+.product-showcase-card.is-in-view::before {
+  opacity: 0.88;
+  animation-play-state: running;
+}
+
+@keyframes cmbBorderTraceRotate {
+  0% {
+    --cmb-trace-angle: 0deg;
+  }
+  100% {
+    --cmb-trace-angle: 360deg;
+  }
+}
+
+/* ==========================================================================
+   EFFECT TYPE 2 — SOFT LIGHT SWEEP
+   Translucent terracotta/ivory highlight moving left to right.
+   Target Cards:
+   - .contact-info-card (Contact Page Footprint Card)
+   ========================================================================== */
+.contact-info-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 42%,
+    rgba(245, 241, 232, 0.08) 48%,
+    rgba(226, 135, 102, 0.12) 52%,
+    rgba(245, 241, 232, 0.08) 56%,
+    transparent 62%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  animation: cmbLightSweep var(--cmb-dur-sweep) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+.contact-info-card.is-in-view::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes cmbLightSweep {
+  0% {
+    transform: translateX(-150%) skewX(-15deg);
+  }
+  32%, 100% {
+    transform: translateX(180%) skewX(-15deg);
+  }
+}
+
+/* ==========================================================================
+   EFFECT TYPE 3 — CORNER ACCENT MOTION
+   Architectural drafting marks gently expanding/contracting and pulsing.
+   Target Cards:
+   - .region-card-panel (Projects Geographic Panel)
+   - .about-location-info-box (About Us Plant Location Box)
+   - .location-card (Contact Page Location Frame)
+   ========================================================================== */
+.region-card-panel,
+.about-location-info-box,
+.location-card {
+  position: relative;
+}
+
+/* Top-Left Corner Bracket */
+.region-card-panel::before,
+.about-location-info-box::before,
+.location-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid var(--cmb-anim-terracotta, #B84A28);
+  border-left: 2px solid var(--cmb-anim-terracotta, #B84A28);
+  border-top-left-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  transform-origin: top left;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: cmbCornerPulseTopLeft var(--cmb-dur-corner) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+/* Bottom-Right Corner Bracket */
+.region-card-panel::after,
+.about-location-info-box::after,
+.location-card::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid var(--cmb-anim-terracotta, #B84A28);
+  border-right: 2px solid var(--cmb-anim-terracotta, #B84A28);
+  border-bottom-right-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  transform-origin: bottom right;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: cmbCornerPulseBottomRight var(--cmb-dur-corner) ease-in-out infinite;
+  animation-delay: calc(var(--cmb-anim-delay, 0s) + 0.35s);
+  animation-play-state: paused;
+}
+
+.region-card-panel.is-in-view::before,
+.region-card-panel.is-in-view::after,
+.about-location-info-box.is-in-view::before,
+.about-location-info-box.is-in-view::after,
+.location-card.is-in-view::before,
+.location-card.is-in-view::after {
+  opacity: 0.85;
+  animation-play-state: running;
+}
+
+@keyframes cmbCornerPulseTopLeft {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+@keyframes cmbCornerPulseBottomRight {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+/* ==========================================================================
+   EFFECT TYPE 4 — ICON MICRO-MOTION
+   Subtle non-jarring vertical drift and tiny scale pulse for card icons.
+   Target Icons:
+   - .feature-card .icon-box i
+   - .manufacturing-feature-card .icon-box i
+   - .quick-action-card .quick-action-icon i
+   - .contact-info-card .contact-info-icon i
+   - .about-location-info-box .icon-box i
+   ========================================================================== */
+.feature-card .icon-box i,
+.manufacturing-feature-card .icon-box i,
+.quick-action-card .quick-action-icon i,
+.contact-info-card .contact-info-icon i,
+.about-location-info-box .icon-box i {
+  display: inline-block;
+  will-change: transform;
+  animation: cmbIconFloat var(--cmb-dur-icon) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+.feature-card.is-in-view .icon-box i,
+.manufacturing-feature-card.is-in-view .icon-box i,
+.quick-action-card.is-in-view .quick-action-icon i,
+.contact-info-card.is-in-view .contact-info-icon i,
+.about-location-info-box.is-in-view .icon-box i {
+  animation-play-state: running;
+}
+
+@keyframes cmbIconFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: translateY(-2px) scale(1.035);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   EFFECT TYPE 5 — ACCENT LINE TRAVEL
+   Smooth terracotta baseline highlight traveling horizontally.
+   Target Cards:
+   - .blog-card (Blog Articles)
+   - .process-media-wrapper (Visit Us Process Media)
+   ========================================================================== */
+.blog-card,
+.process-media-wrapper {
+  position: relative;
+}
+
+.blog-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(184, 74, 40, 0.2) 25%,
+    rgba(226, 135, 102, 0.9) 50%,
+    rgba(184, 74, 40, 0.2) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: cmbAccentLineTravel var(--cmb-dur-accent) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+.process-media-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.5px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(184, 74, 40, 0.25) 25%,
+    rgba(226, 135, 102, 0.95) 50%,
+    rgba(184, 74, 40, 0.25) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: cmbAccentLineTravel var(--cmb-dur-accent) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+.blog-card.is-in-view::after,
+.process-media-wrapper.is-in-view::after {
+  opacity: 0.88;
+  animation-play-state: running;
+}
+
+@keyframes cmbAccentLineTravel {
+  0% {
+    background-position: 150% 0;
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  100% {
+    background-position: -50% 0;
+    opacity: 0.35;
+  }
+}
+
+/* ==========================================================================
+   EFFECT TYPE 6 — IMAGE BREATHING
+   Cinematic, ultra-slow scale (1.000 -> 1.018) for image-based media cards.
+   Target Images:
+   - .blog-card .blog-card-image
+   - .product-showcase-card .product-card-img
+   - .process-media-wrapper:not(.is-playing) .process-poster-img
+   ========================================================================== */
+.blog-card .blog-card-image,
+.product-showcase-card .product-card-img,
+.process-media-wrapper:not(.is-playing) .process-poster-img {
+  will-change: transform;
+  animation: cmbImageBreathe var(--cmb-dur-breathe) ease-in-out infinite;
+  animation-delay: var(--cmb-anim-delay, 0s);
+  animation-play-state: paused;
+}
+
+.blog-card.is-in-view .blog-card-image,
+.product-showcase-card.is-in-view .product-card-img,
+.process-media-wrapper.is-in-view:not(.is-playing) .process-poster-img {
+  animation-play-state: running;
+}
+
+@keyframes cmbImageBreathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.018);
+  }
+}
+
+/* ==========================================================================
+   ABOUT STATS TYPOGRAPHIC REFINEMENT
+   ========================================================================== */
+.hero-stat-display.is-in-view .hero-stat-number {
+  animation: cmbStatAmbientPulse 6.5s ease-in-out infinite;
+  animation-play-state: running;
+}
+
+@keyframes cmbStatAmbientPulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.05) drop-shadow(0 0 14px rgba(240, 155, 123, 0.22));
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & REDUCED MOTION SUPPORT (MANDATORY)
+   Disables continuous loops, scales, and floating transforms cleanly.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card::before,
+  .manufacturing-feature-card::before,
+  .product-showcase-card::before,
+  .quick-action-card::before,
+  .contact-info-card::before,
+  .region-card-panel::before,
+  .region-card-panel::after,
+  .about-location-info-box::before,
+  .about-location-info-box::after,
+  .location-card::before,
+  .location-card::after,
+  .blog-card::after,
+  .process-media-wrapper::after,
+  .blog-card .blog-card-image,
+  .product-showcase-card .product-card-img,
+  .process-media-wrapper .process-poster-img,
+  .feature-card .icon-box i,
+  .manufacturing-feature-card .icon-box i,
+  .quick-action-card .quick-action-icon i,
+  .contact-info-card .contact-info-icon i,
+  .about-location-info-box .icon-box i,
+  .hero-stat-display .hero-stat-number {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 0 !important;
+  }
+}
