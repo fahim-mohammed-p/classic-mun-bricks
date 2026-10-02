@@ -5,12 +5,15 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 
+from .views import keep_alive
+
 def health_check(request):
     return JsonResponse({"status": "ok", "service": "Classic Mun Bricks API", "version": "1.0.0"})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/health/', health_check, name='health_check'),
+    path('api/internal/keep-alive/', keep_alive, name='keep_alive'),
     path('api/factory-processes/', include('processes.urls')),
     path('api/contact/', include('contacts.urls')),
     path('api/blog/', include('blog.urls')),

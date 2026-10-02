@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import product01ViewA from '../assets/products/product-01-view-a.jpg';
 import product01ViewB from '../assets/products/product-01-view-b.jpg';
+import product01ViewC from '../assets/products/product-01-view-c.jpg';
 import product02ViewA from '../assets/products/product-02-view-a.jpg';
 import product02ViewB from '../assets/products/product-02-view-b.jpg';
+import product02ViewC from '../assets/products/product-02-view-c.jpg';
 import product03ViewA from '../assets/products/product-03-view-a.jpg';
+import product03ViewB from '../assets/products/product-03-view-b.jpg';
 
 /**
  * ProductShowcase Component
  * 
  * Professional, compact, product-focused showcase for Classic Mun Bricks.
  * 
- * Card 1: Mun Interlock Bricks (6″ unit, 2 switchable views)
- * Card 2: Mun Interlock Bricks (8″ unit, 2 switchable views)
- * Card 3: Mun Brick (Solid laterite unit, single view)
+ * Card 1: Mun Interlock Bricks (6″ unit, 3 switchable views)
+ * Card 2: Mun Interlock Bricks (8″ unit, 3 switchable views)
+ * Card 3: Mun Brick (Solid laterite unit, 2 switchable views)
  */
 const PRODUCTS = [
   {
@@ -21,8 +24,9 @@ const PRODUCTS = [
     sizeBadge: '6-Inch Unit',
     dimensions: '12″ L × 6″ B × 5″ H',
     views: [
-      { src: product01ViewA, label: 'View 1: Front Profile' },
-      { src: product01ViewB, label: 'View 2: Ridge Profile' },
+      { src: product01ViewB, label: 'View 1: Front Profile' },
+      { src: product01ViewC, label: 'View 2: Angled Profile' },
+      { src: product01ViewA, label: 'View 3: Opposite Profile' },
     ],
   },
   {
@@ -32,7 +36,8 @@ const PRODUCTS = [
     dimensions: '12″ L × 8″ B × 5″ H',
     views: [
       { src: product02ViewA, label: 'View 1: Front Profile' },
-      { src: product02ViewB, label: 'View 2: Ridge Profile' },
+      { src: product02ViewB, label: 'View 2: Groove Profile' },
+      { src: product02ViewC, label: 'View 3: Perspective Angle' },
     ],
   },
   {
@@ -42,6 +47,7 @@ const PRODUCTS = [
     dimensions: '12″ L × 4″ B × 8″ H',
     views: [
       { src: product03ViewA, label: 'View 1: Front Elevation' },
+      { src: product03ViewB, label: 'View 2: Face Profile' },
     ],
   },
 ];

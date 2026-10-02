@@ -526,19 +526,28 @@
   opacity: 1;
 }
 
+@media (max-width: 991.98px) {
+  .process-media-wrapper.is-playing .media-controls-bar {
+    opacity: 1;
+  }
+}
+
 .control-btn {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--cmb-white);
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: var(--cmb-transition);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  touch-action: manipulation;
 }
 
 .control-btn:hover,
@@ -678,6 +687,13 @@
 /* --------------------------------------------------------------------------
    9. MOBILE & RESPONSIVE BREAKPOINTS
    -------------------------------------------------------------------------- */
+/* Process Section Container */
+.processes-list .container {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: 100%;
+}
+
 @media (max-width: 991.98px) {
   /* Hide desktop sticky navigation */
   .sticky-tour-nav {
@@ -691,17 +707,17 @@
   }
 
   .process-section {
-    padding: 3rem 0;
+    padding: clamp(2.5rem, 5vw, 3.25rem) 0;
   }
 
   .process-section.payoff-section {
-    padding: 3.5rem 0;
+    padding: clamp(3rem, 6vw, 3.75rem) 0;
   }
 
   /* Stack layout: Number -> Title -> Short Description -> Media */
   .process-content-col {
     order: 1 !important;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .process-media-col {
@@ -709,8 +725,12 @@
   }
 
   .tour-hero {
-    min-height: 75vh;
-    padding: 5rem 0 3.5rem;
+    min-height: auto;
+    padding: clamp(4rem, 9vh, 5.5rem) 0 clamp(2.5rem, 5vh, 3.5rem);
+  }
+
+  .tour-hero-title {
+    font-size: clamp(1.85rem, 5.5vw, 2.75rem);
   }
 }
 
@@ -720,35 +740,59 @@
   }
 
   .process-node-number {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     font-size: 1rem;
+    flex-shrink: 0;
   }
 
   .process-section {
-    padding: 2.25rem 0;
+    padding: 2rem 0;
+  }
+
+  .process-heading {
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .process-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
   }
 
   .tour-hero-lead {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .watch-process-badge {
     bottom: 0.85rem;
     left: 0.85rem;
     font-size: 0.8rem;
-    padding: 0.4rem 0.85rem;
+    padding: 0.45rem 0.85rem;
+    min-height: 42px;
   }
 
   .tour-outro-section {
-    padding: 3.75rem 0 4rem;
+    padding: clamp(3rem, 6vh, 4rem) 0;
+  }
+
+  .tour-outro-heading {
+    font-size: clamp(1.65rem, 5vw, 2.2rem);
+  }
+
+  .tour-outro-transition-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
   }
 
   .tour-outro-section .btn-cmb-primary,
   .tour-outro-section .btn-cmb-secondary {
     width: 100%;
-    max-width: 380px;
+    max-width: 100%;
     justify-content: center;
+    min-height: 46px;
   }
 }
 

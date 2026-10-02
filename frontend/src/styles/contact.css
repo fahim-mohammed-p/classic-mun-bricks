@@ -68,6 +68,8 @@
   text-decoration: none;
   color: var(--cmb-slate);
   transition: var(--cmb-transition);
+  min-width: 0;
+  min-height: 48px;
 }
 
 .quick-action-card:hover {
@@ -100,6 +102,7 @@
 .quick-action-sub {
   font-size: 0.8rem;
   color: #6C757D;
+  word-break: break-word;
 }
 
 .contact-info-card {

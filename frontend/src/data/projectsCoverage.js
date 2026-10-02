@@ -2,11 +2,13 @@
  * Verified Projects & Geographic Coverage Data for Classic Mun Bricks
  * Single source of truth for regional coverage statistics across South India.
  */
+import { ALL_PROJECTS } from './projectsData';
 
 export const COVERAGE_METRICS = {
   totalProjects: '2.5K+',
   totalLabel: 'Projects Completed',
-  scopeDescription: 'Supplying premium laterite bricks and Mun Interlock Bricks across Kerala and Tamil Nadu.',
+  scopeDescription:
+    'Supplying premium laterite bricks and Mun Interlock Bricks across Kerala and Tamil Nadu.',
   regions: [
     {
       id: 'kerala',
@@ -21,7 +23,7 @@ export const COVERAGE_METRICS = {
         'Commercial & Institutional Facades',
         'Direct Site Supply from Kodur, Malappuram Plant',
       ],
-      projects: [], // Real project stories will be connected here
+      projects: ALL_PROJECTS.filter((p) => p.stateId === 'kerala'),
     },
     {
       id: 'tamil-nadu',
@@ -36,7 +38,7 @@ export const COVERAGE_METRICS = {
         'Resorts, Farmhouses & Eco-stays',
         'High-density Mun Interlock Brick Supply',
       ],
-      projects: [], // Real project stories will be connected here
+      projects: ALL_PROJECTS.filter((p) => p.stateId === 'tamil-nadu'),
     },
   ],
 };

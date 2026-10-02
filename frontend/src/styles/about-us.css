@@ -289,13 +289,28 @@
   }
 }
 
+@media (max-width: 575.98px) {
+  .about-experience-text {
+    letter-spacing: 0.8px;
+    font-size: 0.72rem;
+  }
+
+  .hero-stat-number {
+    font-size: clamp(2.8rem, 14vw, 3.8rem);
+  }
+
+  .sub-stat-number {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+}
+
 @media (max-width: 430px) {
   .about-hero-title {
     font-size: 1.55rem;
   }
 
   .year-display-huge {
-    font-size: 3.5rem;
+    font-size: 3.25rem;
   }
 
   .btn-cmb-primary,
@@ -303,6 +318,24 @@
   .btn-cmb-outline-dark {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .year-display-huge {
+    font-size: 2.85rem;
+  }
+
+  .about-hero-title {
+    font-size: 1.4rem;
+  }
+
+  .hero-stat-number {
+    font-size: 2.75rem;
+  }
+
+  .sub-stat-number {
+    font-size: 1.7rem;
   }
 }
 

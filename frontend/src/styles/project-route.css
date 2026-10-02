@@ -1,0 +1,951 @@
+/* ========================================================
+   CLASSIC MUN BRICKS — GEOGRAPHIC PROJECT ROUTE SYSTEM
+   Interactive Journey Architecture across Kerala & Tamil Nadu
+   Mobile-First (320px, 375px, 430px, 768px, 1024px+)
+   ======================================================== */
+
+.project-route-map-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* ========================================================
+   01 — CORRIDOR TOGGLE PILLS & HEADER
+   ======================================================== */
+.route-header-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.route-filter-pills {
+  display: inline-flex;
+  background: #FFFFFF;
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: 0.35rem;
+  box-shadow: var(--cmb-shadow-sm);
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.route-pill-btn {
+  border: none;
+  background: transparent;
+  color: var(--cmb-slate);
+  font-size: clamp(0.8rem, 2vw, 0.88rem);
+  font-weight: 600;
+  padding: 0.6rem clamp(0.75rem, 2vw, 1.25rem);
+  border-radius: var(--cmb-radius);
+  transition: all 0.22s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 42px;
+}
+
+.route-pill-btn:hover {
+  color: var(--cmb-terracotta);
+  background: rgba(185, 79, 46, 0.05);
+}
+
+.route-pill-btn.is-active {
+  background-color: var(--cmb-charcoal);
+  color: #FFFFFF;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.pill-badge {
+  font-size: 0.72rem;
+  background: rgba(185, 79, 46, 0.15);
+  color: var(--cmb-terracotta);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--cmb-radius);
+  font-weight: 700;
+}
+
+.route-pill-btn.is-active .pill-badge {
+  background: var(--cmb-terracotta);
+  color: #FFFFFF;
+}
+
+.dot-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-kerala {
+  background-color: #B94F2E;
+}
+
+.dot-tn {
+  background-color: #C68A36;
+}
+
+/* ========================================================
+   02 — ROUTE CANVAS CARD (DARK INDUSTRIAL THEME)
+   ======================================================== */
+.route-canvas-card {
+  position: relative;
+  background: radial-gradient(ellipse at 40% 40%, #38221B 0%, #201715 65%, #151110 100%);
+  border-radius: var(--cmb-radius-lg, 3px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  padding: clamp(1rem, 3vw, 2rem) clamp(0.75rem, 2.5vw, 1.75rem);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.route-ambient-glow {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  width: min(500px, 80vw);
+  height: min(350px, 60vw);
+  background: radial-gradient(circle, rgba(217, 106, 67, 0.18) 0%, rgba(56, 34, 27, 0) 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* Legend Strip */
+.route-legend-strip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: clamp(0.7rem, 1.8vw, 0.78rem);
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+}
+
+.legend-beacon-factory {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #FFAE68;
+  box-shadow: 0 0 8px #FF7A50;
+  display: inline-block;
+}
+
+.legend-route-line {
+  width: 22px;
+  height: 3px;
+  background: linear-gradient(90deg, #B94F2E, #FFAE68);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.legend-node-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #D96A43;
+  border: 1.5px solid #FFFFFF;
+  display: inline-block;
+}
+
+/* SVG Wrapper */
+.svg-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.route-svg-element {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile-Specific Dedicated SVG Canvas Styling */
+.mobile-route-canvas-wrap {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.mobile-route-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 380 / 740;
+}
+
+/* Route SVG Animations & Transitions */
+.route-path-backdrop {
+  transition: stroke 0.3s ease;
+}
+
+.route-path-core {
+  transition: all 0.3s ease;
+}
+
+.route-path-core.is-active-route {
+  stroke-width: 3.2px !important;
+  filter: drop-shadow(0 0 8px rgba(255, 122, 80, 0.8));
+}
+
+.route-travelling-pulse {
+  animation: pulseTravel 8s linear infinite;
+}
+
+@keyframes pulseTravel {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Node Animations */
+.node-pulse-outer {
+  animation: nodeRingPulse 2.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes nodeRingPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.8;
+  }
+}
+
+.district-node-group {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.district-node-group:hover .node-ring-middle {
+  stroke: #FF7A50;
+  stroke-width: 2.5px;
+}
+
+.district-node-group.is-active .node-badge-rect {
+  filter: drop-shadow(0 0 14px rgba(255, 122, 80, 0.55));
+}
+
+.canvas-interactive-hint {
+  text-align: center;
+  margin-top: 0.85rem;
+  font-size: clamp(0.72rem, 1.8vw, 0.8rem);
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================================
+   03 — MOBILE & QUICK DISTRICT JOURNEY SELECTOR BAR
+   ======================================================== */
+.mobile-journey-track-wrapper {
+  margin-top: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--cmb-shadow-sm);
+}
+
+.journey-track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.track-eyebrow {
+  font-family: var(--cmb-font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cmb-charcoal);
+}
+
+.track-note {
+  font-size: 0.75rem;
+  color: var(--cmb-muted-text);
+}
+
+.mobile-journey-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cmb-border) transparent;
+}
+
+.mobile-journey-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.mobile-journey-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--cmb-border);
+  border-radius: 2px;
+}
+
+.journey-step-chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--cmb-cream);
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cmb-slate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 40px;
+}
+
+.journey-step-chip:hover {
+  border-color: var(--cmb-terracotta);
+  color: var(--cmb-terracotta);
+}
+
+.journey-step-chip.is-active {
+  background: var(--cmb-charcoal);
+  border-color: var(--cmb-charcoal);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.journey-step-chip.is-hub {
+  border-color: rgba(185, 79, 46, 0.5);
+  background: rgba(185, 79, 46, 0.08);
+}
+
+.journey-step-chip.is-hub.is-active {
+  background: var(--cmb-brick);
+  border-color: var(--cmb-brick);
+  color: #FFFFFF;
+}
+
+.chip-indicator {
+  font-size: 0.72rem;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.journey-step-chip.is-active .chip-indicator {
+  background: var(--cmb-terracotta);
+  color: #FFFFFF;
+}
+
+.chip-name {
+  white-space: nowrap;
+}
+
+.chip-count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(185, 79, 46, 0.15);
+  color: var(--cmb-terracotta);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--cmb-radius);
+}
+
+.journey-step-chip.is-active .chip-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.journey-step-arrow {
+  color: var(--cmb-border);
+  font-weight: 700;
+  font-size: 0.95rem;
+  user-select: none;
+}
+
+/* ========================================================
+   04 — ACTIVE DISTRICT BANNER STRIP
+   ======================================================== */
+.active-district-banner {
+  margin-top: 1rem;
+  background: linear-gradient(90deg, #3D221A 0%, #291B16 100%);
+  border: 1px solid rgba(217, 106, 67, 0.35);
+  border-radius: var(--cmb-radius);
+  padding: 0.85rem 1.25rem;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  animation: bannerFade 0.3s ease;
+}
+
+@keyframes bannerFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.banner-pin-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--cmb-terracotta);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(217, 106, 67, 0.5);
+}
+
+.banner-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banner-hub-badge {
+  background: rgba(255, 174, 104, 0.2);
+  color: #FFAE68;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.banner-title {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.btn-banner-scroll {
+  background: var(--cmb-terracotta);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--cmb-radius);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.btn-banner-scroll:hover {
+  background: var(--cmb-terracotta-dark);
+  transform: translateY(-1px);
+}
+
+/* ========================================================
+   05 — DISTRICT RESULTS SECTION & PROJECT CARDS
+   ======================================================== */
+.district-projects-section {
+  padding: clamp(2.5rem, 5vw, 4.25rem) 0 clamp(2rem, 4vw, 3.5rem);
+  background-color: var(--cmb-sand-light);
+  border-top: 1px solid var(--cmb-border);
+}
+
+.district-header-card {
+  background: #FFFFFF;
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: var(--cmb-shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.district-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.45rem;
+}
+
+.badge-state-indicator {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cmb-terracotta);
+  background: rgba(185, 79, 46, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--cmb-radius);
+}
+
+.badge-factory-indicator {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8E3822;
+  background: rgba(142, 56, 34, 0.12);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--cmb-radius);
+}
+
+.district-section-title {
+  font-family: var(--cmb-font-heading);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  color: var(--cmb-charcoal);
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.01em;
+}
+
+.district-section-subtitle {
+  font-size: clamp(0.88rem, 2vw, 0.98rem);
+  color: var(--cmb-muted-text);
+  line-height: 1.55;
+  margin-bottom: 0;
+  max-width: 780px;
+}
+
+.btn-view-all-districts {
+  background: transparent;
+  border: 1px solid var(--cmb-border);
+  color: var(--cmb-slate);
+  padding: 0.6rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--cmb-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  min-height: 42px;
+}
+
+.btn-view-all-districts:hover {
+  background: var(--cmb-cream);
+  color: var(--cmb-charcoal);
+}
+
+.btn-district-enquire {
+  background: var(--cmb-terracotta);
+  color: #FFFFFF;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--cmb-radius);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  min-height: 42px;
+}
+
+.btn-district-enquire:hover {
+  background: var(--cmb-terracotta-dark);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* Category Filter Chips */
+.category-chips-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--cmb-border);
+}
+
+.chips-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cmb-muted-text);
+  margin-right: 0.25rem;
+}
+
+.category-chip-btn {
+  background: var(--cmb-cream);
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cmb-slate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-chip-btn:hover {
+  color: var(--cmb-terracotta);
+}
+
+.category-chip-btn.is-active {
+  background: var(--cmb-charcoal);
+  border-color: var(--cmb-charcoal);
+  color: #FFFFFF;
+}
+
+/* ========================================================
+   06 — PROJECT PORTFOLIO CARD STYLES
+   ======================================================== */
+.project-portfolio-card {
+  background: #FFFFFF;
+  border: 1px solid var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  overflow: hidden;
+  box-shadow: var(--cmb-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-portfolio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--cmb-shadow-md);
+  border-color: rgba(185, 79, 46, 0.4);
+}
+
+.card-visual-frame {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background-color: var(--cmb-charcoal);
+  overflow: hidden;
+}
+
+.card-visual-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.project-portfolio-card:hover .card-visual-img {
+  transform: scale(1.04);
+}
+
+.card-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+  pointer-events: none;
+}
+
+.card-badge-category {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(22, 24, 27, 0.85);
+  backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--cmb-radius);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.02em;
+}
+
+.card-badge-meta {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(185, 79, 46, 0.9);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--cmb-radius);
+}
+
+.card-content-body {
+  padding: 1.35rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-location-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cmb-slate);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.location-state-tag {
+  color: var(--cmb-muted-text);
+  font-weight: 500;
+}
+
+.card-project-title {
+  font-family: var(--cmb-font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cmb-charcoal);
+  margin-bottom: 0.65rem;
+  line-height: 1.3;
+}
+
+.card-product-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cmb-terracotta);
+  background: rgba(185, 79, 46, 0.08);
+  border: 1px solid rgba(185, 79, 46, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--cmb-radius);
+  margin-bottom: 0.85rem;
+  width: fit-content;
+}
+
+.card-project-description {
+  font-size: 0.85rem;
+  color: var(--cmb-slate);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.card-specs-strip {
+  font-size: 0.78rem;
+  color: var(--cmb-muted-text);
+  background: var(--cmb-cream);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--cmb-radius);
+  margin-bottom: 1.15rem;
+  display: flex;
+  align-items: center;
+}
+
+.card-action-footer {
+  margin-top: auto;
+}
+
+.btn-card-enquire {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--cmb-sand-muted);
+  border: 1px solid var(--cmb-border);
+  color: var(--cmb-charcoal);
+  padding: 0.65rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: var(--cmb-radius);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 42px;
+}
+
+.btn-card-enquire:hover {
+  background-color: var(--cmb-terracotta);
+  border-color: var(--cmb-terracotta);
+  color: #FFFFFF;
+}
+
+/* Empty State */
+.district-empty-state {
+  text-align: center;
+  background: #FFFFFF;
+  border: 1px dashed var(--cmb-border);
+  border-radius: var(--cmb-radius);
+  padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  color: var(--cmb-terracotta);
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-family: var(--cmb-font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--cmb-charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-desc {
+  font-size: 0.9rem;
+  color: var(--cmb-muted-text);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+/* ========================================================
+   07 — RESPONSIVE BREAKPOINTS (TABLETS & MOBILE)
+   ======================================================== */
+@media (max-width: 991.98px) {
+  .route-canvas-card {
+    padding: clamp(1rem, 2.5vw, 1.25rem) clamp(0.65rem, 2vw, 1rem);
+  }
+
+  .route-legend-strip {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-visual-frame {
+    height: clamp(190px, 45vw, 210px);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .route-filter-pills {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.4rem;
+  }
+
+  .route-pill-btn {
+    width: 100%;
+    justify-content: space-between;
+    font-size: clamp(0.78rem, 2.8vw, 0.85rem);
+    padding: 0.65rem 0.85rem;
+    min-height: 44px;
+  }
+
+  .route-legend-strip {
+    display: none; /* Keep clean on small mobile canvas */
+  }
+
+  .canvas-interactive-hint {
+    margin-top: 0.65rem;
+    font-size: 0.74rem;
+  }
+
+  .journey-step-chip {
+    min-height: 44px;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .active-district-banner {
+    padding: 0.85rem 1rem;
+  }
+
+  .btn-banner-scroll {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .card-visual-frame {
+    height: clamp(180px, 50vw, 220px);
+  }
+
+  .card-content-body {
+    padding: 1.15rem 1rem;
+  }
+
+  .btn-card-enquire {
+    min-height: 44px;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .district-header-card {
+    padding: 1.15rem 1rem;
+  }
+
+  .btn-view-all-districts,
+  .btn-district-enquire {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .category-chips-bar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.4rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-chip-btn {
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 0.45rem 0.95rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .route-pill-btn {
+    font-size: 0.74rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .pill-badge {
+    font-size: 0.68rem;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .journey-step-chip {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.78rem;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .route-travelling-pulse,
+  .travelling-beacon-primary,
+  .travelling-beacon-secondary,
+  .node-pulse-outer {
+    animation: none !important;
+  }
+}
