@@ -21,23 +21,23 @@ const DistrictNode = ({
   // Determine label offset relative to node coordinates (x, y)
   let labelTransform = '';
   let badgeWidth = 110;
-  let badgeHeight = isFactoryHub ? 44 : 38;
-  let textYOffset = isFactoryHub ? -5 : -3;
-  let countYOffset = isFactoryHub ? 11 : 12;
+  let badgeHeight = isFactoryHub ? 52 : 38;
+  let textYOffset = isFactoryHub ? 2 : -3;
+  let countYOffset = isFactoryHub ? 16 : 12;
 
   switch (labelPos) {
     case 'top':
-      labelTransform = `translate(${x}, ${y - 32})`;
+      labelTransform = `translate(${x}, ${y - (isFactoryHub ? 36 : 32)})`;
       break;
     case 'left':
-      labelTransform = `translate(${x - 65}, ${y})`;
+      labelTransform = `translate(${x - (isFactoryHub ? 72 : 65)}, ${y})`;
       break;
     case 'right':
-      labelTransform = `translate(${x + 65}, ${y})`;
+      labelTransform = `translate(${x + (isFactoryHub ? 72 : 65)}, ${y})`;
       break;
     case 'bottom':
     default:
-      labelTransform = `translate(${x}, ${y + 32})`;
+      labelTransform = `translate(${x}, ${y + (isFactoryHub ? 36 : 32)})`;
       break;
   }
 
@@ -166,10 +166,10 @@ const DistrictNode = ({
         {isFactoryHub && (
           <text
             x="0"
-            y="-10"
+            y="-13"
             textAnchor="middle"
             fill="#FFD2B0"
-            fontSize="8"
+            fontSize="7.5"
             fontWeight="700"
             letterSpacing="0.06em"
             fontFamily="var(--cmb-font-body)"

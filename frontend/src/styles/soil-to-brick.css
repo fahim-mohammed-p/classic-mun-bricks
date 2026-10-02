@@ -73,7 +73,7 @@
   position: relative;
   width: 100%;
   max-width: 480px;
-  min-height: 320px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +83,7 @@
 
 @media (max-width: 575.98px) {
   .manufacturing-brick-stage {
-    min-height: auto;
+    min-height: 330px;
     max-width: 330px;
   }
 }
@@ -214,7 +214,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(1.6rem, 3.2vh, 2.2rem);
+  gap: clamp(2.2rem, 4vh, 2.85rem);
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
@@ -243,18 +243,22 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  padding-bottom: 8px;
+  z-index: 2;
 }
 
 /* Clean Product Specification Block Directly Below Brick */
 .product-spec-block {
+  position: relative;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.85rem;
+  margin-top: 1.35rem;
   background: transparent;
   border: none;
   box-shadow: none;
-  padding: 0;
+  padding: 0.2rem 0.5rem;
   text-align: center;
   user-select: none;
 }
@@ -316,12 +320,12 @@
 /* Mobile Responsive Adjustments (< 576px) */
 @media (max-width: 575.98px) {
   .manufacturing-floating-stack {
-    max-width: 300px;
-    gap: 1.35rem;
+    max-width: 320px;
+    gap: 1.85rem;
   }
 
   .product-spec-block {
-    margin-top: 0.7rem;
+    margin-top: 1.15rem;
   }
 
   .spec-heading {
