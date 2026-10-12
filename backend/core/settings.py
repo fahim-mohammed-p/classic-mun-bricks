@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'processes',
     'contacts',
     'blog',
+    'projects',
 ]
 
 

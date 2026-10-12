@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/factory-processes/', include('processes.urls')),
     path('api/contact/', include('contacts.urls')),
     path('api/blog/', include('blog.urls')),
+    path('api/projects/', include('projects.urls')),
 ]
 
 if settings.DEBUG:

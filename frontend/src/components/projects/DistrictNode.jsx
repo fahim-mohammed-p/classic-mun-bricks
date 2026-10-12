@@ -4,12 +4,11 @@ import React from 'react';
  * DistrictNode Component
  * 
  * Interactive SVG location node for a district on the geographic route.
- * Features concentric pulse rings, factory hub indicators, project counts,
- * and accessible touch/keyboard controls.
+ * Features concentric pulse rings, factory hub indicators, and accessible
+ * touch/keyboard controls showing solely the district name.
  */
 const DistrictNode = ({
   node,
-  projectCount = 0,
   isActive = false,
   isHovered = false,
   onSelect,
@@ -18,34 +17,34 @@ const DistrictNode = ({
 }) => {
   const { id, name, state, x, y, labelPos, isFactoryHub, hubLabel } = node;
 
-  // Determine label offset relative to node coordinates (x, y)
-  let labelTransform = '';
-  let badgeWidth = 110;
-  let badgeHeight = isFactoryHub ? 52 : 38;
-  let textYOffset = isFactoryHub ? 2 : -3;
-  let countYOffset = isFactoryHub ? 16 : 12;
+  // Determine badge dimensions and label offsets
+  let badgeWidth = 92;
+  let badgeHeight = 26;
+  let nameYOffset = 4;
 
+  if (isFactoryHub) {
+    badgeWidth = 122;
+    badgeHeight = 36;
+    nameYOffset = 9;
+  } else if (name.length > 9) {
+    badgeWidth = 104;
+  }
+
+  let labelTransform = '';
   switch (labelPos) {
     case 'top':
-      labelTransform = `translate(${x}, ${y - (isFactoryHub ? 36 : 32)})`;
+      labelTransform = `translate(${x}, ${y - (isFactoryHub ? 30 : 25)})`;
       break;
     case 'left':
-      labelTransform = `translate(${x - (isFactoryHub ? 72 : 65)}, ${y})`;
+      labelTransform = `translate(${x - (isFactoryHub ? 70 : 58)}, ${y})`;
       break;
     case 'right':
-      labelTransform = `translate(${x + (isFactoryHub ? 72 : 65)}, ${y})`;
+      labelTransform = `translate(${x + (isFactoryHub ? 70 : 58)}, ${y})`;
       break;
     case 'bottom':
     default:
-      labelTransform = `translate(${x}, ${y + (isFactoryHub ? 36 : 32)})`;
+      labelTransform = `translate(${x}, ${y + (isFactoryHub ? 30 : 25)})`;
       break;
-  }
-
-  // Adjust badge width for longer labels or factory hub
-  if (isFactoryHub) {
-    badgeWidth = 126;
-  } else if (name.length > 9) {
-    badgeWidth = 118;
   }
 
   const handleKeyDown = (e) => {
@@ -67,7 +66,7 @@ const DistrictNode = ({
       tabIndex="0"
       role="button"
       aria-pressed={isActive}
-      aria-label={`${name}, ${state}. ${projectCount} Projects. Click to inspect projects.`}
+      aria-label={`${name}, ${state}. Click to inspect projects.`}
       style={{ cursor: 'pointer', outline: 'none' }}
     >
       {/* ========================================================
@@ -119,7 +118,7 @@ const DistrictNode = ({
           className="node-core-dot"
         />
 
-        {/* Factory Hub Distinct Chimney Icon Accent */}
+        {/* Factory Hub Accent */}
         {isFactoryHub && !isActive && (
           <circle
             cx="0"
@@ -131,7 +130,7 @@ const DistrictNode = ({
       </g>
 
       {/* ========================================================
-          2. FLOATING DISTRICT LABEL & PROJECT COUNT BADGE (Clickable & Accessible)
+          2. FLOATING DISTRICT LABEL (Name Only - No Project Counts)
           ======================================================== */}
       <g transform={labelTransform} className="node-label-group" pointerEvents="all">
         {/* Background Card Pill */}
@@ -166,7 +165,7 @@ const DistrictNode = ({
         {isFactoryHub && (
           <text
             x="0"
-            y="-13"
+            y="-5"
             textAnchor="middle"
             fill="#FFD2B0"
             fontSize="7.5"
@@ -182,30 +181,16 @@ const DistrictNode = ({
         {/* District Name */}
         <text
           x="0"
-          y={textYOffset}
+          y={nameYOffset}
           textAnchor="middle"
           fill="#FFFFFF"
-          fontSize={isActive ? '12' : '11'}
+          fontSize={isActive ? '11.5' : '10.5'}
           fontWeight={isActive ? '700' : '600'}
           letterSpacing="0.02em"
           fontFamily="var(--cmb-font-body)"
           className="node-text-name"
         >
           {name}
-        </text>
-
-        {/* Project Count */}
-        <text
-          x="0"
-          y={countYOffset}
-          textAnchor="middle"
-          fill={isActive ? '#FFE3D1' : '#FFAE68'}
-          fontSize="9.5"
-          fontWeight="600"
-          fontFamily="var(--cmb-font-body)"
-          className="node-text-count"
-        >
-          {projectCount} {projectCount === 1 ? 'Project' : 'Projects'}
         </text>
       </g>
     </g>

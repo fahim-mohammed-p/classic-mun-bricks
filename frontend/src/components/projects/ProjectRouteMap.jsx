@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
   MAP_DIMENSIONS,
-  DISTRICT_NODES,
-  DISTRICT_ORDER,
+  DISTRICT_NODES as DEFAULT_DISTRICT_NODES,
+  DISTRICT_ORDER as DEFAULT_DISTRICT_ORDER,
+  ROUTE_SEGMENTS as DEFAULT_ROUTE_SEGMENTS,
   MOBILE_MAP_DIMENSIONS,
-  MOBILE_DISTRICT_NODES,
-  MOBILE_ROUTE_SEGMENTS,
+  MOBILE_DISTRICT_NODES as DEFAULT_MOBILE_DISTRICT_NODES,
+  MOBILE_ROUTE_SEGMENTS as DEFAULT_MOBILE_ROUTE_SEGMENTS,
 } from '../../data/districtMapConfig';
 import RouteConnections from './RouteConnections';
 import DistrictNode from './DistrictNode';
@@ -13,27 +14,44 @@ import DistrictNode from './DistrictNode';
 /**
  * ProjectRouteMap Component
  * 
- * Interactive geographic route visualization across Kerala and Tamil Nadu.
- * Features SVG bezier curves, responsive coordinate scaling, travelling light animations,
- * and seamless synchronization with district project results.
+ * Interactive geographic route visualization across active Classic Mun Bricks districts.
+ * Built with dynamic coordinate normalization, responsive SVG bezier tracks,
+ * travelling light animations, and zero hardcoded states.
  */
 const ProjectRouteMap = ({
   activeDistrictId,
   selectedStateId = 'all',
-  projectCounts = {},
   onSelectDistrict,
   onSelectState,
   onScrollToResults,
+  mapData = null,
 }) => {
   const [hoveredDistrictId, setHoveredDistrictId] = useState(null);
 
+  // Extract dynamic map data or fall back to pre-compiled default
+  const districtNodes = mapData?.districtNodes || DEFAULT_DISTRICT_NODES;
+  const districtOrder = mapData?.districtOrder || DEFAULT_DISTRICT_ORDER;
+  const routeSegments = mapData?.routeSegments || DEFAULT_ROUTE_SEGMENTS;
+  const beaconPathForward = mapData?.beaconPathForward;
+  const beaconPathReverse = mapData?.beaconPathReverse;
+
+  const mobileDistrictNodes = mapData?.mobileDistrictNodes || DEFAULT_MOBILE_DISTRICT_NODES;
+  const mobileRouteSegments = mapData?.mobileRouteSegments || DEFAULT_MOBILE_ROUTE_SEGMENTS;
+  const mobileBeaconPathForward = mapData?.mobileBeaconPathForward;
+  const mobileBeaconPathReverse = mapData?.mobileBeaconPathReverse;
+
+  const stateTabs = mapData?.stateTabs || [
+    { id: 'all', name: 'Entire Journey (All Hubs)', isAll: true, color: '#FFAE68' },
+    { id: 'kerala', name: 'Kerala Corridor', stateName: 'Kerala', firstDistrictId: 'malappuram', color: '#B94F2E' },
+    { id: 'tamil-nadu', name: 'Tamil Nadu Corridor', stateName: 'Tamil Nadu', firstDistrictId: 'coimbatore', color: '#C68A36' },
+  ];
+
   // Active district object
-  const activeNode = activeDistrictId ? DISTRICT_NODES[activeDistrictId] : null;
+  const activeNode = activeDistrictId && activeDistrictId !== 'all' ? districtNodes[activeDistrictId] : null;
 
   const handleDistrictClick = (districtId) => {
     onSelectDistrict(districtId);
     if (onScrollToResults) {
-      // Small timeout to allow DOM to update before smooth scrolling
       setTimeout(() => {
         onScrollToResults();
       }, 120);
@@ -43,54 +61,37 @@ const ProjectRouteMap = ({
   return (
     <div className="project-route-map-container">
       {/* ========================================================
-          01 — TOP ROUTE CONTROLS & CORRIDOR SELECTOR
+          01 — DYNAMIC CORRIDOR SELECTOR PILLS
           ======================================================== */}
       <div className="route-header-controls">
         <div className="route-filter-pills" role="tablist" aria-label="Geographic Corridors">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={selectedStateId === 'all'}
-            className={`route-pill-btn ${selectedStateId === 'all' ? 'is-active' : ''}`}
-            onClick={() => {
-              onSelectState('all');
-              onSelectDistrict('all');
-            }}
-          >
-            <i className="bi bi-compass-fill me-1"></i>
-            <span>Entire Journey (All Hubs)</span>
-            <span className="pill-badge">2.5K+</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={selectedStateId === 'kerala'}
-            className={`route-pill-btn ${selectedStateId === 'kerala' ? 'is-active' : ''}`}
-            onClick={() => {
-              onSelectState('kerala');
-              onSelectDistrict('malappuram'); // Default to home base hub
-            }}
-          >
-            <span className="dot-indicator dot-kerala"></span>
-            <span>Kerala (Western Corridor)</span>
-            <span className="pill-badge">1.5K+</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={selectedStateId === 'tamil-nadu'}
-            className={`route-pill-btn ${selectedStateId === 'tamil-nadu' ? 'is-active' : ''}`}
-            onClick={() => {
-              onSelectState('tamil-nadu');
-              onSelectDistrict('coimbatore'); // Default to TN gateway hub
-            }}
-          >
-            <span className="dot-indicator dot-tn"></span>
-            <span>Tamil Nadu (Eastern Corridor)</span>
-            <span className="pill-badge">1K+</span>
-          </button>
+          {stateTabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={selectedStateId === tab.id}
+              className={`route-pill-btn ${selectedStateId === tab.id ? 'is-active' : ''}`}
+              onClick={() => {
+                onSelectState(tab.id);
+                if (tab.id === 'all') {
+                  onSelectDistrict('all');
+                } else if (tab.firstDistrictId) {
+                  onSelectDistrict(tab.firstDistrictId);
+                }
+              }}
+            >
+              {tab.isAll ? (
+                <i className="bi bi-compass-fill me-1"></i>
+              ) : (
+                <span
+                  className="dot-indicator"
+                  style={{ backgroundColor: tab.color || '#B94F2E' }}
+                ></span>
+              )}
+              <span>{tab.name}</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -105,15 +106,15 @@ const ProjectRouteMap = ({
         <div className="route-legend-strip">
           <div className="legend-item">
             <span className="legend-beacon-factory"></span>
-            <span>Kodur Automated Plant (HQ)</span>
+            <span>Automated Plant (HQ)</span>
           </div>
           <div className="legend-item">
             <span className="legend-route-line"></span>
-            <span>Primary Supply Corridor</span>
+            <span>Supply Route</span>
           </div>
           <div className="legend-item">
             <span className="legend-node-dot"></span>
-            <span>District Distribution Hub</span>
+            <span>District Hub</span>
           </div>
         </div>
 
@@ -124,7 +125,7 @@ const ProjectRouteMap = ({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="route-svg-element"
-            aria-label="Geographic Project Footprint Journey across Kerala and Tamil Nadu"
+            aria-label="Geographic Project Footprint Journey across active districts"
             role="img"
           >
             <defs>
@@ -138,91 +139,56 @@ const ProjectRouteMap = ({
                   strokeWidth="0.8"
                 />
               </pattern>
-
-              {/* State Zone Shading Gradients */}
-              <linearGradient id="keralaZoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#B94F2E" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#43281F" stopOpacity="0.02" />
-              </linearGradient>
-
-              <linearGradient id="tnZoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#C68A36" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#43281F" stopOpacity="0.02" />
-              </linearGradient>
             </defs>
 
             {/* Background Grid Pattern */}
             <rect width="1000" height="580" fill="url(#archGrid)" />
 
-            {/* Regional Zone Demarcations */}
+            {/* Dynamic Regional Corridor Watermarks */}
             <g className="corridor-background-zones" pointerEvents="none">
-              {/* Kerala Western Region Ambient Area */}
-              <path
-                d="M 60 40 C 220 30, 360 80, 420 280 C 440 370, 320 520, 100 540 Z"
-                fill="url(#keralaZoneGrad)"
-              />
-              <text
-                x="150"
-                y="545"
-                fill="rgba(255, 255, 255, 0.16)"
-                fontSize="18"
-                fontWeight="800"
-                letterSpacing="0.15em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                KERALA CORRIDOR
-              </text>
+              {stateTabs
+                .filter((t) => !t.isAll)
+                .map((tab) => {
+                  const stateNodes = districtOrder
+                    .map((id) => districtNodes[id])
+                    .filter((n) => n && n.stateId === tab.id);
+                  if (stateNodes.length === 0) return null;
 
-              {/* Tamil Nadu Eastern Region Ambient Area */}
-              <path
-                d="M 500 50 C 750 40, 940 70, 960 220 C 970 380, 850 540, 520 530 Z"
-                fill="url(#tnZoneGrad)"
-              />
-              <text
-                x="680"
-                y="545"
-                fill="rgba(255, 255, 255, 0.16)"
-                fontSize="18"
-                fontWeight="800"
-                letterSpacing="0.15em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                TAMIL NADU CORRIDOR
-              </text>
+                  const avgX = Math.round(
+                    stateNodes.reduce((sum, n) => sum + n.x, 0) / stateNodes.length
+                  );
 
-              {/* Trans-State Border Meridian (Subtle dashed divider between West and East) */}
-              <line
-                x1="465"
-                y1="60"
-                x2="465"
-                y2="500"
-                stroke="rgba(255, 255, 255, 0.08)"
-                strokeWidth="1.2"
-                strokeDasharray="4 6"
-              />
-              <text
-                x="465"
-                y="45"
-                textAnchor="middle"
-                fill="rgba(255, 255, 255, 0.35)"
-                fontSize="9"
-                fontWeight="700"
-                letterSpacing="0.1em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                STATE BORDER
-              </text>
+                  return (
+                    <text
+                      key={tab.id}
+                      x={avgX}
+                      y="545"
+                      textAnchor="middle"
+                      fill="rgba(255, 255, 255, 0.14)"
+                      fontSize="18"
+                      fontWeight="800"
+                      letterSpacing="0.15em"
+                      fontFamily="var(--cmb-font-body)"
+                    >
+                      {tab.stateName ? tab.stateName.toUpperCase() : ''} CORRIDOR
+                    </text>
+                  );
+                })}
             </g>
 
             {/* SVG Bezier Route Connections Layer */}
-            <RouteConnections activeDistrictId={activeDistrictId} />
+            <RouteConnections
+              activeDistrictId={activeDistrictId}
+              segments={routeSegments}
+              beaconPathForward={beaconPathForward}
+              beaconPathReverse={beaconPathReverse}
+            />
 
             {/* Interactive District Nodes */}
             <g className="district-nodes-layer">
-              {DISTRICT_ORDER.map((districtId) => {
-                const node = DISTRICT_NODES[districtId];
+              {districtOrder.map((districtId) => {
+                const node = districtNodes[districtId];
                 if (!node) return null;
-                const count = projectCounts[districtId] || 0;
                 const isActive = activeDistrictId === districtId;
                 const isHovered = hoveredDistrictId === districtId;
 
@@ -230,7 +196,6 @@ const ProjectRouteMap = ({
                   <DistrictNode
                     key={districtId}
                     node={node}
-                    projectCount={count}
                     isActive={isActive}
                     isHovered={isHovered}
                     onSelect={handleDistrictClick}
@@ -250,7 +215,7 @@ const ProjectRouteMap = ({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="route-svg-element mobile-route-svg"
-            aria-label="Geographic Project Footprint Journey across Kerala and Tamil Nadu"
+            aria-label="Geographic Project Footprint Journey across active districts"
             role="img"
           >
             <defs>
@@ -267,71 +232,20 @@ const ProjectRouteMap = ({
 
             <rect width="380" height="740" fill="url(#archGridMobile)" />
 
-            {/* Corridor Demarcations & Labels */}
-            <g className="mobile-corridor-zones" pointerEvents="none">
-              {/* Kerala Zone Label */}
-              <text
-                x="28"
-                y="38"
-                fill="rgba(255, 255, 255, 0.22)"
-                fontSize="11"
-                fontWeight="800"
-                letterSpacing="0.12em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                KERALA CORRIDOR
-              </text>
-
-              {/* Trans-State Border (Palakkad Gap Divider) */}
-              <line
-                x1="24"
-                y1="290"
-                x2="356"
-                y2="290"
-                stroke="rgba(255, 255, 255, 0.12)"
-                strokeWidth="1.2"
-                strokeDasharray="4 6"
-              />
-              <text
-                x="190"
-                y="285"
-                textAnchor="middle"
-                fill="rgba(255, 255, 255, 0.45)"
-                fontSize="9"
-                fontWeight="700"
-                letterSpacing="0.1em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                INTERSTATE TRANSIT (PALAKKAD GAP)
-              </text>
-
-              {/* Tamil Nadu Zone Label */}
-              <text
-                x="28"
-                y="315"
-                fill="rgba(255, 255, 255, 0.22)"
-                fontSize="11"
-                fontWeight="800"
-                letterSpacing="0.12em"
-                fontFamily="var(--cmb-font-body)"
-              >
-                TAMIL NADU CORRIDOR
-              </text>
-            </g>
-
             {/* Mobile Bezier Route Connections */}
             <RouteConnections
               activeDistrictId={activeDistrictId}
-              segments={MOBILE_ROUTE_SEGMENTS}
+              segments={mobileRouteSegments}
+              beaconPathForward={mobileBeaconPathForward}
+              beaconPathReverse={mobileBeaconPathReverse}
               isMobile={true}
             />
 
             {/* Mobile District Nodes with generous hit areas & clear positioning */}
             <g className="district-nodes-layer">
-              {DISTRICT_ORDER.map((districtId) => {
-                const node = MOBILE_DISTRICT_NODES[districtId];
+              {districtOrder.map((districtId) => {
+                const node = mobileDistrictNodes[districtId];
                 if (!node) return null;
-                const count = projectCounts[districtId] || 0;
                 const isActive = activeDistrictId === districtId;
                 const isHovered = hoveredDistrictId === districtId;
 
@@ -339,7 +253,6 @@ const ProjectRouteMap = ({
                   <DistrictNode
                     key={`m-${districtId}`}
                     node={node}
-                    projectCount={count}
                     isActive={isActive}
                     isHovered={isHovered}
                     onSelect={handleDistrictClick}
@@ -355,7 +268,7 @@ const ProjectRouteMap = ({
         {/* Bottom Interactive Touch Hint */}
         <div className="canvas-interactive-hint">
           <i className="bi bi-hand-index-thumb me-1"></i>
-          <span>Tap any node along the route to inspect projects</span>
+          <span>Tap any district along the route to inspect projects</span>
         </div>
       </div>
 
@@ -372,9 +285,9 @@ const ProjectRouteMap = ({
         </div>
 
         <div className="mobile-journey-scroll" role="tablist" aria-label="District Route Steps">
-          {DISTRICT_ORDER.map((districtId, idx) => {
-            const node = DISTRICT_NODES[districtId];
-            const count = projectCounts[districtId] || 0;
+          {districtOrder.map((districtId, idx) => {
+            const node = districtNodes[districtId];
+            if (!node) return null;
             const isActive = activeDistrictId === districtId;
 
             return (
@@ -392,10 +305,9 @@ const ProjectRouteMap = ({
                     {node.isFactoryHub ? '★' : idx + 1}
                   </span>
                   <span className="chip-name">{node.name}</span>
-                  <span className="chip-count">{count}</span>
                 </button>
 
-                {idx < DISTRICT_ORDER.length - 1 && (
+                {idx < districtOrder.length - 1 && (
                   <span className="journey-step-arrow" aria-hidden="true">
                     &rarr;
                   </span>
@@ -433,7 +345,7 @@ const ProjectRouteMap = ({
                 className="btn-banner-scroll"
                 onClick={onScrollToResults}
               >
-                <span>View {projectCounts[activeDistrictId] || ''} Projects</span>
+                <span>View Gallery</span>
                 <i className="bi bi-arrow-down-short ms-1"></i>
               </button>
             </div>

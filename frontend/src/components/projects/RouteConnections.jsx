@@ -4,21 +4,28 @@ import { ROUTE_SEGMENTS } from '../../data/districtMapConfig';
 /**
  * RouteConnections Component
  * 
- * Renders the SVG curved paths, architectural gradient tracks,
+ * Renders dynamic SVG bezier trajectories, architectural gradient tracks,
  * subtle travelling light particles, and animated pulses connecting district nodes.
  */
 const RouteConnections = ({
   activeDistrictId,
   segments = ROUTE_SEGMENTS,
+  beaconPathForward,
+  beaconPathReverse,
   isMobile = false,
 }) => {
-  const gapTransform = 'translate(470, 280)';
-  const beaconPathForward = isMobile
-    ? 'M 95 65 C 95 95, 95 125, 95 155 C 95 195, 195 210, 290 225 C 285 260, 280 295, 280 335 C 220 360, 155 385, 95 415 C 155 445, 220 470, 280 500 C 220 530, 155 555, 95 585'
-    : 'M 140 110 C 145 170, 175 220, 230 220 C 275 245, 335 270, 390 290 C 440 305, 500 280, 550 270 C 595 255, 645 235, 690 220 C 730 205, 770 185, 810 160 C 845 135, 875 110, 910 90';
-  const beaconPathReverse = isMobile
-    ? 'M 95 585 C 155 555, 220 530, 280 500 C 220 470, 155 445, 95 415 C 155 385, 220 360, 280 335 C 280 295, 285 260, 290 225 C 195 210, 95 195, 95 155 C 95 125, 95 95, 95 65'
-    : 'M 910 90 C 875 110, 845 135, 810 160 C 770 185, 730 205, 690 220 C 645 235, 595 255, 550 270 C 500 280, 440 305, 390 290 C 335 270, 275 245, 230 220 C 175 220, 145 170, 140 110';
+  // Check if an interstate transition exists in current segments (e.g. Palakkad Gap)
+  const interstateSegment = segments.find((s) => s.isInterstateBorder);
+  const hasPalakkadGap = segments.some(
+    (s) =>
+      (s.from === 'palakkad' && s.to === 'coimbatore') ||
+      (s.from === 'coimbatore' && s.to === 'palakkad')
+  );
+
+  // Dynamic fallback for travelling light paths if not explicitly provided
+  const fallbackForward = segments.map((s) => s.path).join(' ');
+  const forwardPath = beaconPathForward || fallbackForward;
+  const reversePath = beaconPathReverse || forwardPath;
 
   return (
     <g className="route-connections-layer" pointerEvents="none">
@@ -48,9 +55,9 @@ const RouteConnections = ({
         </filter>
       </defs>
 
-      {/* Interstate Mountain Pass (Palakkad Gap) Subtle Graphic Accent (Desktop only; Mobile has dedicated divider) */}
-      {!isMobile && (
-        <g className="interstate-gap-marker" opacity="0.45" transform={gapTransform}>
+      {/* Interstate Mountain Pass (Palakkad Gap) Subtle Graphic Accent (Desktop only; rendered if route traverses it) */}
+      {!isMobile && hasPalakkadGap && (
+        <g className="interstate-gap-marker" opacity="0.45" transform="translate(470, 280)">
           <path
             d="M -25 25 L 0 0 L 25 25"
             fill="none"
@@ -79,7 +86,7 @@ const RouteConnections = ({
         </g>
       )}
 
-      {/* Render All Base Route Tracks */}
+      {/* Render All Dynamic Route Tracks */}
       {segments.map((segment) => {
         const isConnectedToActive =
           activeDistrictId &&
@@ -131,25 +138,27 @@ const RouteConnections = ({
       })}
 
       {/* Travelling Light Beacons along the primary trunk line */}
-      <g className="travelling-beacons">
-        {/* Main continuous animated dot */}
-        <circle r="3.5" fill="#FFB787" className="travelling-beacon-primary" filter="url(#routeGlow)">
-          <animateMotion
-            path={beaconPathForward}
-            dur="9s"
-            repeatCount="indefinite"
-          />
-        </circle>
+      {forwardPath && (
+        <g className="travelling-beacons">
+          {/* Main continuous animated dot */}
+          <circle r="3.5" fill="#FFB787" className="travelling-beacon-primary" filter="url(#routeGlow)">
+            <animateMotion
+              path={forwardPath}
+              dur="9s"
+              repeatCount="indefinite"
+            />
+          </circle>
 
-        {/* Counter-flow returning travelling beacon */}
-        <circle r="2.8" fill="#FF9060" className="travelling-beacon-secondary" filter="url(#routeGlow)" opacity="0.8">
-          <animateMotion
-            path={beaconPathReverse}
-            dur="12s"
-            repeatCount="indefinite"
-          />
-        </circle>
-      </g>
+          {/* Counter-flow returning travelling beacon */}
+          <circle r="2.8" fill="#FF9060" className="travelling-beacon-secondary" filter="url(#routeGlow)" opacity="0.8">
+            <animateMotion
+              path={reversePath}
+              dur="12s"
+              repeatCount="indefinite"
+            />
+          </circle>
+        </g>
+      )}
     </g>
   );
 };

@@ -8,5 +8,6 @@ export const API_ENDPOINTS = {
   HEALTH_CHECK: `${API_BASE_URL}/api/health/`,
   BLOG_POSTS: `${API_BASE_URL}/api/blog/posts/`,
   BLOG_POST_DETAIL: (slug) => `${API_BASE_URL}/api/blog/posts/${slug}/`,
+  PROJECT_LOCATIONS: `${API_BASE_URL}/api/projects/locations/`,
 };
 

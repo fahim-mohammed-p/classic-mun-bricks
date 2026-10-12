@@ -1,62 +1,119 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ProjectCard from './ProjectCard';
 import { DISTRICT_NODES } from '../../data/districtMapConfig';
 import { CONTACT_CONFIG } from '../../config/contact';
-import { Link } from 'react-router-dom';
+
+const BATCH_SIZE_DESKTOP = 12;
+const BATCH_SIZE_MOBILE = 8;
+
+/**
+ * Helper to compute initial batch based on viewport width
+ */
+const getInitialBatchSize = () => {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return BATCH_SIZE_MOBILE;
+  }
+  return BATCH_SIZE_DESKTOP;
+};
 
 /**
  * DistrictProjects Component
  * 
- * Displays the filtered project cards for the active district or all regions.
- * Features animated transitions, district context headers, and enquiry fallbacks.
+ * Scalable, image-only photo gallery for the active location.
+ * Features incremental rendering (Load More), native lazy loading,
+ * mobile-first responsive grid, and a lightweight zero-dependency lightbox viewer.
  */
 const DistrictProjects = ({
   activeDistrictId,
+  districtNodes = null,
+  activeDistrictNode = null,
   projects = [],
   onSelectDistrict,
   resultsRef,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const activeDistrict =
+    activeDistrictNode ||
+    (districtNodes && activeDistrictId && districtNodes[activeDistrictId]) ||
+    (activeDistrictId && activeDistrictId !== 'all' ? DISTRICT_NODES[activeDistrictId] : null);
 
-  const activeDistrict = activeDistrictId ? DISTRICT_NODES[activeDistrictId] : null;
+  const districtDisplayName = activeDistrict ? activeDistrict.name : 'All Regions';
 
-  // Extract unique categories for secondary filter chips
-  const categories = useMemo(() => {
-    const set = new Set();
-    projects.forEach((p) => {
-      if (p.category) {
-        // Group into high-level tags
-        if (p.category.toLowerCase().includes('residential') || p.category.toLowerCase().includes('villa')) {
-          set.add('Residential');
-        } else if (p.category.toLowerCase().includes('commercial') || p.category.toLowerCase().includes('office') || p.category.toLowerCase().includes('workspace')) {
-          set.add('Commercial');
-        } else if (p.category.toLowerCase().includes('institutional') || p.category.toLowerCase().includes('campus')) {
-          set.add('Institutional');
-        } else if (p.category.toLowerCase().includes('hospitality') || p.category.toLowerCase().includes('resort') || p.category.toLowerCase().includes('wellness')) {
-          set.add('Hospitality');
-        }
+  // Incremental pagination state
+  const [visibleCount, setVisibleCount] = useState(getInitialBatchSize);
+
+  // Reset pagination whenever the active district changes
+  useEffect(() => {
+    setVisibleCount(getInitialBatchSize());
+  }, [activeDistrictId]);
+
+  const handleLoadMore = () => {
+    const increment = (typeof window !== 'undefined' && window.innerWidth < 768)
+      ? BATCH_SIZE_MOBILE
+      : BATCH_SIZE_DESKTOP;
+    setVisibleCount((prev) => prev + increment);
+  };
+
+  const visibleProjects = projects.slice(0, visibleCount);
+  const hasMore = visibleCount < projects.length;
+
+  // Lightbox Image Viewer State
+  const [activeImageIndex, setActiveImageIndex] = useState(null);
+
+  const handleOpenLightbox = (index) => {
+    setActiveImageIndex(index);
+  };
+
+  const handleCloseLightbox = useCallback(() => {
+    setActiveImageIndex(null);
+  }, []);
+
+  const handlePrevImage = useCallback(() => {
+    setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : projects.length - 1));
+  }, [projects.length]);
+
+  const handleNextImage = useCallback(() => {
+    setActiveImageIndex((prev) => (prev < projects.length - 1 ? prev + 1 : 0));
+  }, [projects.length]);
+
+  // Keyboard navigation & body scroll lock for lightbox
+  useEffect(() => {
+    if (activeImageIndex === null) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleCloseLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevImage();
+      } else if (e.key === 'ArrowRight') {
+        handleNextImage();
       }
-    });
-    return Array.from(set);
-  }, [projects]);
+    };
 
-  // Filter projects by category chip if selected
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === 'all') return projects;
-    return projects.filter((p) => {
-      const cat = p.category.toLowerCase();
-      if (selectedCategory === 'Residential') return cat.includes('residential') || cat.includes('villa') || cat.includes('homestead');
-      if (selectedCategory === 'Commercial') return cat.includes('commercial') || cat.includes('office') || cat.includes('workspace') || cat.includes('facade');
-      if (selectedCategory === 'Institutional') return cat.includes('institutional') || cat.includes('campus');
-      if (selectedCategory === 'Hospitality') return cat.includes('hospitality') || cat.includes('resort') || cat.includes('wellness');
-      return true;
-    });
-  }, [projects, selectedCategory]);
+    document.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-  // WhatsApp enquiry for the active district
-  const districtName = activeDistrict ? activeDistrict.name : 'Kerala & Tamil Nadu';
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [activeImageIndex, handleCloseLightbox, handlePrevImage, handleNextImage]);
+
+  // Safe image attribute extractors for the lightbox
+  const getImageSrc = (item) => {
+    if (!item) return '';
+    if (typeof item === 'string') return item;
+    return item.image || item.src || item.url || '';
+  };
+
+  const getImageAlt = (item, idx) => {
+    if (item && item.alt) return item.alt;
+    return `${districtDisplayName} project photo ${idx + 1}`;
+  };
+
+  // WhatsApp inquiry URL for the active district
   const enquiryMessage = encodeURIComponent(
-    `Hello Classic Mun Bricks, I am looking to procure bricks for a project in ${districtName}. Please share technical specifications, transport logistics & pricing.`
+    `Hello Classic Mun Bricks, I am looking to procure bricks for a project in ${districtDisplayName}. Please share technical specifications, transport logistics & pricing.`
   );
   const whatsappUrl = `https://wa.me/${CONTACT_CONFIG.companyWhatsApp}?text=${enquiryMessage}`;
 
@@ -66,7 +123,7 @@ const DistrictProjects = ({
         {/* District Results Header */}
         <div className="district-header-card">
           <div className="row align-items-center justify-content-between g-3">
-            <div className="col-lg-8">
+            <div className="col-md-8">
               <div className="district-eyebrow">
                 <span className="badge-state-indicator">
                   {activeDistrict ? `${activeDistrict.state} Corridor` : 'South India Coverage'}
@@ -79,21 +136,18 @@ const DistrictProjects = ({
               </div>
 
               <h2 className="district-section-title">
-                {activeDistrict
-                  ? `Projects in ${activeDistrict.name}`
-                  : 'Projects Across Kerala & Tamil Nadu'}
+                {activeDistrict ? activeDistrict.name : 'All Projects'}
               </h2>
 
-              <p className="district-section-subtitle">
-                {activeDistrict
-                  ? `${activeDistrict.tagline} — ${activeDistrict.regionDesc}`
-                  : 'Showing verified client structures, residences, and institutions delivered across both states.'}
-              </p>
+              {activeDistrict?.regionDesc && (
+                <p className="district-section-subtitle">
+                  {activeDistrict.regionDesc}
+                </p>
+              )}
             </div>
 
-            {/* Quick District Action Buttons */}
-            <div className="col-lg-4 text-lg-end">
-              <div className="d-flex flex-wrap gap-2 justify-content-lg-end">
+            <div className="col-md-4 text-md-end">
+              <div className="d-flex flex-wrap gap-2 justify-content-md-end">
                 {activeDistrictId && activeDistrictId !== 'all' && (
                   <button
                     type="button"
@@ -109,75 +163,122 @@ const DistrictProjects = ({
                   rel="noopener noreferrer"
                   className="btn-district-enquire"
                 >
-                  <i className="bi bi-whatsapp me-1"></i> Supply in {districtName}
+                  <i className="bi bi-whatsapp me-1"></i> Supply in {districtDisplayName}
                 </a>
               </div>
             </div>
           </div>
-
-          {/* Secondary Category Filter Chips */}
-          {categories.length > 1 && (
-            <div className="category-chips-bar">
-              <span className="chips-label">Filter Category:</span>
-              <button
-                type="button"
-                className={`category-chip-btn ${selectedCategory === 'all' ? 'is-active' : ''}`}
-                onClick={() => setSelectedCategory('all')}
-              >
-                All Typologies ({projects.length})
-              </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  className={`category-chip-btn ${selectedCategory === cat ? 'is-active' : ''}`}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Project Cards Grid */}
-        {filteredProjects.length > 0 ? (
-          <div className="row g-4 project-cards-grid">
-            {filteredProjects.map((project) => (
-              <div key={project.id} className="col-lg-4 col-md-6">
-                <ProjectCard project={project} />
+        {/* ========================================================
+            IMAGE-ONLY GALLERY OR MINIMAL EMPTY STATE
+            ======================================================== */}
+        {projects.length > 0 ? (
+          <div className="location-gallery-wrapper">
+            <div
+              className="location-image-gallery"
+              role="region"
+              aria-label={`${districtDisplayName} Project Image Gallery`}
+            >
+              {visibleProjects.map((item, index) => (
+                <ProjectCard
+                  key={item.id || index}
+                  project={item}
+                  index={index}
+                  onClick={() => handleOpenLightbox(index)}
+                />
+              ))}
+            </div>
+
+            {/* Incremental Display / Load More Button */}
+            {hasMore && (
+              <div className="gallery-load-more-wrap">
+                <button
+                  type="button"
+                  className="btn-gallery-load-more"
+                  onClick={handleLoadMore}
+                >
+                  <span>Load More</span>
+                  <i className="bi bi-chevron-down ms-1"></i>
+                </button>
               </div>
-            ))}
+            )}
           </div>
         ) : (
-          /* Empty / Additional Stories In Preparation State */
-          <div className="district-empty-state">
-            <div className="empty-state-icon">
-              <i className="bi bi-bricks"></i>
-            </div>
-            <h3 className="empty-state-title">
-              Additional Project Stories Being Prepared for {districtName}
-            </h3>
-            <p className="empty-state-desc">
-              We have supplied over {activeDistrict?.stateId === 'kerala' ? '1,500+' : '1,000+'} orders across this regional corridor.
-              High-resolution photography and structural case studies are actively being documented.
+          /* Clean, small, professional empty state per requirements */
+          <div className="district-empty-state-compact">
+            <i className="bi bi-images empty-state-compact-icon" aria-hidden="true"></i>
+            <p className="empty-state-compact-text">
+              No project images added for this location yet.
             </p>
-            <div className="d-flex justify-content-center gap-3 flex-wrap mt-3">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-cmb-primary"
-              >
-                <i className="bi bi-whatsapp me-1"></i> Request Supply &amp; Spec Sheet
-              </a>
-              <Link to="/contact" className="btn btn-outline-secondary">
-                Contact Project Desk
-              </Link>
-            </div>
           </div>
         )}
       </div>
+
+      {/* ========================================================
+          LIGHTWEIGHT IMAGE VIEWER / LIGHTBOX MODAL
+          ======================================================== */}
+      {activeImageIndex !== null && projects[activeImageIndex] && (
+        <div
+          className="lightbox-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image viewer"
+          onClick={handleCloseLightbox}
+        >
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <button
+              type="button"
+              className="lightbox-close-btn"
+              onClick={handleCloseLightbox}
+              aria-label="Close image viewer"
+            >
+              <i className="bi bi-x-lg"></i>
+            </button>
+
+            {/* Previous navigation button */}
+            {projects.length > 1 && (
+              <button
+                type="button"
+                className="lightbox-nav-btn lightbox-prev-btn"
+                onClick={handlePrevImage}
+                aria-label="Previous image"
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+            )}
+
+            {/* Large image frame */}
+            <div className="lightbox-img-wrapper">
+              <img
+                src={getImageSrc(projects[activeImageIndex])}
+                alt={getImageAlt(projects[activeImageIndex], activeImageIndex)}
+                className="lightbox-img"
+              />
+            </div>
+
+            {/* Next navigation button */}
+            {projects.length > 1 && (
+              <button
+                type="button"
+                className="lightbox-nav-btn lightbox-next-btn"
+                onClick={handleNextImage}
+                aria-label="Next image"
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+            )}
+
+            {/* Counter indicator */}
+            {projects.length > 1 && (
+              <div className="lightbox-counter" aria-live="polite">
+                {activeImageIndex + 1} / {projects.length}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

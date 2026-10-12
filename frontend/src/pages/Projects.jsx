@@ -1,13 +1,13 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { COVERAGE_METRICS } from '../data/projectsCoverage';
+import { ALL_PROJECTS } from '../data/projectsData';
 import {
-  ALL_PROJECTS,
-  getDistrictProjectCounts,
-  getProjectsByDistrict,
-  getProjectsByState,
-} from '../data/projectsData';
-import { DISTRICT_NODES } from '../data/districtMapConfig';
+  DEFAULT_ACTIVE_LOCATIONS,
+  buildDynamicProjectMap,
+  slugify,
+} from '../data/districtMapConfig';
+import { API_ENDPOINTS } from '../config/api';
 import { CONTACT_CONFIG } from '../config/contact';
 import CountUp from '../components/CountUp';
 import ProjectRouteMap from '../components/projects/ProjectRouteMap';
@@ -16,28 +16,103 @@ import '../styles/projects.css';
 import '../styles/project-route.css';
 
 const Projects = () => {
-  // Region selection: 'all' | 'kerala' | 'tamil-nadu'
+  // Active locations fetched dynamically from backend (defaults to seed operational locations)
+  const [locations, setLocations] = useState(DEFAULT_ACTIVE_LOCATIONS);
+
+  // Region selection: 'all' | stateId
   const [selectedStateId, setSelectedStateId] = useState('all');
 
   // Active district selection: 'malappuram' (default home base) | any districtId | 'all'
   const [activeDistrictId, setActiveDistrictId] = useState('malappuram');
 
-  // Ref to project cards results section for smooth scroll
+  // Ref to project gallery results section for smooth scroll
   const resultsRef = useRef(null);
 
-  // Dynamic project counts per district calculated from verified projects data
-  const projectCounts = useMemo(() => getDistrictProjectCounts(), []);
+  // Fetch active project locations from backend
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.PROJECT_LOCATIONS);
+        if (response.ok) {
+          const data = await response.json();
+          if (isMounted && Array.isArray(data) && data.length > 0) {
+            setLocations(data);
+          }
+        }
+      } catch (err) {
+        // Network/offline fallback: keeps DEFAULT_ACTIVE_LOCATIONS gracefully
+        console.info('[Classic Mun Bricks] Using pre-compiled district route dataset.');
+      }
+    };
+
+    fetchLocations();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Compute dynamic coordinate projection and bezier routes
+  const mapData = useMemo(() => {
+    return buildDynamicProjectMap(locations);
+  }, [locations]);
+
+  // Synchronize active district if loaded locations don't contain current selection
+  useEffect(() => {
+    if (mapData.districtOrder && mapData.districtOrder.length > 0) {
+      if (activeDistrictId !== 'all' && !mapData.districtNodes[activeDistrictId]) {
+        const hubId = mapData.districtOrder.find((id) => mapData.districtNodes[id]?.isFactoryHub);
+        setActiveDistrictId(hubId || mapData.districtOrder[0]);
+      }
+    }
+  }, [mapData, activeDistrictId]);
+
+  // Extract images associated with project locations in the backend
+  const backendProjects = useMemo(() => {
+    const list = [];
+    locations.forEach((loc) => {
+      const dSlug = loc.district_slug || slugify(loc.district);
+      if (Array.isArray(loc.images)) {
+        loc.images.forEach((img) => {
+          list.push({
+            id: `loc-img-${img.id}`,
+            districtId: dSlug,
+            district: loc.district,
+            state: loc.state,
+            stateId: slugify(loc.state),
+            image: img.image,
+            caption: img.caption,
+            alt: img.caption || `${loc.district} project photo`,
+          });
+        });
+      }
+    });
+    return list;
+  }, [locations]);
+
+  // Combined project items
+  const allProjectItems = useMemo(() => {
+    return [...backendProjects, ...ALL_PROJECTS];
+  }, [backendProjects]);
 
   // Filter projects depending on active district / state selection
   const displayedProjects = useMemo(() => {
     if (activeDistrictId && activeDistrictId !== 'all') {
-      return getProjectsByDistrict(activeDistrictId);
+      const targetSlug = slugify(activeDistrictId);
+      return allProjectItems.filter((p) => {
+        const pSlug = slugify(p.districtId || p.district);
+        return pSlug === targetSlug;
+      });
     }
     if (selectedStateId && selectedStateId !== 'all') {
-      return getProjectsByState(selectedStateId);
+      const targetState = slugify(selectedStateId);
+      return allProjectItems.filter((p) => {
+        const pState = slugify(p.stateId || p.state);
+        return pState === targetState;
+      });
     }
-    return ALL_PROJECTS;
-  }, [activeDistrictId, selectedStateId]);
+    return allProjectItems;
+  }, [activeDistrictId, selectedStateId, allProjectItems]);
 
   // Smooth scroll helper
   const handleScrollToResults = () => {
@@ -58,7 +133,7 @@ const Projects = () => {
   const handleSelectDistrict = (districtId) => {
     setActiveDistrictId(districtId);
     if (districtId !== 'all') {
-      const node = DISTRICT_NODES[districtId];
+      const node = mapData.districtNodes[districtId];
       if (node && node.stateId) {
         setSelectedStateId(node.stateId);
       }
@@ -136,19 +211,21 @@ const Projects = () => {
           <ProjectRouteMap
             activeDistrictId={activeDistrictId}
             selectedStateId={selectedStateId}
-            projectCounts={projectCounts}
             onSelectDistrict={handleSelectDistrict}
             onSelectState={handleSelectState}
             onScrollToResults={handleScrollToResults}
+            mapData={mapData}
           />
         </div>
       </section>
 
       {/* ========================================================
-          03 — DISTRICT PROJECTS SECTION & PORTFOLIO CARDS
+          03 — DISTRICT PROJECTS SECTION & IMAGE-ONLY GALLERY
           ======================================================== */}
       <DistrictProjects
         activeDistrictId={activeDistrictId}
+        districtNodes={mapData.districtNodes}
+        activeDistrictNode={mapData.districtNodes[activeDistrictId]}
         projects={displayedProjects}
         onSelectDistrict={handleSelectDistrict}
         resultsRef={resultsRef}
