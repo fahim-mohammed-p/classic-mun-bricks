@@ -30,7 +30,17 @@ class DistrictAdmin(admin.ModelAdmin):
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
     extra = 1
-    fields = ('image', 'caption', 'order')
+    fields = ('image_preview', 'image', 'caption', 'order')
+    readonly_fields = ('image_preview',)
+
+    def image_preview(self, obj):
+        if obj.pk and obj.image:
+            return format_html(
+                '<img src="{}" style="max-height: 48px; max-width: 72px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;" />',
+                obj.image.url
+            )
+        return format_html('<span style="color:#999; font-size:11px;">(Upload to preview)</span>')
+    image_preview.short_description = 'Preview'
 
 
 @admin.register(ProjectLocation)
@@ -50,6 +60,8 @@ class ProjectLocationAdmin(admin.ModelAdmin):
         'order',
         'updated_at',
     )
+    list_display_links = ('district_name',)
+    list_editable = ('is_active', 'order')
     list_filter = (
         'is_active',
         'is_factory_hub',
@@ -58,6 +70,15 @@ class ProjectLocationAdmin(admin.ModelAdmin):
     search_fields = (
         'district__name',
         'district__state__name',
+    )
+    fieldsets = (
+        ('Location (India District Master)', {
+            'fields': ('district',),
+            'description': 'Search and select an official Indian District from the India master dataset.',
+        }),
+        ('Manufacturing & Display Settings', {
+            'fields': ('is_factory_hub', 'hub_label', 'is_active', 'order'),
+        }),
     )
     inlines = [ProjectImageInline]
     ordering = ('order', 'district__name')
@@ -80,8 +101,42 @@ class ProjectLocationAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectImage)
 class ProjectImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'location', 'image', 'caption', 'order', 'created_at')
+    list_display = (
+        'id',
+        'image_preview',
+        'location_district',
+        'location_state',
+        'caption',
+        'order',
+        'created_at',
+    )
+    list_display_links = ('id', 'image_preview', 'location_district')
+    list_editable = ('caption', 'order')
     list_filter = ('location__district__state', 'location')
-    search_fields = ('location__district__name', 'caption')
+    search_fields = (
+        'location__district__name',
+        'location__district__state__name',
+        'caption',
+    )
     autocomplete_fields = ['location']
+    readonly_fields = ('image_preview',)
     ordering = ('location', 'order', '-created_at')
+
+    def location_district(self, obj):
+        return obj.location.district.name
+    location_district.short_description = 'District'
+    location_district.admin_order_field = 'location__district__name'
+
+    def location_state(self, obj):
+        return obj.location.district.state.name
+    location_state.short_description = 'State'
+    location_state.admin_order_field = 'location__district__state__name'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-height: 52px; max-width: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;" />',
+                obj.image.url
+            )
+        return format_html('<span style="color:#999; font-size:12px;">No image</span>')
+    image_preview.short_description = 'Preview'

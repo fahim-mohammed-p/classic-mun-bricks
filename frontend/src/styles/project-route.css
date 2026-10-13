@@ -189,7 +189,8 @@
   width: 100%;
   height: auto;
   display: block;
-  aspect-ratio: 380 / 740;
+  aspect-ratio: 380 / 440;
+  max-height: 440px;
 }
 
 /* Route SVG Animations & Transitions */
@@ -839,19 +840,14 @@
 }
 
 @media (max-width: 767.98px) {
-  .route-filter-pills {
-    width: 100%;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 0.4rem;
+  .route-canvas-card {
+    padding: 0.85rem 0.5rem;
+    border-radius: var(--cmb-radius, 4px);
   }
 
-  .route-pill-btn {
-    width: 100%;
-    justify-content: space-between;
-    font-size: clamp(0.78rem, 2.8vw, 0.85rem);
-    padding: 0.65rem 0.85rem;
-    min-height: 44px;
+  .mobile-route-canvas-wrap {
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .route-legend-strip {

@@ -72,17 +72,26 @@ const Projects = () => {
     const list = [];
     locations.forEach((loc) => {
       const dSlug = loc.district_slug || slugify(loc.district);
+      const plainSlug = slugify(loc.district);
       if (Array.isArray(loc.images)) {
         loc.images.forEach((img) => {
+          let imageUrl = img.image || '';
+          if (imageUrl && !imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+            const cleanPath = imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+            imageUrl = `${API_BASE_URL}${cleanPath}`;
+          }
           list.push({
             id: `loc-img-${img.id}`,
             districtId: dSlug,
+            districtSlug: dSlug,
+            plainSlug: plainSlug,
             district: loc.district,
             state: loc.state,
             stateId: slugify(loc.state),
-            image: img.image,
+            image: imageUrl,
             caption: img.caption,
             alt: img.caption || `${loc.district} project photo`,
+            order: img.order || 0,
           });
         });
       }
@@ -98,10 +107,19 @@ const Projects = () => {
   // Filter projects depending on active district / state selection
   const displayedProjects = useMemo(() => {
     if (activeDistrictId && activeDistrictId !== 'all') {
-      const targetSlug = slugify(activeDistrictId);
+      const target = slugify(activeDistrictId);
       return allProjectItems.filter((p) => {
-        const pSlug = slugify(p.districtId || p.district);
-        return pSlug === targetSlug;
+        const dId = slugify(p.districtId);
+        const dSlug = slugify(p.districtSlug);
+        const dName = slugify(p.plainSlug || p.district);
+        return (
+          dId === target ||
+          dSlug === target ||
+          dName === target ||
+          (dId && dId.startsWith(target)) ||
+          (target && target.startsWith(dName)) ||
+          (dSlug && dSlug.startsWith(target))
+        );
       });
     }
     if (selectedStateId && selectedStateId !== 'all') {
@@ -127,6 +145,16 @@ const Projects = () => {
   // Handler for state toggle
   const handleSelectState = (stateId) => {
     setSelectedStateId(stateId);
+    if (stateId === 'all') {
+      setActiveDistrictId('all');
+    } else {
+      const stateNode = mapData.districtOrder
+        .map((id) => mapData.districtNodes[id])
+        .find((n) => n && n.stateId === stateId);
+      if (stateNode) {
+        setActiveDistrictId(stateNode.id);
+      }
+    }
   };
 
   // Handler for district selection

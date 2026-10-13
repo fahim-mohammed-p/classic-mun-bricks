@@ -21,13 +21,16 @@ const DistrictNode = ({
   let badgeWidth = 92;
   let badgeHeight = 26;
   let nameYOffset = 4;
+  let sideOffset = 58;
 
   if (isFactoryHub) {
     badgeWidth = 122;
     badgeHeight = 36;
     nameYOffset = 9;
+    sideOffset = 74;
   } else if (name.length > 9) {
     badgeWidth = 104;
+    sideOffset = 64;
   }
 
   let labelTransform = '';
@@ -36,10 +39,10 @@ const DistrictNode = ({
       labelTransform = `translate(${x}, ${y - (isFactoryHub ? 30 : 25)})`;
       break;
     case 'left':
-      labelTransform = `translate(${x - (isFactoryHub ? 70 : 58)}, ${y})`;
+      labelTransform = `translate(${x - sideOffset}, ${y})`;
       break;
     case 'right':
-      labelTransform = `translate(${x + (isFactoryHub ? 70 : 58)}, ${y})`;
+      labelTransform = `translate(${x + sideOffset}, ${y})`;
       break;
     case 'bottom':
     default:

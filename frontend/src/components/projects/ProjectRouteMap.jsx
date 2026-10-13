@@ -61,42 +61,7 @@ const ProjectRouteMap = ({
   return (
     <div className="project-route-map-container">
       {/* ========================================================
-          01 — DYNAMIC CORRIDOR SELECTOR PILLS
-          ======================================================== */}
-      <div className="route-header-controls">
-        <div className="route-filter-pills" role="tablist" aria-label="Geographic Corridors">
-          {stateTabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={selectedStateId === tab.id}
-              className={`route-pill-btn ${selectedStateId === tab.id ? 'is-active' : ''}`}
-              onClick={() => {
-                onSelectState(tab.id);
-                if (tab.id === 'all') {
-                  onSelectDistrict('all');
-                } else if (tab.firstDistrictId) {
-                  onSelectDistrict(tab.firstDistrictId);
-                }
-              }}
-            >
-              {tab.isAll ? (
-                <i className="bi bi-compass-fill me-1"></i>
-              ) : (
-                <span
-                  className="dot-indicator"
-                  style={{ backgroundColor: tab.color || '#B94F2E' }}
-                ></span>
-              )}
-              <span>{tab.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* ========================================================
-          02 — MAIN SVG ROUTE VISUALIZATION CANVAS
+          MAIN SVG ROUTE VISUALIZATION CANVAS
           ======================================================== */}
       <div className="route-canvas-card">
         {/* Ambient Warm Gradient Glow Behind Map */}
@@ -230,7 +195,7 @@ const ProjectRouteMap = ({
               </pattern>
             </defs>
 
-            <rect width="380" height="740" fill="url(#archGridMobile)" />
+            <rect width={MOBILE_MAP_DIMENSIONS.width} height={MOBILE_MAP_DIMENSIONS.height} fill="url(#archGridMobile)" />
 
             {/* Mobile Bezier Route Connections */}
             <RouteConnections

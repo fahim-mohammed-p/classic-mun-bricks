@@ -14,8 +14,8 @@ export const MAP_DIMENSIONS = {
 
 export const MOBILE_MAP_DIMENSIONS = {
   width: 380,
-  height: 740,
-  viewBox: '0 0 380 740',
+  height: 440,
+  viewBox: '0 0 380 440',
 };
 
 /**
@@ -161,6 +161,99 @@ export const DEFAULT_ACTIVE_LOCATIONS = [
 ];
 
 /**
+ * Generic Sublinear Gap-Compression Coordinate Projection
+ *
+ * Preserves relative geographic direction (monotonicity) and local cluster proportions,
+ * while sublinearly compressing massive inter-cluster distance chasms (e.g. South India -> Ladakh).
+ *
+ * @param {number[]} values Array of raw coordinates (latitudes or longitudes)
+ * @param {number} targetRange Total canvas size along this axis (e.g. 1000 for width, 580 for height)
+ * @param {number} padStart Safe margin at the start (min coordinate side)
+ * @param {number} padEnd Safe margin at the end (max coordinate side)
+ * @param {boolean} invert True for latitude (since higher lat = North = smaller SVG y)
+ * @returns {Map<number, number>} Map from raw coordinate value to projected pixel coordinate
+ */
+export function compressDimension(values, targetRange, padStart, padEnd, invert = false) {
+  if (!Array.isArray(values) || values.length === 0) {
+    return new Map();
+  }
+
+  // Deduplicate and sort values ascending
+  const sorted = Array.from(
+    new Set(values.map((v) => Number(v)).filter((v) => Number.isFinite(v)))
+  ).sort((a, b) => a - b);
+
+  const available = Math.max(1, targetRange - padStart - padEnd);
+
+  if (sorted.length === 0) {
+    return new Map();
+  }
+
+  // If single value, place centered in the safe area
+  if (sorted.length === 1) {
+    const mid = padStart + available / 2;
+    return new Map([[sorted[0], Math.round(mid)]]);
+  }
+
+  // Calculate gaps between consecutive sorted values
+  const gaps = [];
+  for (let i = 0; i < sorted.length - 1; i++) {
+    gaps.push(sorted[i + 1] - sorted[i]);
+  }
+
+  const sumGaps = gaps.reduce((a, b) => a + b, 0);
+  if (sumGaps <= 0.00001) {
+    const mid = padStart + available / 2;
+    const lookup = new Map();
+    sorted.forEach((val) => lookup.set(val, Math.round(mid)));
+    return lookup;
+  }
+
+  // Analyze gap distribution
+  const sortedGaps = [...gaps].sort((a, b) => a - b);
+  const q75Gap = sortedGaps[Math.floor(sortedGaps.length * 0.75)] || 0.25;
+  // Local cluster threshold: gaps smaller than this are kept strictly proportional
+  const baseScale = Math.max(0.15, q75Gap * 1.4);
+  const maxGap = Math.max(...gaps);
+  const otherGapsSum = sumGaps - maxGap;
+
+  // Sublinearly compress outlier gaps while leaving intra-cluster gaps linear
+  const compressedGaps = gaps.map((g) => {
+    if (g <= baseScale) return g;
+    const excess = g - baseScale;
+    let comp = baseScale + baseScale * Math.pow(excess / baseScale, 0.35);
+    // If there is an existing cluster, cap the single outlier transit gap
+    // so it doesn't dominate more than ~85% of the total cluster span
+    if (otherGapsSum > 0) {
+      const maxAllowed = Math.max(baseScale, otherGapsSum * 0.85);
+      if (comp > maxAllowed) {
+        comp = maxAllowed;
+      }
+    }
+    return comp;
+  });
+
+  // Calculate cumulative compressed positions
+  const compPos = [0];
+  for (let i = 0; i < compressedGaps.length; i++) {
+    compPos.push(compPos[i] + compressedGaps[i]);
+  }
+  const totalComp = compPos[compPos.length - 1] || 1;
+
+  // Map each sorted coordinate to pixel position
+  const lookup = new Map();
+  sorted.forEach((val, idx) => {
+    const norm = compPos[idx] / totalComp;
+    const pixel = invert
+      ? padStart + (1 - norm) * available
+      : padStart + norm * available;
+    lookup.set(val, Math.round(pixel));
+  });
+
+  return lookup;
+}
+
+/**
  * Calculates dynamic geographic projection and bezier supply routes
  * from any list of active Indian district records.
  *
@@ -200,32 +293,19 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
     return buildDynamicProjectMap(DEFAULT_ACTIVE_LOCATIONS);
   }
 
-  // 1. Calculate Geographic Bounding Box
+  // 1. Extract Valid Coordinates
   const lats = validLocations.map((l) => parseFloat(l.latitude));
   const lngs = validLocations.map((l) => parseFloat(l.longitude));
 
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLng = Math.min(...lngs);
-  const maxLng = Math.max(...lngs);
-
-  const spanLat = maxLat - minLat > 0.05 ? maxLat - minLat : 1.0;
-  const spanLng = maxLng - minLng > 0.05 ? maxLng - minLng : 1.0;
-
-  // 2. Normalization Bounds
-  // Desktop canvas: 1000 x 580
+  // 2. Normalization Bounds with Safe Margins for Desktop
   const dPadX = 110;
   const dPadY = 80;
-  const dRangeX = 1000 - 2 * dPadX;
-  const dRangeY = 580 - 2 * dPadY;
 
-  // Mobile canvas: 380 x 740
-  const mPadX = 60;
-  const mPadY = 70;
-  const mRangeX = 380 - 2 * mPadX;
-  const mRangeY = 740 - 2 * mPadY;
+  // Generate cluster-aware sublinear projections for Desktop
+  const xLookup = compressDimension(lngs, MAP_DIMENSIONS.width, dPadX, dPadX, false);
+  const yLookup = compressDimension(lats, MAP_DIMENSIONS.height, dPadY, dPadY, true);
 
-  // 3. Normalized Node Map
+  // 3. Normalized Desktop Node Map
   const nodes = [];
   validLocations.forEach((loc, idx) => {
     const id = loc.district_slug || slugify(loc.district || loc.name);
@@ -235,25 +315,17 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
     const lat = parseFloat(loc.latitude);
     const lng = parseFloat(loc.longitude);
 
-    // Desktop coordinates (Invert lat: North is top = smaller Y)
-    const normX = (lng - minLng) / spanLng;
-    const normY = (maxLat - lat) / spanLat;
-    const x = Math.round(dPadX + normX * dRangeX);
-    const y = Math.round(dPadY + normY * dRangeY);
+    // Desktop coordinates (Cluster-compressed, North = top = smaller Y)
+    const x = xLookup.get(lng) ?? Math.round(MAP_DIMENSIONS.width / 2);
+    const y = yLookup.get(lat) ?? Math.round(MAP_DIMENSIONS.height / 2);
 
-    // Mobile coordinates
-    const mx = Math.round(mPadX + normX * mRangeX);
-    const my = Math.round(mPadY + normY * mRangeY);
-
-    // Accessible smart label positioning
+    // Accessible smart label positioning for desktop
     let labelPos = 'bottom';
     if (y > 470) labelPos = 'top';
     else if (y < 120) labelPos = 'bottom';
     else if (x > 800) labelPos = 'left';
     else if (x < 220) labelPos = 'right';
     else labelPos = idx % 2 === 0 ? 'top' : 'bottom';
-
-    let mLabelPos = mx > 190 ? 'left' : 'right';
 
     nodes.push({
       id,
@@ -269,9 +341,9 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
       yPct: Math.round((y / 580) * 100),
       labelPos,
       mobile: {
-        x: mx,
-        y: my,
-        labelPos: mLabelPos,
+        x: 190,
+        y: 220,
+        labelPos: 'left',
       },
       isFactoryHub: Boolean(loc.is_factory_hub),
       hubLabel: loc.hub_label || (loc.is_factory_hub ? 'Plant & HQ (Kodur)' : ''),
@@ -281,9 +353,7 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
     });
   });
 
-  // 4. Determine Visual Supply Chain Ordering (Requirement 12)
-  // If order is explicitly sequenced (different values), preserve order;
-  // Otherwise, calculate greedy nearest-neighbor chain starting from factory hub or westernmost node.
+  // 4. Determine Visual Supply Chain Ordering
   const hasDistinctOrder = new Set(nodes.map((n) => n.order)).size > 1;
   let orderedNodes = [];
 
@@ -315,6 +385,51 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
       orderedNodes.push(current);
     }
   }
+
+  // 4b. Dedicated Mobile Route Layout Strategy:
+  // Compact, intuitive portrait journey layout (viewBox 380 x 440)
+  // Replaces jagged EKG/CPR spikes with a smooth, continuous transit flow.
+  // Western districts flank the left corridor, Eastern districts flank the right corridor,
+  // with labels comfortably contained and completely non-overlapping.
+  const N = orderedNodes.length;
+  const orderedLngs = orderedNodes.map((n) => n.lng);
+  const minLng = Math.min(...orderedLngs);
+  const maxLng = Math.max(...orderedLngs);
+  const spanLng = maxLng - minLng > 0.05 ? maxLng - minLng : 1.0;
+
+  const mPadTop = 46;
+  const mPadBottom = 46;
+  const availableY = MOBILE_MAP_DIMENSIONS.height - mPadTop - mPadBottom;
+
+  orderedNodes.forEach((node, idx) => {
+    // Vertical progression: strictly increasing down the journey
+    const my = N <= 1
+      ? Math.round(MOBILE_MAP_DIMENSIONS.height / 2)
+      : Math.round(mPadTop + (idx / (N - 1)) * availableY);
+
+    // Horizontal placement: authentic West vs East corridor lanes
+    const normLng = (node.lng - minLng) / spanLng;
+    let mx;
+    let mLabelPos;
+
+    if (normLng < 0.45) {
+      // Western Corridor (e.g. Kerala): X in [130, 156]
+      const subNorm = normLng / 0.45;
+      mx = Math.round(130 + subNorm * 26);
+      mLabelPos = 'left';
+    } else {
+      // Eastern Corridor (e.g. Tamil Nadu): X in [226, 256]
+      const subNorm = (normLng - 0.45) / 0.55;
+      mx = Math.round(226 + subNorm * 30);
+      mLabelPos = 'right';
+    }
+
+    node.mobile = {
+      x: mx,
+      y: my,
+      labelPos: mLabelPos,
+    };
+  });
 
   const districtOrder = orderedNodes.map((n) => n.id);
 
@@ -351,15 +466,15 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
     }
     forwardPathParts.push(`C ${cx1} ${cy1}, ${cx2} ${cy2}, ${to.x} ${to.y}`);
 
-    // Mobile Bezier Path
+    // Mobile Bezier Path (Smooth fluid curves without sharp jagged kinks)
     const mFrom = from.mobile;
     const mTo = to.mobile;
     const mdx = mTo.x - mFrom.x;
     const mdy = mTo.y - mFrom.y;
     const mcx1 = Math.round(mFrom.x + mdx * 0.45);
-    const mcy1 = Math.round(mFrom.y + mdy * 0.15);
+    const mcy1 = Math.round(mFrom.y + mdy * 0.25);
     const mcx2 = Math.round(mFrom.x + mdx * 0.55);
-    const mcy2 = Math.round(mTo.y - mdy * 0.15);
+    const mcy2 = Math.round(mTo.y - mdy * 0.25);
     const mPath = `M ${mFrom.x} ${mFrom.y} C ${mcx1} ${mcy1}, ${mcx2} ${mcy2}, ${mTo.x} ${mTo.y}`;
 
     mobileRouteSegments.push({
@@ -404,9 +519,9 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
     const mdx = mTo.x - mFrom.x;
     const mdy = mTo.y - mFrom.y;
     const mcx1 = Math.round(mFrom.x + mdx * 0.45);
-    const mcy1 = Math.round(mFrom.y + mdy * 0.15);
+    const mcy1 = Math.round(mFrom.y + mdy * 0.25);
     const mcx2 = Math.round(mFrom.x + mdx * 0.55);
-    const mcy2 = Math.round(mTo.y - mdy * 0.15);
+    const mcy2 = Math.round(mTo.y - mdy * 0.25);
 
     if (i === orderedNodes.length - 1) {
       mobileReverseParts.push(`M ${mFrom.x} ${mFrom.y}`);
@@ -417,17 +532,26 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
   const beaconPathReverse = reverseParts.join(' ');
   const mobileBeaconPathReverse = mobileReverseParts.join(' ');
 
-  // 6. District Nodes Lookup Maps
+  // 6. District Nodes Lookup Maps (Dual indexed by canonical id and plain district slug)
   const districtNodes = {};
   const mobileDistrictNodes = {};
   nodes.forEach((n) => {
     districtNodes[n.id] = n;
-    mobileDistrictNodes[n.id] = {
+    const plainNameSlug = slugify(n.name);
+    if (plainNameSlug && !districtNodes[plainNameSlug]) {
+      districtNodes[plainNameSlug] = n;
+    }
+
+    const mNode = {
       ...n,
       x: n.mobile.x,
       y: n.mobile.y,
       labelPos: n.mobile.labelPos,
     };
+    mobileDistrictNodes[n.id] = mNode;
+    if (plainNameSlug && !mobileDistrictNodes[plainNameSlug]) {
+      mobileDistrictNodes[plainNameSlug] = mNode;
+    }
   });
 
   // 7. Dynamic State Corridor Tabs

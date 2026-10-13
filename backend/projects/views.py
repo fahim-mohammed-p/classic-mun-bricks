@@ -7,10 +7,11 @@ from .serializers import ProjectLocationSerializer
 class ProjectLocationListView(generics.ListAPIView):
     """
     Public API endpoint returning all active Classic Mun Bricks project locations
-    for dynamic rendering on the Project Route map.
+    for dynamic rendering on the Project Route map and gallery.
     """
     serializer_class = ProjectLocationSerializer
     permission_classes = [AllowAny]
+    throttle_classes = []
     pagination_class = None
 
     def get_queryset(self):
