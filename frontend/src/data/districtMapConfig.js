@@ -467,26 +467,36 @@ export const buildDynamicProjectMap = (locations = []) => {
     }
   });
 
-  const stateTabs = [
-    {
+  const stateTabs = [];
+  if (stateMap.size > 1) {
+    stateTabs.push({
       id: 'all',
-      name: 'Entire Journey (All Hubs)',
+      name: 'All Locations',
       isAll: true,
       color: '#FFAE68',
-    },
-  ];
-
-  let stateIdx = 0;
-  stateMap.forEach((val) => {
-    const colorInfo = getCorridorColor(stateIdx++);
+    });
+    let stateIdx = 0;
+    stateMap.forEach((val) => {
+      const colorInfo = getCorridorColor(stateIdx++);
+      stateTabs.push({
+        id: val.id,
+        name: `${val.stateName} Projects`,
+        stateName: val.stateName,
+        firstDistrictId: val.firstDistrictId,
+        color: colorInfo.accent,
+      });
+    });
+  } else if (stateMap.size === 1) {
+    const singleState = Array.from(stateMap.values())[0];
+    const colorInfo = getCorridorColor(0);
     stateTabs.push({
-      id: val.id,
-      name: `${val.stateName} Corridor`,
-      stateName: val.stateName,
-      firstDistrictId: val.firstDistrictId,
+      id: singleState.id,
+      name: `${singleState.stateName} Projects`,
+      stateName: singleState.stateName,
+      firstDistrictId: singleState.firstDistrictId,
       color: colorInfo.accent,
     });
-  });
+  }
 
   return {
     districtNodes,

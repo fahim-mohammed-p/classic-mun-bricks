@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { COVERAGE_METRICS } from '../data/projectsCoverage';
 import { buildDynamicProjectMap, slugify } from '../data/districtMapConfig';
-import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, resolveMediaUrl } from '../config/api';
 import { CONTACT_CONFIG } from '../config/contact';
 import CountUp from '../components/CountUp';
 import ProjectRouteMap from '../components/projects/ProjectRouteMap';
@@ -71,11 +71,8 @@ const Projects = () => {
       const plainSlug = slugify(loc.district);
       if (Array.isArray(loc.images)) {
         loc.images.forEach((img) => {
-          let imageUrl = img.image || '';
-          if (imageUrl && !imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
-            const cleanPath = imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
-            imageUrl = `${API_BASE_URL}${cleanPath}`;
-          }
+          const imageUrl = resolveMediaUrl(img.image);
+          if (!imageUrl) return;
           list.push({
             id: `loc-img-${img.id}`,
             districtId: dSlug,

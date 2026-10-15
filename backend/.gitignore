@@ -5,5 +5,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 db.sqlite3
-media/
+media/*
+!media/projects/
+!media/projects/gallery/
+!media/projects/gallery/*
 *.log

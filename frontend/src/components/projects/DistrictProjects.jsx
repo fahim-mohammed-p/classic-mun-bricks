@@ -126,7 +126,7 @@ const DistrictProjects = ({
             <div className="col-md-8">
               <div className="district-eyebrow">
                 <span className="badge-state-indicator">
-                  {activeDistrict ? `${activeDistrict.state} Corridor` : 'South India Coverage'}
+                  {activeDistrict ? `${activeDistrict.state}` : 'Active Locations'}
                 </span>
                 {activeDistrict?.isFactoryHub && (
                   <span className="badge-factory-indicator">

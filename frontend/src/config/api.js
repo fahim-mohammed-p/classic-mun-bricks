@@ -17,3 +17,17 @@ export const API_ENDPOINTS = {
   BLOG_POST_DETAIL: (slug) => `${API_BASE_URL}/api/blog/posts/${slug}/`,
   PROJECT_LOCATIONS: `${API_BASE_URL}/api/projects/locations/`,
 };
+
+/**
+ * Normalizes media URLs: returns absolute URLs unchanged,
+ * or prefixes relative paths with API_BASE_URL exactly once.
+ */
+export const resolveMediaUrl = (url) => {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  const cleanPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+  return `${API_BASE_URL}${cleanPath}`;
+};

@@ -40,11 +40,7 @@ const ProjectRouteMap = ({
   const mobileBeaconPathForward = mapData?.mobileBeaconPathForward;
   const mobileBeaconPathReverse = mapData?.mobileBeaconPathReverse;
 
-  const stateTabs = mapData?.stateTabs || [
-    { id: 'all', name: 'Entire Journey (All Hubs)', isAll: true, color: '#FFAE68' },
-    { id: 'kerala', name: 'Kerala Corridor', stateName: 'Kerala', firstDistrictId: 'malappuram', color: '#B94F2E' },
-    { id: 'tamil-nadu', name: 'Tamil Nadu Corridor', stateName: 'Tamil Nadu', firstDistrictId: 'coimbatore', color: '#C68A36' },
-  ];
+  const stateTabs = mapData?.stateTabs || [];
 
   // Active district object
   const activeNode = activeDistrictId && activeDistrictId !== 'all' ? districtNodes[activeDistrictId] : null;
@@ -86,17 +82,21 @@ const ProjectRouteMap = ({
           <>
             {/* Legend / Info Strip */}
             <div className="route-legend-strip">
-              <div className="legend-item">
-                <span className="legend-beacon-factory"></span>
-                <span>Automated Plant (HQ)</span>
-              </div>
-              <div className="legend-item">
-                <span className="legend-route-line"></span>
-                <span>Supply Route</span>
-              </div>
+              {districtOrder.some((id) => districtNodes[id]?.isFactoryHub) && (
+                <div className="legend-item">
+                  <span className="legend-beacon-factory"></span>
+                  <span>Automated Plant (HQ)</span>
+                </div>
+              )}
+              {routeSegments.length > 0 && (
+                <div className="legend-item">
+                  <span className="legend-route-line"></span>
+                  <span>Supply Route</span>
+                </div>
+              )}
               <div className="legend-item">
                 <span className="legend-node-dot"></span>
-                <span>District Hub</span>
+                <span>Project Location</span>
               </div>
             </div>
 
@@ -134,7 +134,7 @@ const ProjectRouteMap = ({
                   const stateNodes = districtOrder
                     .map((id) => districtNodes[id])
                     .filter((n) => n && n.stateId === tab.id);
-                  if (stateNodes.length === 0) return null;
+                  if (stateNodes.length < 2) return null;
 
                   const avgX = Math.round(
                     stateNodes.reduce((sum, n) => sum + n.x, 0) / stateNodes.length
@@ -259,7 +259,7 @@ const ProjectRouteMap = ({
   {/* ========================================================
       03 — MOBILE & QUICK DISTRICT JOURNEY SELECTOR BAR
       ======================================================== */}
-  {hasLocations && (
+  {hasLocations && districtOrder.length > 1 && (
     <div className="mobile-journey-track-wrapper">
       <div className="journey-track-header">
         <span className="track-eyebrow">
@@ -316,7 +316,7 @@ const ProjectRouteMap = ({
               </div>
               <div>
                 <div className="banner-eyebrow">
-                  <span>Selected Hub • {activeNode.state}</span>
+                  <span>Selected Location • {activeNode.state}</span>
                   {activeNode.isFactoryHub && (
                     <span className="banner-hub-badge">Automated Plant</span>
                   )}
