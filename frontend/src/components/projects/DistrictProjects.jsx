@@ -209,7 +209,9 @@ const DistrictProjects = ({
           <div className="district-empty-state-compact">
             <i className="bi bi-images empty-state-compact-icon" aria-hidden="true"></i>
             <p className="empty-state-compact-text">
-              No project images added for this location yet.
+              {activeDistrict
+                ? 'No project images added for this location yet.'
+                : 'Project locations are being updated.'}
             </p>
           </div>
         )}

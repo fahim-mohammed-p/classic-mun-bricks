@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { COVERAGE_METRICS } from '../data/projectsCoverage';
-import { ALL_PROJECTS } from '../data/projectsData';
-import {
-  DEFAULT_ACTIVE_LOCATIONS,
-  buildDynamicProjectMap,
-  slugify,
-} from '../data/districtMapConfig';
-import { API_ENDPOINTS } from '../config/api';
+import { buildDynamicProjectMap, slugify } from '../data/districtMapConfig';
+import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
 import { CONTACT_CONFIG } from '../config/contact';
 import CountUp from '../components/CountUp';
 import ProjectRouteMap from '../components/projects/ProjectRouteMap';
@@ -16,14 +11,14 @@ import '../styles/projects.css';
 import '../styles/project-route.css';
 
 const Projects = () => {
-  // Active locations fetched dynamically from backend (defaults to seed operational locations)
-  const [locations, setLocations] = useState(DEFAULT_ACTIVE_LOCATIONS);
+  // Active locations fetched dynamically from backend API only
+  const [locations, setLocations] = useState([]);
 
   // Region selection: 'all' | stateId
   const [selectedStateId, setSelectedStateId] = useState('all');
 
-  // Active district selection: 'malappuram' (default home base) | any districtId | 'all'
-  const [activeDistrictId, setActiveDistrictId] = useState('malappuram');
+  // Active district selection: null initially until real locations load
+  const [activeDistrictId, setActiveDistrictId] = useState(null);
 
   // Ref to project gallery results section for smooth scroll
   const resultsRef = useRef(null);
@@ -36,13 +31,12 @@ const Projects = () => {
         const response = await fetch(API_ENDPOINTS.PROJECT_LOCATIONS);
         if (response.ok) {
           const data = await response.json();
-          if (isMounted && Array.isArray(data) && data.length > 0) {
+          if (isMounted && Array.isArray(data)) {
             setLocations(data);
           }
         }
       } catch (err) {
-        // Network/offline fallback: keeps DEFAULT_ACTIVE_LOCATIONS gracefully
-        console.info('[Classic Mun Bricks] Using pre-compiled district route dataset.');
+        console.info('[Classic Mun Bricks] Project locations endpoint offline or updating.');
       }
     };
 
@@ -57,13 +51,15 @@ const Projects = () => {
     return buildDynamicProjectMap(locations);
   }, [locations]);
 
-  // Synchronize active district if loaded locations don't contain current selection
+  // Synchronize active district with loaded locations
   useEffect(() => {
     if (mapData.districtOrder && mapData.districtOrder.length > 0) {
-      if (activeDistrictId !== 'all' && !mapData.districtNodes[activeDistrictId]) {
+      if (!activeDistrictId || (activeDistrictId !== 'all' && !mapData.districtNodes[activeDistrictId])) {
         const hubId = mapData.districtOrder.find((id) => mapData.districtNodes[id]?.isFactoryHub);
         setActiveDistrictId(hubId || mapData.districtOrder[0]);
       }
+    } else {
+      setActiveDistrictId(null);
     }
   }, [mapData, activeDistrictId]);
 
@@ -99,10 +95,8 @@ const Projects = () => {
     return list;
   }, [locations]);
 
-  // Combined project items
-  const allProjectItems = useMemo(() => {
-    return [...backendProjects, ...ALL_PROJECTS];
-  }, [backendProjects]);
+  // Sourced solely from backend database
+  const allProjectItems = backendProjects;
 
   // Filter projects depending on active district / state selection
   const displayedProjects = useMemo(() => {

@@ -54,111 +54,10 @@ export const getCorridorColor = (indexOrName) => {
 };
 
 /**
- * Genuine Classic Mun Bricks active district locations (Fallback / Seed data).
- * Coordinates represent authentic district centroids.
+ * Classic Mun Bricks active district locations.
+ * Sourced dynamically from Django Admin backend API.
  */
-export const DEFAULT_ACTIVE_LOCATIONS = [
-  {
-    id: 1,
-    district: 'Malappuram',
-    district_slug: 'malappuram',
-    state: 'Kerala',
-    state_code: 'KL',
-    latitude: 11.0510,
-    longitude: 76.0711,
-    is_factory_hub: true,
-    hub_label: 'Plant & HQ (Kodur)',
-    order: 1,
-  },
-  {
-    id: 2,
-    district: 'Kozhikode',
-    district_slug: 'kozhikode',
-    state: 'Kerala',
-    state_code: 'KL',
-    latitude: 11.2588,
-    longitude: 75.7804,
-    is_factory_hub: false,
-    order: 2,
-  },
-  {
-    id: 3,
-    district: 'Thrissur',
-    district_slug: 'thrissur',
-    state: 'Kerala',
-    state_code: 'KL',
-    latitude: 10.5276,
-    longitude: 76.2144,
-    is_factory_hub: false,
-    order: 3,
-  },
-  {
-    id: 4,
-    district: 'Palakkad',
-    district_slug: 'palakkad',
-    state: 'Kerala',
-    state_code: 'KL',
-    latitude: 10.7867,
-    longitude: 76.6548,
-    is_factory_hub: false,
-    order: 4,
-  },
-  {
-    id: 5,
-    district: 'Coimbatore',
-    district_slug: 'coimbatore',
-    state: 'Tamil Nadu',
-    state_code: 'TN',
-    latitude: 11.0168,
-    longitude: 76.9558,
-    is_factory_hub: false,
-    order: 5,
-  },
-  {
-    id: 6,
-    district: 'Tiruppur',
-    district_slug: 'tiruppur',
-    state: 'Tamil Nadu',
-    state_code: 'TN',
-    latitude: 11.1085,
-    longitude: 77.3411,
-    is_factory_hub: false,
-    order: 6,
-  },
-  {
-    id: 7,
-    district: 'Erode',
-    district_slug: 'erode',
-    state: 'Tamil Nadu',
-    state_code: 'TN',
-    latitude: 11.3410,
-    longitude: 77.7172,
-    is_factory_hub: false,
-    order: 7,
-  },
-  {
-    id: 8,
-    district: 'Salem',
-    district_slug: 'salem',
-    state: 'Tamil Nadu',
-    state_code: 'TN',
-    latitude: 11.6643,
-    longitude: 78.1460,
-    is_factory_hub: false,
-    order: 8,
-  },
-  {
-    id: 9,
-    district: 'Dindigul',
-    district_slug: 'dindigul',
-    state: 'Tamil Nadu',
-    state_code: 'TN',
-    latitude: 10.3673,
-    longitude: 77.9803,
-    is_factory_hub: false,
-    order: 9,
-  },
-];
+export const DEFAULT_ACTIVE_LOCATIONS = [];
 
 /**
  * Generic Sublinear Gap-Compression Coordinate Projection
@@ -260,23 +159,25 @@ export function compressDimension(values, targetRange, padStart, padEnd, invert 
  * @param {Array} locations Array of project location records from API or fallback
  * @returns {Object} Complete responsive map model with nodes, segments, and order
  */
-export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => {
+export const buildDynamicProjectMap = (locations = []) => {
+  const emptyMapResult = {
+    districtNodes: {},
+    districtOrder: [],
+    routeSegments: [],
+    beaconPathForward: '',
+    beaconPathReverse: '',
+    mobileDistrictNodes: {},
+    mobileRouteSegments: [],
+    mobileBeaconPathForward: '',
+    mobileBeaconPathReverse: '',
+    stateTabs: [{ id: 'all', name: 'All Locations', isAll: true }],
+  };
+
   if (!Array.isArray(locations) || locations.length === 0) {
-    return {
-      districtNodes: {},
-      districtOrder: [],
-      routeSegments: [],
-      beaconPathForward: '',
-      beaconPathReverse: '',
-      mobileDistrictNodes: {},
-      mobileRouteSegments: [],
-      mobileBeaconPathForward: '',
-      mobileBeaconPathReverse: '',
-      stateTabs: [{ id: 'all', name: 'Entire Journey (All Hubs)', isAll: true }],
-    };
+    return emptyMapResult;
   }
 
-  // Filter valid coordinates (Requirement 17: flag and handle gracefully)
+  // Filter valid coordinates
   const validLocations = locations.filter((loc) => {
     const lat = parseFloat(loc.latitude);
     const lng = parseFloat(loc.longitude);
@@ -290,7 +191,7 @@ export const buildDynamicProjectMap = (locations = DEFAULT_ACTIVE_LOCATIONS) => 
   });
 
   if (validLocations.length === 0) {
-    return buildDynamicProjectMap(DEFAULT_ACTIVE_LOCATIONS);
+    return emptyMapResult;
   }
 
   // 1. Extract Valid Coordinates

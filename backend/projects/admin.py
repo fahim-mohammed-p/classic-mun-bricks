@@ -33,13 +33,19 @@ class MultipleImageField(forms.ImageField):
 class ProjectImageBatchAddForm(forms.ModelForm):
     images = MultipleImageField(
         label='Project Images',
-        help_text='Select one or more project images to upload simultaneously (Ctrl/Shift+Click in file picker).',
+        help_text='Select one or more project images to upload simultaneously (reopening the picker will append additional files).',
         required=True,
     )
 
     class Meta:
         model = ProjectImage
         fields = ('location', 'images', 'caption')
+
+    class Media:
+        css = {
+            'all': ('projects/admin/project_image_batch_upload.css',)
+        }
+        js = ('projects/admin/project_image_batch_upload.js',)
 
 
 @admin.register(State)

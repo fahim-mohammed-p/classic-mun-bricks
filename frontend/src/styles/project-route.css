@@ -943,3 +943,39 @@
     animation: none !important;
   }
 }
+
+/* Empty state card when 0 locations exist */
+.route-empty-state-card {
+  padding: 4.5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.route-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(185, 79, 46, 0.15);
+  border: 1px solid rgba(185, 79, 46, 0.35);
+  margin-bottom: 1.25rem;
+}
+
+.route-empty-title {
+  color: #FFFFFF;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: var(--cmb-font-heading, inherit);
+}
+
+.route-empty-text {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.925rem;
+  line-height: 1.55;
+  max-width: 440px;
+  margin: 0 auto;
+}

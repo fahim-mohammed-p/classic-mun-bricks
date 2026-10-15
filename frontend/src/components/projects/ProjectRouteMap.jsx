@@ -58,6 +58,8 @@ const ProjectRouteMap = ({
     }
   };
 
+  const hasLocations = districtOrder && districtOrder.length > 0;
+
   return (
     <div className="project-route-map-container">
       {/* ========================================================
@@ -67,21 +69,36 @@ const ProjectRouteMap = ({
         {/* Ambient Warm Gradient Glow Behind Map */}
         <div className="route-ambient-glow" aria-hidden="true"></div>
 
-        {/* Legend / Info Strip */}
-        <div className="route-legend-strip">
-          <div className="legend-item">
-            <span className="legend-beacon-factory"></span>
-            <span>Automated Plant (HQ)</span>
+        {!hasLocations ? (
+          /* Professional empty state card when zero project locations exist */
+          <div className="route-empty-state-card text-center">
+            <div className="route-empty-icon">
+              <i className="bi bi-geo-alt-fill text-terracotta" style={{ fontSize: '1.75rem' }}></i>
+            </div>
+            <h3 className="route-empty-title">
+              Project locations are being updated.
+            </h3>
+            <p className="route-empty-text">
+              Our active supply corridors and project network are currently being updated in the system. Real-time project locations will appear here once published.
+            </p>
           </div>
-          <div className="legend-item">
-            <span className="legend-route-line"></span>
-            <span>Supply Route</span>
-          </div>
-          <div className="legend-item">
-            <span className="legend-node-dot"></span>
-            <span>District Hub</span>
-          </div>
-        </div>
+        ) : (
+          <>
+            {/* Legend / Info Strip */}
+            <div className="route-legend-strip">
+              <div className="legend-item">
+                <span className="legend-beacon-factory"></span>
+                <span>Automated Plant (HQ)</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-route-line"></span>
+                <span>Supply Route</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-node-dot"></span>
+                <span>District Hub</span>
+              </div>
+            </div>
 
         {/* DESKTOP SVG Route Map (>= 768px) */}
         <div className="svg-canvas-wrapper d-none d-md-flex">
@@ -235,53 +252,57 @@ const ProjectRouteMap = ({
           <i className="bi bi-hand-index-thumb me-1"></i>
           <span>Tap any district along the route to inspect projects</span>
         </div>
+      </>
+    )}
+  </div>
+
+  {/* ========================================================
+      03 — MOBILE & QUICK DISTRICT JOURNEY SELECTOR BAR
+      ======================================================== */}
+  {hasLocations && (
+    <div className="mobile-journey-track-wrapper">
+      <div className="journey-track-header">
+        <span className="track-eyebrow">
+          <i className="bi bi-signpost-2-fill text-terracotta me-1"></i>
+          Quick Route Jump
+        </span>
+        <span className="track-note">Swipe along the supply path</span>
       </div>
 
-      {/* ========================================================
-          03 — MOBILE & QUICK DISTRICT JOURNEY SELECTOR BAR
-          ======================================================== */}
-      <div className="mobile-journey-track-wrapper">
-        <div className="journey-track-header">
-          <span className="track-eyebrow">
-            <i className="bi bi-signpost-2-fill text-terracotta me-1"></i>
-            Quick Route Jump
-          </span>
-          <span className="track-note">Swipe along the supply path</span>
-        </div>
+      <div className="mobile-journey-scroll" role="tablist" aria-label="District Route Steps">
+        {districtOrder.map((districtId, idx) => {
+          const node = districtNodes[districtId];
+          if (!node) return null;
+          const isActive = activeDistrictId === districtId;
 
-        <div className="mobile-journey-scroll" role="tablist" aria-label="District Route Steps">
-          {districtOrder.map((districtId, idx) => {
-            const node = districtNodes[districtId];
-            if (!node) return null;
-            const isActive = activeDistrictId === districtId;
+          return (
+            <React.Fragment key={districtId}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                className={`journey-step-chip ${isActive ? 'is-active' : ''} ${
+                  node.isFactoryHub ? 'is-hub' : ''
+                }`}
+                onClick={() => handleDistrictClick(districtId)}
+              >
+                <span className="chip-indicator">
+                  {node.isFactoryHub ? '★' : idx + 1}
+                </span>
+                <span className="chip-name">{node.name}</span>
+              </button>
 
-            return (
-              <React.Fragment key={districtId}>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  className={`journey-step-chip ${isActive ? 'is-active' : ''} ${
-                    node.isFactoryHub ? 'is-hub' : ''
-                  }`}
-                  onClick={() => handleDistrictClick(districtId)}
-                >
-                  <span className="chip-indicator">
-                    {node.isFactoryHub ? '★' : idx + 1}
-                  </span>
-                  <span className="chip-name">{node.name}</span>
-                </button>
-
-                {idx < districtOrder.length - 1 && (
-                  <span className="journey-step-arrow" aria-hidden="true">
-                    &rarr;
-                  </span>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </div>
+              {idx < districtOrder.length - 1 && (
+                <span className="journey-step-arrow" aria-hidden="true">
+                  &rarr;
+                </span>
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
+    </div>
+  )}
 
       {/* ========================================================
           04 — ACTIVE DISTRICT SUMMARY STRIP

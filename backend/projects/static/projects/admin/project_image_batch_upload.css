@@ -1,0 +1,177 @@
+/* Classic Mun Bricks - Django Admin Bulk Image Upload Styling */
+
+.batch-upload-wrapper {
+  margin-top: 8px;
+  max-width: 680px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.batch-upload-dropzone {
+  border: 2px dashed var(--border-color, #ccc);
+  border-radius: 8px;
+  padding: 24px 18px;
+  text-align: center;
+  background: var(--darkened-bg, #f8f9fa);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.batch-upload-dropzone:hover,
+.batch-upload-dropzone.is-dragover {
+  border-color: var(--primary, #b94f2e);
+  background: rgba(185, 79, 46, 0.05);
+}
+
+.batch-upload-dropzone-icon {
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.batch-upload-dropzone-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--body-fg, #333);
+  margin-bottom: 4px;
+}
+
+.batch-upload-dropzone-subtext {
+  font-size: 12px;
+  color: #777;
+}
+
+.batch-upload-queue {
+  margin-top: 16px;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--body-bg, #fff);
+}
+
+.batch-upload-queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--darkened-bg, #f4f6f8);
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.batch-upload-queue-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--body-fg, #222);
+}
+
+.batch-upload-queue-badge {
+  background: var(--primary, #b94f2e);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.batch-upload-add-more-btn {
+  background: none;
+  border: 1px solid var(--primary, #b94f2e);
+  color: var(--primary, #b94f2e);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.batch-upload-add-more-btn:hover {
+  background: var(--primary, #b94f2e);
+  color: #fff;
+}
+
+.batch-upload-file-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.batch-upload-file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color, #f0f0f0);
+  gap: 12px;
+  transition: background 0.15s ease;
+}
+
+.batch-upload-file-item:last-child {
+  border-bottom: none;
+}
+
+.batch-upload-file-item:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.batch-upload-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.batch-upload-thumbnail {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  background: #eee;
+  flex-shrink: 0;
+}
+
+.batch-upload-file-names {
+  min-width: 0;
+  flex: 1;
+}
+
+.batch-upload-filename {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--body-fg, #333);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.batch-upload-filesize {
+  font-size: 11px;
+  color: #888;
+}
+
+.batch-upload-remove-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.batch-upload-remove-btn:hover {
+  background: rgba(220, 53, 69, 0.1);
+  color: #a71d2a;
+}
