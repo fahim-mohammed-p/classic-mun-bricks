@@ -20,12 +20,18 @@ export const API_ENDPOINTS = {
 
 /**
  * Normalizes media URLs: returns absolute URLs unchanged,
- * or prefixes relative paths with API_BASE_URL exactly once.
+ * guards against localhost leakage in production,
+ * and prefixes relative paths with API_BASE_URL exactly once.
  */
 export const resolveMediaUrl = (url) => {
   if (!url || typeof url !== 'string') return '';
   const trimmed = url.trim();
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+  if (/^https?:\/\//i.test(trimmed)) {
+    // In production, prevent localhost / 127.0.0.1 leakage
+    if (!import.meta.env.DEV && (trimmed.includes('localhost') || trimmed.includes('127.0.0.1'))) {
+      const pathOnly = trimmed.replace(/^https?:\/\/[^/]+/i, '');
+      return `${API_BASE_URL}${pathOnly.startsWith('/') ? '' : '/'}${pathOnly}`;
+    }
     return trimmed;
   }
   const cleanPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;

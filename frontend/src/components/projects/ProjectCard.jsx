@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 /**
  * ProjectCard Component
@@ -8,11 +8,10 @@ import React, { useState } from 'react';
  * clean aspect ratio crop, and subtle hover interactions.
  */
 const ProjectCard = ({ project, index = 0, onClick }) => {
-  const [hasError, setHasError] = useState(false);
   const src = project?.image || project?.src || project?.url || (typeof project === 'string' ? project : '');
   const alt = project?.alt || `Project photo ${index + 1}`;
 
-  if (hasError || !src) {
+  if (!src) {
     return null;
   }
 
@@ -28,7 +27,6 @@ const ProjectCard = ({ project, index = 0, onClick }) => {
         alt={alt}
         className="gallery-thumb-img"
         loading="lazy"
-        onError={() => setHasError(true)}
       />
       <span className="gallery-thumb-hover-overlay" aria-hidden="true">
         <i className="bi bi-arrows-fullscreen"></i>
