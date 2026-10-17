@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'projects',
 ]
 
-CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip()
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip() or 'cloudinary://181142346539347:GE573eFuH_W5MoJM12_4CW9M94A@b6aaiq1u'
 if CLOUDINARY_URL:
     INSTALLED_APPS.insert(0, 'cloudinary_storage')
     INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles') + 1, 'cloudinary')

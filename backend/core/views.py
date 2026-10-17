@@ -116,3 +116,27 @@ def inspect_storage(request):
         'project_images': images_info,
     })
 
+
+def run_migrations(request):
+    """
+    Authenticated internal endpoint to trigger pending Django migrations in production.
+    """
+    if request.method not in ('GET', 'POST'):
+        return JsonResponse({"status": "method_not_allowed"}, status=405)
+
+    expected_token = getattr(settings, 'KEEP_ALIVE_TOKEN', '') or os.getenv('KEEP_ALIVE_TOKEN', '').strip()
+    if expected_token:
+        provided_token = request.headers.get('X-Keep-Alive-Token') or request.META.get('HTTP_X_KEEP_ALIVE_TOKEN', '')
+        if not provided_token or not secrets.compare_digest(provided_token.strip(), expected_token):
+            return JsonResponse({"status": "forbidden"}, status=403)
+
+    from django.core.management import call_command
+    from io import StringIO
+    out = StringIO()
+    try:
+        call_command('migrate', interactive=False, stdout=out)
+        return JsonResponse({"status": "ok", "output": out.getvalue()})
+    except Exception as e:
+        return JsonResponse({"status": "error", "error": str(e), "output": out.getvalue()}, status=500)
+
+
