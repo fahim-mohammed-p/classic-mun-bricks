@@ -52,11 +52,22 @@ INSTALLED_APPS = [
 
 CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip() or 'cloudinary://181142346539347:GE573eFuH_W5MoJM12_4CW9M94A@b6aaiq1u'
 if CLOUDINARY_URL:
+    os.environ['CLOUDINARY_URL'] = CLOUDINARY_URL
     INSTALLED_APPS.insert(0, 'cloudinary_storage')
     INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles') + 1, 'cloudinary')
-    CLOUDINARY_STORAGE = {
-        'CLOUDINARY_URL': CLOUDINARY_URL,
-    }
+    
+    import re
+    m = re.match(r'cloudinary://([^:]+):([^@]+)@(.+)', CLOUDINARY_URL)
+    if m:
+        c_key, c_secret, c_name = m.groups()
+        CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': c_name,
+            'API_KEY': c_key,
+            'API_SECRET': c_secret,
+        }
+    else:
+        CLOUDINARY_STORAGE = {}
+
 
 
 
