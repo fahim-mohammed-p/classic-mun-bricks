@@ -14,28 +14,15 @@ class ProjectImageSerializer(serializers.ModelSerializer):
         if not obj.image:
             return ''
 
-        storage = obj.image.storage
-        name = getattr(obj.image, 'name', '')
-
-        # Resolve URL from storage
-        # If an ephemeral hashed filename does not exist on disk,
-        # fallback to the persistent/git-tracked base file if present.
-        url = None
-        if name and hasattr(storage, 'exists') and not storage.exists(name):
-            clean_name = re.sub(r'_[a-zA-Z0-9]{7}(\.[a-zA-Z0-9]+)$', r'\1', name)
-            if clean_name != name and storage.exists(clean_name):
-                url = storage.url(clean_name)
-
-        if not url:
-            try:
-                url = obj.image.url
-            except Exception:
-                return ''
+        try:
+            url = obj.image.url
+        except Exception:
+            return ''
 
         if not url:
             return ''
 
-        # If storage URL is already absolute (e.g. S3 / CDN / Cloudinary), return directly
+        # If storage URL is already absolute (e.g. Cloudinary CDN / S3), return directly
         if url.startswith('http://') or url.startswith('https://'):
             return url
 

@@ -4,11 +4,14 @@ from django.db.models.signals import post_migrate
 
 def auto_reconcile_images(sender, **kwargs):
     try:
+        from django.core.files.storage import default_storage
+        if default_storage.__class__.__name__ != 'FileSystemStorage':
+            return
+
         from django.db import connection
         table_names = connection.introspection.table_names()
         if 'projects_projectimage' in table_names:
             from .models import ProjectImage
-            from django.core.files.storage import default_storage
             import re
 
             for img in ProjectImage.objects.all():
