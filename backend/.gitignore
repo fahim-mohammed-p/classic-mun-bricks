@@ -10,3 +10,4 @@ media/*
 !media/projects/gallery/
 !media/projects/gallery/*
 *.log
+staticfiles/

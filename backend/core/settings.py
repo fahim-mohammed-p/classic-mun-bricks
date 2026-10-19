@@ -53,8 +53,8 @@ INSTALLED_APPS = [
 CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip() or 'cloudinary://181142346539347:GE573eFuH_W5MoJM12_4CW9M94A@b6aaiq1u'
 if CLOUDINARY_URL:
     os.environ['CLOUDINARY_URL'] = CLOUDINARY_URL
-    INSTALLED_APPS.insert(0, 'cloudinary_storage')
-    INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles') + 1, 'cloudinary')
+    if 'cloudinary' not in INSTALLED_APPS:
+        INSTALLED_APPS.append('cloudinary')
     
     import re
     m = re.match(r'cloudinary://([^:]+):([^@]+)@(.+)', CLOUDINARY_URL)
@@ -67,6 +67,7 @@ if CLOUDINARY_URL:
         }
     else:
         CLOUDINARY_STORAGE = {}
+
 
 
 
@@ -148,7 +149,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+WHITENOISE_MANIFEST_STRICT = False
 
 if CLOUDINARY_URL:
     STORAGES = {
@@ -156,7 +157,7 @@ if CLOUDINARY_URL:
             "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
         },
         "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
 else:
@@ -165,7 +166,7 @@ else:
             "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
         "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
 
