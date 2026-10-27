@@ -4,6 +4,7 @@ import heroSlide1 from '../assets/hero-slides/hero-slide-1.webp';
 import heroSlide2 from '../assets/hero-slides/hero-slide-2.webp';
 import heroSlide3 from '../assets/hero-slides/hero-slide-3.webp';
 import { useHeroNav } from '../context/HeroNavContext';
+import { useSEO } from '../context/SEOContext';
 
 /**
  * Slide Definitions:
@@ -53,6 +54,32 @@ const Hero = () => {
   const heroSectionRef = useRef(null);
 
   const { isHome, setIsHeroInView } = useHeroNav();
+  const { getHeading, getImageAlt } = useSEO();
+
+  const heroH1 = getHeading('home_hero_h1', 'Strong Beyond Any Bricks');
+
+  const renderHeroHeading = (text) => {
+    if (!text) return null;
+    if (text === 'Strong Beyond Any Bricks') {
+      return (
+        <>
+          Strong Beyond <span className="text-terracotta">Any Bricks</span>
+        </>
+      );
+    }
+    const words = text.split(' ');
+    if (words.length > 2) {
+      const prefix = words.slice(0, -2).join(' ') + ' ';
+      const highlight = words.slice(-2).join(' ');
+      return (
+        <>
+          {prefix}
+          <span className="text-terracotta">{highlight}</span>
+        </>
+      );
+    }
+    return text;
+  };
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
@@ -148,7 +175,7 @@ const Hero = () => {
               {/* Slide Background Image with subtle Ken Burns zoom */}
               <img
                 src={slide.image}
-                alt={slide.alt}
+                alt={getImageAlt(`home_hero_slide_${index + 1}`, slide.alt)}
                 className="hero-slide-img"
                 loading={index === 0 ? 'eager' : 'lazy'}
               />
@@ -167,10 +194,7 @@ const Hero = () => {
             <div className="hero-text-block">
               {/* Main Headline */}
               <h1 className="hero-main-heading">
-                {SLIDES[currentSlide].headingPrefix}
-                <span className="text-terracotta">
-                  {SLIDES[currentSlide].headingHighlight}
-                </span>
+                {renderHeroHeading(heroH1)}
               </h1>
 
               {/* Minimal Clean Natural Subtext */}

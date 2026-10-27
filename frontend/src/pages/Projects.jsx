@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import { useSEO } from '../context/SEOContext';
 import { COVERAGE_METRICS } from '../data/projectsCoverage';
 import { buildDynamicProjectMap, slugify } from '../data/districtMapConfig';
 import { API_ENDPOINTS, resolveMediaUrl } from '../config/api';
@@ -11,6 +13,7 @@ import '../styles/projects.css';
 import '../styles/project-route.css';
 
 const Projects = () => {
+  const { getHeading, getContent } = useSEO();
   // Active locations fetched dynamically from backend API only
   const [locations, setLocations] = useState([]);
 
@@ -83,7 +86,7 @@ const Projects = () => {
             stateId: slugify(loc.state),
             image: imageUrl,
             caption: img.caption,
-            alt: img.caption || `${loc.district} project photo`,
+            alt: img.alt_text || img.effective_alt || img.caption || `${loc.district} project photo`,
             order: img.order || 0,
           });
         });
@@ -167,6 +170,7 @@ const Projects = () => {
 
   return (
     <main className="projects-page">
+      <SEO />
       {/* ========================================================
           01 — COMPACT HERO SECTION
           ======================================================== */}
@@ -180,11 +184,11 @@ const Projects = () => {
             </div>
 
             <h1 className="projects-hero-title">
-              Built Across Kerala &amp; Tamil Nadu.
+              {getHeading('projects_hero_h1', 'Built Across Kerala & Tamil Nadu.')}
             </h1>
 
             <p className="projects-hero-desc">
-              A continuous delivery journey connecting our automated manufacturing plant at Kodur to architectural projects across both states.
+              {getContent('projects_hero_desc', 'A continuous delivery journey connecting our automated manufacturing plant at Kodur to architectural projects across both states.')}
             </p>
 
             {/* Compact Typographic Stats */}
@@ -257,10 +261,10 @@ const Projects = () => {
         <div className="container position-relative z-1">
           <div className="mx-auto" style={{ maxWidth: '640px' }}>
             <h2 className="projects-cta-title">
-              Planning Your Next Project?
+              {getHeading('projects_cta_h2', 'Planning Your Next Project?')}
             </h2>
             <p className="projects-cta-copy">
-              Talk to Classic Mun Bricks about your architectural requirements, interlock specifications, and site logistics.
+              {getContent('projects_cta_desc', 'Talk to Classic Mun Bricks about your architectural requirements, interlock specifications, and site logistics.')}
             </p>
 
             <div className="projects-cta-buttons">

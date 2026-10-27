@@ -57,6 +57,44 @@ class BlogPost(models.Model):
         default="",
         help_text="Optional SEO meta description for search engines (recommended ~160 characters)"
     )
+    h1_override = models.CharField(
+        max_length=250,
+        blank=True,
+        default="",
+        help_text="Optional custom H1 article heading. If left blank, the main article title will be rendered as the H1."
+    )
+    featured_image_alt = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+        help_text="Descriptive alt text for the featured header/card image."
+    )
+    canonical_url = models.CharField(
+        max_length=500,
+        blank=True,
+        default="",
+        help_text="Optional custom canonical URL. If left blank, defaults to https://www.classicmunbricks.com/blog/<slug>."
+    )
+    og_title = models.CharField(
+        max_length=250,
+        blank=True,
+        default="",
+        help_text="Custom Open Graph title. If left blank, falls back to SEO title or article title."
+    )
+    og_description = models.TextField(
+        blank=True,
+        default="",
+        help_text="Custom Open Graph description. If left blank, falls back to meta description or excerpt."
+    )
+    index_directive = models.CharField(
+        max_length=30,
+        choices=[
+            ('index, follow', 'Index, Follow (Recommended)'),
+            ('noindex, follow', 'Noindex, Follow'),
+        ],
+        default='index, follow',
+        help_text="Controls search engine crawling and indexing for this article."
+    )
     status = models.CharField(
         max_length=20,
         choices=Status.choices,

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'contacts',
     'blog',
     'projects',
+    'seo',
 ]
 
 CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip() or 'cloudinary://181142346539347:GE573eFuH_W5MoJM12_4CW9M94A@b6aaiq1u'
@@ -76,6 +77,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'seo.middleware.SEORedirectMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

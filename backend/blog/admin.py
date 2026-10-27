@@ -40,15 +40,21 @@ class BlogPostAdmin(admin.ModelAdmin):
                 'excerpt',
                 'content',
                 'featured_image',
+                'featured_image_alt',
             ),
             'description': 'Primary editorial text, summary, and optional featured media.'
         }),
-        ('SEO', {
+        ('SEO & SOCIAL MEDIA', {
             'fields': (
+                'h1_override',
                 'seo_title',
                 'meta_description',
+                'canonical_url',
+                'og_title',
+                'og_description',
+                'index_directive',
             ),
-            'description': 'Search engine metadata. If left blank, defaults are derived from the article content.'
+            'description': 'Search engine title, custom H1, meta description, canonical URL, and Open Graph sharing tags.'
         }),
         ('PUBLISHING', {
             'fields': (

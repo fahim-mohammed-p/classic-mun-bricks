@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSEO } from '../../context/SEOContext';
 import heroImg from '../../assets/visit-us/01-material-processing.jpg';
 
 /**
@@ -7,6 +8,7 @@ import heroImg from '../../assets/visit-us/01-material-processing.jpg';
  * and an inviting, authentic introduction for remote clients.
  */
 const HeroTour = ({ onStartTour }) => {
+  const { getHeading, getImageAlt, getContent } = useSEO();
   const handleScrollClick = (e) => {
     e.preventDefault();
     if (onStartTour) {
@@ -24,7 +26,7 @@ const HeroTour = ({ onStartTour }) => {
       {/* Real Factory Background Image */}
       <img
         src={heroImg}
-        alt="Classic Mun Bricks factory floor and material handling operations in Kerala"
+        alt={getImageAlt('tour_hero_img', 'Classic Mun Bricks factory floor and material handling operations in Kerala')}
         className="tour-hero-bg"
         loading="eager"
       />
@@ -41,11 +43,13 @@ const HeroTour = ({ onStartTour }) => {
         </div>
 
         {/* Hero Heading */}
-        <h1 className="tour-hero-title">Step Inside Our Factory</h1>
+        <h1 className="tour-hero-title">
+          {getHeading('visitus_hero_h1', 'Step Inside Our Factory')}
+        </h1>
 
         {/* Supporting Narrative */}
         <p className="tour-hero-lead">
-          Experience our complete brick manufacturing journey. From raw mineral processing to precision-shaped structural units, see our Kerala manufacturing facility.
+          {getContent('visitus_hero_desc', 'Experience our complete brick manufacturing journey. From raw mineral processing to precision-shaped structural units, see our Kerala manufacturing facility.')}
         </p>
 
         {/* Animated Scroll Prompt */}

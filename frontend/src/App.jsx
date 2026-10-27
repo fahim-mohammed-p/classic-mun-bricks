@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { HeroNavProvider } from './context/HeroNavContext';
+import { SEOProvider } from './context/SEOContext';
 import { useCardAnimations } from './hooks/useCardAnimations';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -34,7 +35,8 @@ function App() {
   useCardAnimations();
 
   return (
-    <HeroNavProvider>
+    <SEOProvider>
+      <HeroNavProvider>
       <div className="d-flex flex-column min-vh-100">
         <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
         <ScrollToTop />
@@ -54,6 +56,7 @@ function App() {
         <WhatsAppButton />
       </div>
     </HeroNavProvider>
+  </SEOProvider>
   );
 }
 

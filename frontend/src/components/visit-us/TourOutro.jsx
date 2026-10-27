@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../../context/SEOContext';
 import FloatingBricks from '../FloatingBricks';
 
 /**
@@ -8,6 +9,8 @@ import FloatingBricks from '../FloatingBricks';
  * and guiding the visitor to real completed architectural projects.
  */
 const TourOutro = () => {
+  const { getHeading, getContent } = useSEO();
+
   return (
     <section className="tour-outro-section text-center">
       <div className="tour-outro-overlay" />
@@ -26,10 +29,12 @@ const TourOutro = () => {
             </p>
 
             {/* Outro Heading */}
-            <h2 className="tour-outro-heading">See Where Our Products Take Shape</h2>
+            <h2 className="tour-outro-heading">
+              {getHeading('visitus_outro_h2', 'See Where Our Products Take Shape')}
+            </h2>
 
             <p className="text-light opacity-75 mb-5 mx-auto" style={{ maxWidth: '580px', fontSize: '1.05rem' }}>
-              Explore how Classic Mun Bricks are applied across residential structures, commercial landmarks, and exposed masonry architecture.
+              {getContent('visitus_outro_desc', 'Explore how Classic Mun Bricks are applied across residential structures, commercial landmarks, and exposed masonry architecture.')}
             </p>
 
             {/* Direct Projects Navigation CTA */}

@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSEO } from '../context/SEOContext';
 
 const WhyChooseUs = () => {
+  const { getHeading, getContent } = useSEO();
   const points = [
     {
       icon: 'bi-award-fill',
@@ -32,10 +34,10 @@ const WhyChooseUs = () => {
             Why Contractors Choose Us
           </span>
           <h2 className="display-6 fw-bold mt-2">
-            Engineered for Structural Confidence
+            {getHeading('home_why_choose_h2', 'Engineered for Structural Confidence')}
           </h2>
           <p className="text-muted">
-            We deliver uniform masonry units designed to meet rigorous architectural specifications and construction deadlines.
+            {getContent('home_why_choose_desc', 'We deliver uniform masonry units designed to meet rigorous architectural specifications and construction deadlines.')}
           </p>
         </div>
 

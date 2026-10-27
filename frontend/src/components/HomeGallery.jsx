@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSEO } from '../context/SEOContext';
 import gallery01 from '../assets/gallery/gallery-01.jpeg';
 import gallery02 from '../assets/gallery/gallery-02.jpeg';
 import gallery03 from '../assets/gallery/gallery-03.jpeg';
@@ -23,11 +24,13 @@ const GALLERY_ITEMS = [
 ];
 
 const HomeGallery = () => {
+  const { getHeading, getImageAlt } = useSEO();
+
   return (
     <section className="home-gallery-section" aria-label="Visual Gallery">
       <div className="container text-center home-gallery-header">
         <span className="home-gallery-eyebrow">GALLERY</span>
-        <h2 className="home-gallery-title">Our Gallery</h2>
+        <h2 className="home-gallery-title">{getHeading('home_gallery_h2', 'Our Gallery')}</h2>
         <p className="home-gallery-subtitle">
           A glimpse of homes and spaces featuring Classic Mun Bricks.
         </p>
@@ -42,7 +45,7 @@ const HomeGallery = () => {
                 <div className="home-gallery-card">
                   <img
                     src={item.src}
-                    alt={item.alt}
+                    alt={getImageAlt(`home_gallery_${item.id}`, item.alt)}
                     className="home-gallery-img"
                     loading="lazy"
                   />

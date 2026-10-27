@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import SoilToBrickAnimation from './SoilToBrickAnimation';
 import brickLock from '../assets/brick-lock-horizontal.webp';
 import plainLateriteBrick from '../assets/plain-laterite-brick.png';
+import { useSEO } from '../context/SEOContext';
 import '../styles/soil-to-brick.css';
 
 /**
@@ -13,6 +14,9 @@ import '../styles/soil-to-brick.css';
  * product range: interlocking brick and plain laterite soil brick.
  */
 const CompanyIntro = () => {
+  const { getHeading, getImageAlt } = useSEO();
+  const introH2 = getHeading('home_company_intro_h2', 'Built on Strength. Made for Generations.');
+
   const sectionRef = useRef(null);
   const desktopBrickRef = useRef(null);
   const mobileBrickRef = useRef(null);
@@ -142,7 +146,13 @@ const CompanyIntro = () => {
                 Manufacturing Excellence
               </span>
               <h2 className="display-6 fw-bold mt-2 mb-3">
-                Built on Strength.<br />Made for Generations.
+                {introH2.includes('.') ? (
+                  <>
+                    {introH2.split('.')[0]}.<br />{introH2.split('.').slice(1).join('.').trim()}
+                  </>
+                ) : (
+                  introH2
+                )}
               </h2>
 
               <p className="text-muted mb-4 fs-6 leading-relaxed">
@@ -209,7 +219,7 @@ const CompanyIntro = () => {
                         <div className="grooved-brick-body">
                           <img
                             src={brickLock}
-                            alt="Interlocking grooved brick"
+                            alt={getImageAlt('brick_lock', 'Interlocking grooved brick')}
                             className="grooved-brick-img"
                             loading="eager"
                           />
@@ -243,7 +253,7 @@ const CompanyIntro = () => {
                         <div className="plain-brick-body">
                           <img
                             src={plainLateriteBrick}
-                            alt="Classic Mun Bricks laterite brick"
+                            alt={getImageAlt('brick_groove', 'Classic Mun Bricks laterite brick')}
                             className="plain-brick-horizontal-img"
                             loading="eager"
                           />
@@ -281,7 +291,13 @@ const CompanyIntro = () => {
               Manufacturing Excellence
             </span>
             <h2 className="display-6 fw-bold mt-2 mb-3 fs-3">
-              Built on Strength.<br />Made for Generations.
+              {introH2.includes('.') ? (
+                <>
+                  {introH2.split('.')[0]}.<br />{introH2.split('.').slice(1).join('.').trim()}
+                </>
+              ) : (
+                introH2
+              )}
             </h2>
             <p className="text-muted mb-0">
               Precision interlocking bricks shaped from natural laterite soil, built for durability and ease of construction.
@@ -307,7 +323,7 @@ const CompanyIntro = () => {
                     <div className="grooved-brick-body">
                       <img
                         src={brickLock}
-                        alt="Interlocking grooved brick"
+                        alt={getImageAlt('brick_lock', 'Interlocking grooved brick')}
                         className="grooved-brick-img"
                         loading="eager"
                       />
@@ -341,7 +357,7 @@ const CompanyIntro = () => {
                     <div className="plain-brick-body">
                       <img
                         src={plainLateriteBrick}
-                        alt="Classic Mun Bricks laterite brick"
+                        alt={getImageAlt('brick_groove', 'Classic Mun Bricks laterite brick')}
                         className="plain-brick-horizontal-img"
                         loading="eager"
                       />

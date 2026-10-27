@@ -5,10 +5,21 @@ from .models import ProjectLocation, ProjectImage
 
 class ProjectImageSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    effective_alt = serializers.SerializerMethodField()
 
     class Meta:
         model = ProjectImage
-        fields = ['id', 'image', 'caption', 'order', 'created_at']
+        fields = ['id', 'image', 'caption', 'alt_text', 'effective_alt', 'order', 'created_at']
+
+    def get_effective_alt(self, obj):
+        if obj.alt_text and obj.alt_text.strip():
+            return obj.alt_text.strip()
+        if obj.caption and obj.caption.strip():
+            return obj.caption.strip()
+        try:
+            return f"Classic Mun Bricks project photograph in {obj.location.district.name}"
+        except Exception:
+            return "Classic Mun Bricks completed project photograph"
 
     def get_image(self, obj):
         if not obj.image:

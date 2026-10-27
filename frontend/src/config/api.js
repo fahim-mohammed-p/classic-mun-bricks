@@ -16,6 +16,10 @@ export const API_ENDPOINTS = {
   BLOG_POSTS: `${API_BASE_URL}/api/blog/posts/`,
   BLOG_POST_DETAIL: (slug) => `${API_BASE_URL}/api/blog/posts/${slug}/`,
   PROJECT_LOCATIONS: `${API_BASE_URL}/api/projects/locations/`,
+  SEO_BUNDLE: `${API_BASE_URL}/api/seo/bundle/`,
+  SEO_PAGE: (path) => `${API_BASE_URL}/api/seo/page/?path=${encodeURIComponent(path)}`,
+  SEO_SITE_SETTINGS: `${API_BASE_URL}/api/seo/site-settings/`,
+  SEO_REDIRECTS: `${API_BASE_URL}/api/seo/redirects/`,
 };
 
 /**

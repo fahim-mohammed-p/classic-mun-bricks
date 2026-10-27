@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO } from '../context/SEOContext';
 import product01ViewA from '../assets/products/product-01-view-a.jpg';
 import product01ViewB from '../assets/products/product-01-view-b.jpg';
 import product01ViewC from '../assets/products/product-01-view-c.jpg';
@@ -154,6 +155,8 @@ const ProductCard = ({ product }) => {
 };
 
 const ProductShowcase = () => {
+  const { getHeading, getContent } = useSEO();
+
   return (
     <section 
       className="product-showcase-section position-relative overflow-hidden" 
@@ -176,10 +179,10 @@ const ProductShowcase = () => {
             Products
           </span>
           <h2 id="product-showcase-heading" className="display-6 fw-bold text-white mt-1 mb-1 product-showcase-title">
-            Our Product Range
+            {getHeading('home_products_h2', 'Our Product Range')}
           </h2>
           <p className="text-white-50 small mb-0 product-showcase-desc">
-            Precision-engineered compressed laterite bricks for lasting structural stability.
+            {getContent('home_products_desc', 'Precision-engineered compressed laterite bricks for lasting structural stability.')}
           </p>
         </div>
 

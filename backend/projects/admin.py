@@ -39,7 +39,7 @@ class ProjectImageBatchAddForm(forms.ModelForm):
 
     class Meta:
         model = ProjectImage
-        fields = ('location', 'images', 'caption')
+        fields = ('location', 'images', 'caption', 'alt_text')
 
     class Media:
         css = {
@@ -75,7 +75,7 @@ class DistrictAdmin(admin.ModelAdmin):
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
     extra = 1
-    fields = ('image_preview', 'image', 'caption', 'order')
+    fields = ('image_preview', 'image', 'caption', 'alt_text', 'order')
     readonly_fields = ('image_preview',)
 
     def image_preview(self, obj):
@@ -152,16 +152,18 @@ class ProjectImageAdmin(admin.ModelAdmin):
         'location_district',
         'location_state',
         'caption',
+        'alt_text',
         'order',
         'created_at',
     )
     list_display_links = ('id', 'image_preview', 'location_district')
-    list_editable = ('caption', 'order')
+    list_editable = ('caption', 'alt_text', 'order')
     list_filter = ('location__district__state', 'location')
     search_fields = (
         'location__district__name',
         'location__district__state__name',
         'caption',
+        'alt_text',
     )
     autocomplete_fields = ['location']
     readonly_fields = ('image_preview',)
@@ -171,13 +173,13 @@ class ProjectImageAdmin(admin.ModelAdmin):
         if obj is None:
             return (
                 ('Bulk Upload Project Images', {
-                    'fields': ('location', 'images', 'caption'),
+                    'fields': ('location', 'images', 'caption', 'alt_text'),
                     'description': 'Select a Project Location and choose one or more images to upload at once. Sequential ordering will be assigned automatically.',
                 }),
             )
         return (
             ('Project Image Details', {
-                'fields': ('image_preview', 'location', 'image', 'caption', 'order'),
+                'fields': ('image_preview', 'location', 'image', 'caption', 'alt_text', 'order'),
             }),
         )
 
@@ -189,7 +191,7 @@ class ProjectImageAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, change=False, **kwargs):
         if obj is None:
             kwargs['form'] = ProjectImageBatchAddForm
-            kwargs['fields'] = ('location', 'images', 'caption')
+            kwargs['fields'] = ('location', 'images', 'caption', 'alt_text')
         return super().get_form(request, obj, change=change, **kwargs)
 
     def save_model(self, request, obj, form, change):
@@ -200,6 +202,7 @@ class ProjectImageAdmin(admin.ModelAdmin):
         images = form.cleaned_data.get('images', [])
         location = form.cleaned_data.get('location')
         caption = form.cleaned_data.get('caption', '')
+        alt_text = form.cleaned_data.get('alt_text', '')
 
         with transaction.atomic():
             max_order = (
@@ -215,6 +218,7 @@ class ProjectImageAdmin(admin.ModelAdmin):
                     location=location,
                     image=img_file,
                     caption=caption,
+                    alt_text=alt_text,
                     order=base_order + idx,
                 )
                 item.save()

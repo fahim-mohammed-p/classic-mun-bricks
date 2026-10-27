@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
+import { useSEO } from '../context/SEOContext';
 import { CONTACT_CONFIG } from '../config/contact';
 import { API_ENDPOINTS } from '../config/api';
 import '../styles/contact.css';
@@ -14,6 +16,7 @@ const ENQUIRY_TYPES = [
 ];
 
 const Contact = () => {
+  const { getHeading, getContent } = useSEO();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -27,10 +30,6 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // null | 'success' | 'error'
   const [serverMessage, setServerMessage] = useState('');
-
-  useEffect(() => {
-    document.title = 'Contact Us | Classic Mun Bricks';
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -182,6 +181,7 @@ const Contact = () => {
 
   return (
     <main className="contact-page">
+      <SEO />
       {/* ========================================================
           SECTION 1 — CONTACT HERO
           ======================================================== */}
@@ -193,10 +193,10 @@ const Contact = () => {
               <i className="bi bi-envelope-fill me-1"></i> CONTACT US
             </div>
             <h1 className="contact-hero-title mb-2">
-              Let’s Talk About Your Next Project.
+              {getHeading('contact_hero_h1', 'Let’s Talk About Your Next Project.')}
             </h1>
             <p className="lead text-light opacity-90 mb-0" style={{ fontSize: '1.05rem' }}>
-              Whether you're planning a new build or looking for Mun Interlock Brick specifications, send us your requirement and our team will get in touch.
+              {getContent('contact_hero_desc', "Whether you're planning a new build or looking for Mun Interlock Brick specifications, send us your requirement and our team will get in touch.")}
             </p>
           </div>
         </div>
@@ -214,7 +214,7 @@ const Contact = () => {
                 GET IN TOUCH
               </span>
               <h2 className="display-6 fw-bold mb-3">
-                Get in Touch
+                {getHeading('contact_quote_h2', 'Get in Touch')}
               </h2>
               <p className="text-muted mb-4">
                 We supply laterite bricks and Mun Interlock Bricks for projects across Kerala and Tamil Nadu. Share your requirements or reach out through our available channels.
@@ -363,7 +363,7 @@ const Contact = () => {
             <div className="col-lg-7">
               <div className="form-card">
                 <h3 className="h4 fw-bold mb-1" style={{ fontFamily: 'var(--cmb-font-heading)' }}>
-                  Send an Enquiry
+                  {getHeading('contact_enquiry_h3', 'Send an Enquiry')}
                 </h3>
                 <p className="text-muted small mb-4">
                   Please complete the form below to submit your requirement to our team. Fields marked (<span className="text-danger">*</span>) are required.

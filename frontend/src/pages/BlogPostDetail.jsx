@@ -140,13 +140,41 @@ const BlogPostDetail = () => {
       {!loading && !isNotFound && !error && post && (
         <>
           <SEO
-            title={`${post.seo_title || post.title} | Classic Mun Bricks`}
-            description={post.meta_description || post.excerpt || post.title}
-            canonicalUrl={`https://www.classicmunbricks.com/blog/${post.slug}`}
+            title={`${post.seo_title || post.og_title || post.title} | Classic Mun Bricks`}
+            description={post.meta_description || post.og_description || post.excerpt || post.title}
+            canonicalUrl={post.canonical_url || `https://www.classicmunbricks.com/blog/${post.slug}`}
+            indexDirective={post.index_directive || 'index, follow'}
             ogType="article"
+            ogTitle={post.og_title || post.seo_title || post.title}
+            ogDescription={post.og_description || post.meta_description || post.excerpt}
             ogImage={post.featured_image}
             publishedTime={post.published_at}
             author={post.author_name || 'Classic Mun Bricks'}
+            schemaMarkup={{
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              "headline": post.h1_override || post.title,
+              "description": post.meta_description || post.excerpt || post.title,
+              "image": post.featured_image ? [post.featured_image] : [],
+              "datePublished": post.published_at,
+              "dateModified": post.updated_at || post.published_at,
+              "author": {
+                "@type": "Organization",
+                "name": post.author_name || "Classic Mun Bricks"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Classic Mun Bricks",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://www.classicmunbricks.com/logo.png"
+                }
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": post.canonical_url || `https://www.classicmunbricks.com/blog/${post.slug}`
+              }
+            }}
           />
 
           <article className="blog-detail-container">
@@ -165,7 +193,7 @@ const BlogPostDetail = () => {
 
             {/* Article Header */}
             <header className="blog-detail-header">
-              <h1 className="blog-detail-title">{post.title}</h1>
+              <h1 className="blog-detail-title">{post.h1_override || post.title}</h1>
 
               <div className="blog-detail-meta">
                 {post.published_at && (
@@ -196,7 +224,7 @@ const BlogPostDetail = () => {
               <div className="blog-detail-featured-image-wrap">
                 <img
                   src={post.featured_image}
-                  alt={post.title}
+                  alt={post.featured_image_alt || post.title}
                   className="blog-detail-featured-image"
                   onError={() => setHeroImageError(true)}
                 />

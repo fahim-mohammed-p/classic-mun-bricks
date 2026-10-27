@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api';
 import SEO from '../components/SEO';
+import { useSEO } from '../context/SEOContext';
 import '../styles/blog.css';
 
 const BlogCardImage = ({ src, alt }) => {
@@ -29,6 +30,7 @@ const BlogCardImage = ({ src, alt }) => {
 };
 
 const Blog = () => {
+  const { getHeading, getContent } = useSEO();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -104,9 +106,11 @@ const Blog = () => {
         <div className="blog-hero-overlay" aria-hidden="true" />
         <div className="container position-relative z-1">
           <span className="blog-hero-eyebrow">INSIGHTS & RESOURCES</span>
-          <h1 className="blog-hero-title mb-2">Building Knowledge. Sharing Experience.</h1>
+          <h1 className="blog-hero-title mb-2">
+            {getHeading('blog_hero_h1', 'Building Knowledge. Sharing Experience.')}
+          </h1>
           <p className="blog-hero-subtitle">
-            Explore practical insights, construction guidance and updates from Classic Mun Bricks.
+            {getContent('blog_hero_desc', 'Explore practical insights, construction guidance and updates from Classic Mun Bricks.')}
           </p>
         </div>
       </section>

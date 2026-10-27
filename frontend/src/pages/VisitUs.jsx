@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import SEO from '../components/SEO';
 import HeroTour from '../components/visit-us/HeroTour';
 import TourIntro from '../components/visit-us/TourIntro';
 import FactoryTimelineNav from '../components/visit-us/FactoryTimelineNav';
@@ -18,11 +19,6 @@ const VisitUs = () => {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const journeyRef = useRef(null);
-
-  // Set document title for SEO & clarity
-  useEffect(() => {
-    document.title = 'Virtual Factory Tour | Classic Mun Bricks';
-  }, []);
 
   // Update vertical timeline progress bar smoothly on scroll
   useEffect(() => {
@@ -67,6 +63,7 @@ const VisitUs = () => {
 
   return (
     <div className="visit-us-page bg-sand">
+      <SEO />
       {/* 1. Full-Width Cinematic Hero */}
       <HeroTour onStartTour={handleStartTour} />
 

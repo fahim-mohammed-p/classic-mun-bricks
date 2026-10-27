@@ -123,7 +123,13 @@ class ProjectImage(models.Model):
     caption = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Optional descriptive caption or alt text"
+        help_text="Optional descriptive caption or label"
+    )
+    alt_text = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+        help_text="Dedicated SEO alternative text. If blank, caption is used as alt text."
     )
     order = models.PositiveIntegerField(
         default=0,

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import { useSEO } from '../context/SEOContext';
 import { CONTACT_CONFIG } from '../config/contact';
 import CountUp from '../components/CountUp';
 import '../styles/about-us.css';
 
 const AboutUs = () => {
+  const { getHeading, getContent } = useSEO();
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const profile = {
@@ -16,8 +19,6 @@ const AboutUs = () => {
   };
 
   useEffect(() => {
-    document.title = 'About Us | Classic Mun Bricks';
-
     // 1. Scroll Progress Bar Listener
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -41,6 +42,7 @@ const AboutUs = () => {
 
   return (
     <main className="about-page">
+      <SEO />
       {/* Scroll Journey Progress Bar */}
       <div 
         className="about-scroll-progress-bar" 
@@ -56,8 +58,19 @@ const AboutUs = () => {
         <div className="container position-relative z-1">
           <div className="mx-auto" style={{ maxWidth: '640px' }}>
             <h1 className="about-hero-title mb-2">
-              <CountUp value={profile.years_experience} /> Years of Experience.<br className="d-none d-sm-inline" />
-              <span className="text-terracotta"> Built Through Real Projects.</span>
+              {(() => {
+                const h1Text = getHeading('about_hero_h1', `${profile.years_experience} Years of Experience. Built Through Real Projects.`);
+                if (h1Text.includes('.')) {
+                  const parts = h1Text.split('.');
+                  return (
+                    <>
+                      {parts[0]}.<br className="d-none d-sm-inline" />
+                      <span className="text-terracotta"> {parts.slice(1).join('.').trim()}</span>
+                    </>
+                  );
+                }
+                return h1Text;
+              })()}
             </h1>
             <p className="lead text-light opacity-90 mb-0" style={{ fontSize: '1rem' }}>
               Since {profile.started_year}, Classic Mun Bricks has served projects across Kerala and Tamil Nadu.
@@ -138,7 +151,7 @@ const AboutUs = () => {
           <div className="mx-auto text-center" style={{ maxWidth: '640px' }}>
             <span className="about-section-label">REGIONAL FOOTPRINT</span>
             <h2 className="h3 fw-bold mb-3" style={{ fontFamily: 'var(--cmb-font-heading)' }}>
-              Serving Kerala & Tamil Nadu
+              {getHeading('about_regional_h2', 'Serving Kerala & Tamil Nadu')}
             </h2>
             <p className="text-dark fw-medium mb-1">
               <strong>{profile.tamil_nadu_projects}</strong> projects completed across Tamil Nadu.
@@ -163,7 +176,7 @@ const AboutUs = () => {
             <div className="col-lg-5">
               <span className="about-section-label">VISIT US</span>
               <h2 className="h3 fw-bold mb-3" style={{ fontFamily: 'var(--cmb-font-heading)' }}>
-                Find Our Factory
+                {getHeading('about_location_h2', 'Find Our Factory')}
               </h2>
               
               <div className="about-location-info-box mb-3">
@@ -215,7 +228,7 @@ const AboutUs = () => {
         <div className="container">
           <div className="mx-auto" style={{ maxWidth: '580px' }}>
             <h2 className="h3 fw-bold text-white mb-3" style={{ fontFamily: 'var(--cmb-font-heading)' }}>
-              See Our Work.
+              {getHeading('about_cta_h2', 'See Our Work.')}
             </h2>
             <div className="d-flex flex-wrap justify-content-center gap-3">
               <Link to="/projects" className="btn-cmb-primary px-4">

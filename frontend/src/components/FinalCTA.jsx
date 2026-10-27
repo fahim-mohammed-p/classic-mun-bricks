@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../context/SEOContext';
 
 const FinalCTA = () => {
+  const { getHeading, getContent } = useSEO();
   return (
     <section className="final-cta-section text-white text-center position-relative overflow-hidden">
       {/* Background Architectural Masonry Pattern */}
@@ -19,10 +21,10 @@ const FinalCTA = () => {
             Get In Touch
           </span>
           <h2 className="display-5 fw-bold text-white mb-3">
-            Building Something Strong?
+            {getHeading('home_final_cta_h2', 'Building Something Strong?')}
           </h2>
           <p className="lead text-white opacity-90 mb-4">
-            Partner with Classic Mun Bricks for high-density laterite brick supply, custom batch runs, and technical engineering support for your upcoming build.
+            {getContent('home_final_cta_desc', 'Partner with Classic Mun Bricks for high-density laterite brick supply, custom batch runs, and technical engineering support for your upcoming build.')}
           </p>
           <div className="d-flex flex-wrap justify-content-center gap-3">
             <Link to="/contact" className="btn btn-dark btn-lg px-4 py-3 fw-bold rounded-2 shadow">
